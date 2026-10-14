@@ -1,0 +1,1224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vietnam 63</title>
+<meta name="description" content="Learn and practise Vietnam's 63 provinces (before the July 2025 merger) on a blank map.">
+<meta name="theme-color" content="#cfe6f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f2533" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="VN 63">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/be-vietnam-pro-vietnamese-400-normal.woff2) format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/be-vietnam-pro-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/be-vietnam-pro-vietnamese-600-normal.woff2) format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/be-vietnam-pro-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/be-vietnam-pro-vietnamese-700-normal.woff2) format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/be-vietnam-pro-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Be Vietnam Pro';font-style:italic;font-weight:400;font-display:swap;src:url(fonts/be-vietnam-pro-vietnamese-400-italic.woff2) format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;}
+@font-face{font-family:'Be Vietnam Pro';font-style:italic;font-weight:400;font-display:swap;src:url(fonts/be-vietnam-pro-latin-400-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+
+/* ---------- Tokens: an atlas page. Sea is the canvas, land is paper,
+   the target gets a highlighter swipe, capitals keep the atlas red. ---------- */
+:root {
+  --sea: #cfe6f0;
+  --sea-ink: #2d6a93;
+  --other: #ebe5d6;
+  --paper: #fffdf8;
+  --border: #8b7d67;
+  --ink: #1f2b33;
+  --muted: #5b6870;
+  --hl: #ffd43b;
+  --ok: #23824d;
+  --okf: #a9dfbb;
+  --bad: #c43b3b;
+  --badf: #f4b4ae;
+  --cap: #e3262f;
+  --dim: #e6eaec;
+  --slip: #fffdf8;
+  --line: rgba(31, 43, 51, .82);
+  --drop: rgba(31, 43, 51, .16);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sea: #0f2533;
+    --sea-ink: #86b9db;
+    --other: #1a2b35;
+    --paper: #2a3a45;
+    --border: #7590a1;
+    --ink: #e7eef2;
+    --muted: #a7b6c0;
+    --hl: #ffd43b;
+    --ok: #6ad39a;
+    --okf: #2c6a49;
+    --bad: #ff8077;
+    --badf: #7c3030;
+    --cap: #ff5a5f;
+    --dim: #22323c;
+    --slip: #1b2b35;
+    --line: rgba(231, 238, 242, .75);
+    --drop: rgba(0, 0, 0, .35);
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html, body {
+  height: 100%; margin: 0; overflow: hidden; overscroll-behavior: none;
+  background: var(--sea); color: var(--ink);
+  font: 15px/1.45 "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%;
+}
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; touch-action: manipulation; }
+:focus-visible { outline: 3px solid var(--sea-ink); outline-offset: 2px; }
+
+/* ---------- Map ---------- */
+#map { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none;
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.p { stroke: var(--border); stroke-width: .8px; stroke-linejoin: round; vector-effect: non-scaling-stroke; fill-rule: evenodd; transition: fill .18s; }
+.p.target { stroke: var(--ink); stroke-width: 2.2px; }
+.p.reveal { stroke: var(--ink); stroke-width: 1.6px; }
+.p.flash-bad { animation: flashbad .9s ease-out; }
+.p.flash-ok { animation: flashok .7s ease-out; }
+@keyframes flashbad { 0%, 35% { fill: var(--bad); } 100% { } }
+@keyframes flashok { 0%, 30% { fill: var(--ok); } 100% { } }
+.noborders .p { stroke: none; }
+.noborders .p.reveal, .noborders .p.target { stroke: var(--ink); }
+#outline { fill: none; stroke: var(--ink); stroke-width: 1.5px; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
+.other { fill: var(--other); stroke: var(--other); stroke-width: 3px; vector-effect: non-scaling-stroke; pointer-events: none; }
+.grid line { stroke: var(--sea-ink); stroke-opacity: .28; stroke-width: .8px; vector-effect: non-scaling-stroke; }
+.grid .tropic { stroke-dasharray: 6 5; stroke-opacity: .5; }
+#gridOver { display: none; }
+.noborders #gridOver { display: inline; }
+.grid, .frame, .frame-t { pointer-events: none; }
+.frame { fill: none; stroke: var(--sea-ink); stroke-width: 1.2px; stroke-dasharray: 7 5; vector-effect: non-scaling-stroke; }
+.deco text, .lbl, .capl, .frame-t { pointer-events: none; }
+.wtr { fill: var(--sea-ink); font-style: italic; }
+.ctry { fill: var(--muted); font-weight: 600; letter-spacing: .14em; opacity: .75; }
+.lbl { fill: var(--ink); font-weight: 600; text-anchor: middle; dominant-baseline: central;
+  paint-order: stroke; stroke: var(--paper); stroke-linejoin: round; }
+.lbl.off { display: none; }
+.lbl.good { fill: var(--ok); }
+.lbl.miss { fill: var(--bad); }
+.lbl.onhl { fill: #1f2b33; stroke: #ffd43b; }
+.cap { fill: var(--cap); stroke: var(--paper); pointer-events: none; }
+.capl { fill: var(--ink); font-style: italic; paint-order: stroke; stroke: var(--paper); stroke-linejoin: round; }
+.hide-caps .cap, .hide-caps .capl { display: none; }
+.mark { fill: none; stroke: var(--bad); pointer-events: none; }
+
+/* ---------- Slips: printed-legend boxes floating over the sea ---------- */
+.slip {
+  position: fixed; left: 50%; transform: translateX(-50%); z-index: 10;
+  width: min(460px, calc(100% - 20px));
+  top: calc(env(safe-area-inset-top, 0px) + 10px);
+  background: var(--slip); border: 1.5px solid var(--line); border-radius: 6px;
+  box-shadow: 3px 3px 0 var(--drop); padding: 10px 14px 12px;
+}
+.slip[hidden] { display: none; }
+.row { display: flex; align-items: center; gap: 8px; }
+.grow { flex: 1; min-width: 0; }
+.kicker { color: var(--muted); font-size: 13px; }
+.big { font-size: clamp(24px, 7vw, 30px); font-weight: 700; line-height: 1.15; letter-spacing: -.01em; }
+.hlw { background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%); padding: 0 .08em; }
+.meta { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.fb { margin-top: 6px; font-weight: 600; }
+.fb.ok { color: var(--ok); }
+.fb.bad { color: var(--bad); }
+.x { border: 0; background: none; font-size: 22px; line-height: 1; padding: 4px 6px; color: var(--muted); }
+
+.btn { border: 1.5px solid var(--line); background: var(--slip); border-radius: 6px; padding: 9px 14px; font-weight: 600; min-height: 42px; }
+.btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn:disabled { opacity: .45; }
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.choices .btn { min-height: 48px; font-size: 16px; }
+.choices .btn.right { background: var(--okf); border-color: var(--ok); }
+.choices .btn.wrong { background: var(--badf); border-color: var(--bad); }
+.answer { display: flex; gap: 8px; margin-top: 10px; }
+.answer input { flex: 1; min-width: 0; font-size: 17px; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 6px; background: var(--paper); }
+.toggles { display: flex; gap: 14px; flex-wrap: wrap; }
+.sw { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; user-select: none; }
+.sw input { width: 18px; height: 18px; accent-color: var(--ink); }
+.timer { height: 4px; background: var(--hl); border-radius: 2px; margin-top: 8px; transform-origin: left; }
+
+/* ---------- Region chips, zoom, tabs ---------- */
+#chips { position: fixed; left: 0; right: 0; z-index: 9; display: flex; gap: 6px; overflow-x: auto;
+  padding: 0 10px; scrollbar-width: none; bottom: calc(var(--tabs-h, 60px) + 8px); }
+#chips::-webkit-scrollbar { display: none; }
+.chip { flex: none; border: 1.5px solid var(--line); background: var(--slip); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+#zoom { position: fixed; right: 10px; z-index: 9; display: flex; flex-direction: column; gap: 6px;
+  bottom: calc(var(--tabs-h, 60px) + 54px); }
+#zoom button { width: 42px; height: 42px; border: 1.5px solid var(--line); background: var(--slip); border-radius: 6px; font-size: 20px; font-weight: 600; line-height: 1; }
+nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 22; display: flex; justify-content: center; gap: 4px;
+  padding: 6px 10px calc(env(safe-area-inset-bottom, 0px) + 6px); background: var(--slip); border-top: 1.5px solid var(--line); }
+.tab { flex: 1; max-width: 170px; border: 0; background: none; padding: 10px 6px; font-weight: 600; color: var(--muted); border-radius: 6px; }
+.tab span { padding: 0 .15em; }
+.tab[aria-selected="true"] { color: var(--ink); }
+.tab[aria-selected="true"] span { background: linear-gradient(transparent 55%, var(--hl) 55%, var(--hl) 92%, transparent 92%); }
+
+/* ---------- Sheets ---------- */
+#scrim { position: fixed; inset: 0; z-index: 19; background: rgba(15, 25, 32, .28); opacity: 0; pointer-events: none; transition: opacity .2s; }
+#scrim.on { opacity: 1; pointer-events: auto; }
+.sheet { position: fixed; left: 50%; bottom: var(--tabs-h, 60px); z-index: 20; width: min(560px, 100%); max-height: min(calc(100vh - var(--tabs-h, 60px) - 24px), 760px); overflow: auto;
+  transform: translate(-50%, 105%); transition: transform .24s ease; background: var(--slip);
+  border: 1.5px solid var(--line); border-bottom: 0; border-radius: 10px 10px 0 0;
+  padding: 16px 16px 18px; visibility: hidden; }
+.sheet.open { transform: translate(-50%, 0); visibility: visible; }
+.sheet.dock { max-height: 46vh; z-index: 11; }
+.sheet h2 { font-size: 22px; margin: 0; line-height: 1.2; }
+.sheet h3 { font-size: 15px; margin: 18px 0 6px; }
+.sheet p { margin: 6px 0; }
+.modes { display: grid; gap: 8px; margin-top: 12px; }
+.mode { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 6px; background: var(--paper); text-align: left; width: 100%; }
+.mode b { display: block; font-size: 16px; }
+.mode small { display: block; color: var(--muted); font-size: 13px; }
+.mode .go { margin-left: auto; font-weight: 700; white-space: nowrap; }
+.mode.rec { border-width: 2px; }
+.mode.rec b span { background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%); }
+.scope { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.facts { margin: 10px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; }
+.link { border: 0; background: none; padding: 0; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; color: var(--ink); }
+.nbs { display: flex; flex-wrap: wrap; gap: 6px; }
+.stat { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid color-mix(in srgb, var(--line) 25%, transparent); }
+.bar { height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--line) 15%, transparent); overflow: hidden; margin-top: 4px; }
+.bar i { display: block; height: 100%; background: var(--ok); }
+.legend { height: 12px; border-radius: 3px; border: 1px solid var(--line); margin-top: 6px; }
+.btnrow { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.misses { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.namelist { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; max-height: 38vh; overflow: auto; }
+.namelist .chip { font-size: 14px; }
+.small { font-size: 13px; color: var(--muted); }
+
+#toast { position: fixed; left: 50%; transform: translateX(-50%); z-index: 25; max-width: calc(100% - 40px);
+  bottom: calc(var(--tabs-h, 60px) + 54px); background: var(--ink); color: var(--paper);
+  padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 14px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+#toast.on { opacity: 1; }
+
+@media (min-width: 900px) {
+  .slip { left: 24px; transform: none; }
+  #chips { justify-content: center; }
+  .sheet.dock { left: 24px; width: 460px; bottom: auto; top: calc(var(--slip-b, 80px) + 12px); max-height: calc(100vh - var(--slip-b, 80px) - var(--tabs-h, 60px) - 36px);
+    border-bottom: 1.5px solid var(--line); border-radius: 6px; box-shadow: 3px 3px 0 var(--drop); transform: translateX(-110%); }
+  .sheet.dock.open { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .p, .sheet, #scrim, #toast { transition: none; }
+  .p.flash-bad, .p.flash-ok { animation-duration: .01s; }
+}
+</style>
+</head>
+<body>
+<svg id="map" role="img" aria-label="Map of Vietnam's 63 provinces"><g id="world"></g></svg>
+
+<div id="slip" class="slip" aria-live="polite"></div>
+<div id="zoom" aria-label="Zoom">
+  <button type="button" id="zin" aria-label="Zoom in">+</button>
+  <button type="button" id="zout" aria-label="Zoom out">−</button>
+  <button type="button" id="zfit" aria-label="Fit map">⤢</button>
+</div>
+<div id="chips" role="toolbar" aria-label="Regions"></div>
+<nav class="tabs" role="tablist" aria-label="Sections">
+  <button type="button" class="tab" role="tab" id="tab-learn" aria-selected="true"><span>Learn</span></button>
+  <button type="button" class="tab" role="tab" id="tab-practice" aria-selected="false"><span>Practice</span></button>
+  <button type="button" class="tab" role="tab" id="tab-progress" aria-selected="false"><span>Progress</span></button>
+</nav>
+<div id="scrim"></div>
+<section id="sheet" class="sheet" role="dialog" aria-modal="true" aria-label="Panel"></section>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script id="vn-data" type="application/json">{"meta":{"built":"2026-10-14","snapshot":"Administrative units in force on 30 June 2025 (before NQ 202/2025/QH15)","boundaries":"OCHA ROAP / Government of Viet Nam district boundaries (2020), CC BY 3.0 IGO, via geoBoundaries (gbOpen VNM ADM2); districts merged into provinces","context":"Natural Earth 1:50m (public domain), via world-atlas","proj":{"lon0":101.85,"mtop":24.406275681435122,"s":180.0},"w":2016,"h":3139,"country_bbox":[53,60,1317,2811]},"regions":[{"vi":"Trung du và miền núi phía Bắc","en":"Northern mountains","bbox":[53,60,939,599]},{"vi":"Đồng bằng sông Hồng","en":"Red River Delta","bbox":[618,397,504,342]},{"vi":"Bắc Trung Bộ và duyên hải miền Trung","en":"Central coast","bbox":[364,589,1005,1903]},{"vi":"Tây Nguyên","en":"Central Highlands","bbox":[964,1584,322,777]},{"vi":"Đông Nam Bộ","en":"Southeast","bbox":[713,2163,318,670]},{"vi":"Đồng bằng sông Cửu Long","en":"Mekong Delta","bbox":[241,2395,653,476]}],"provinces":[{"c":"01","n":"Hà Nội","city":true,"cap":"","capXY":null,"r":1,"to":"Thành phố Hà Nội","k":"khoản 24 (unchanged)","area":3344.7,"nb":["17","26","33","27","35","25","19","24"],"col":0,"lab":[700,519],"sz":100.6,"alt":[],"note":"Absorbed Hà Tây, Mê Linh (from Vĩnh Phúc) and 4 communes of Lương Sơn (from Hòa Bình) on 1/8/2008 — NQ 15/2008/QH12","d":"M705 609l0-2-5-4-2-1-1 1-3 0-1-5-2 1-4 0-1-2 3 0 2-2-4-8 2-1 1-2-4-5 1-2-2-2-1-3 0-6-3-1 0-1-1-3 3-2-2-2 0 1-3 0-3-2-2 2-1 3 1 4-2 0-5-1 2-4 3 0 2-4-1-3-5-6 2-3 0-1 2-1 1-3-9 0-3 2-5-3-2-2-2 0-4-2-2-4-2-1-1-3-4-1-1-4-3 2-3 1-1-1-4 1 0-2-2 1-2-2-2-3 0-3 4-8 1-3-2-4-5-6 1 0 3-5 6-3 2-4 1-7 0-6 1 2 2-2 4-2 2 0 6 4 1 3 0 5 3 4 1 4 1 4 5 4 3 0 8 1 5-2 5-3 2 1-1-6 3 0-1-2 5-1-3-1 0-2 4-1 2 3 1-2 1 3 4 0 2-1 3-2-2-1-1-5 4-5 2-2 4-7 3-1-2-3 1-3 2-2 6 2 5 0-2 4 3 5 4 1 1 0 1-1 0 4 3 1 0 2 3 0-2 1 0 3 3 6-3 2-3 0 2 3-2 4 3 2-1 3 2 5-3 3 1 2 3 2 1 4 3-1 2 4 5 0 1-1 1 3 1 1 2 3-3 4 0 2-1 2-4 0-1 2-2 0 1 5-2-1-3 0-4-2-2 6 2 2-1 2 0 1-3 4 1 1 6 4 0 3-3 3-1 4 2 5 1 2 7 2 0 1 1 7-1 2 1 4 6-1-5 8-2 0-4 2 0-5-4 1-4 2-1-1 0 4-3 1-4 0-3-3-3-1 0 1 2 3-3 2 0 3-2 1 1 2-2 2-1 5z"},{"c":"02","n":"Hà Giang","city":false,"cap":"Hà Giang","capXY":[556,175],"r":0,"to":"tỉnh Tuyên Quang","k":"khoản 1","area":7884.3,"nb":["08","04","10","15"],"col":2,"lab":[522,222],"sz":156.8,"alt":[],"note":"","d":"M493 284l-5 1-2-2-1-5 4-2 3-3-1-2-2-3 3-4-3-1-2 0-1-2 1-2-1-1-4-2-3-3-2 1-2-3-4-1-2-4-1-4 3-1 1-3-1-1-4-3-2-3-3-2 1-3 1-5 3-1 2 1 2 0 0-3-1-5-4-1-3-3-2-4 0-2-2-3-6 1-2 0-4-3 2-4 2 3 4 0 2-2 2 1 2-5 2-2 9-4 9-8 1-3 3-5 6-3 4 2 1 3-1 2 3 0 2-2-2-1 1-3 2 3 4 0 3 3 6-2 4 2 2-2-2-4 1-2 4 0 2-5 2-4 3 0 3-3 3-1 2 1 1-2 3-3-3-5-2-2 1-2-1-1 0-4-2-3 0-5-1-1 0-3-2-1-1-8 0-1 6-1 1 1 3-1 1 2 3-2 1-2 0-4 3-3 4-1 5 3 2-2 0-5 5-1 2 1 2-3 3 0 1-2 10-8 2 1 1 3 1 1 8-4 3-4 3 2 2-1 2 3 3-1 2-3 1 0 1-4 2-2-2-3 2-2 4 0 1-3 2-3-2-2 2 0 2 0 3-2 4 5 0 4 4 6 3 0 4 6 3-3 2 0 2 5 3 4 3 0-1 2 2 1 0 4 2 4 4 2 4 0 1 0 2 3 2 3 2 0 1 3-4 5-3 2-3 0-3 5 1 2-3 3 1 1-3 5-1 4-7 2-6-1-3 2-4 0-3 3 1 3-1 5-4 1-3 3-2 0-1 3 0 5-6-1 0 3 2 2 5 0 1 3 5 2 0 2 3 0 5 2 2 3 4 1 1 2 2 1 3 3 3 0 1 5 2 5 2 2-2 1 0 3 1 3 1 5-2 3-2-1-3 3-3 0-6-1-3-4-2 1-4-2-6 0-3 5-4 0-2-6-6-3-2-1-2 0-3-3-6-1 0-1-4-1-2 1-1 4 3 4 2 5-3-1-1 3-2 2 1 3-4 2 2 2 1 6-1 3-3 6 1 1 0 4 1 1-5 4 1 2 1 2-2 4-2 0-1 3 3 4-2 2-4-1-3 0 2 4 2 1 0 3-3 0 1 5-3 1-4 3-1-3 1-2-3-2 0-2-3-2-1 1-4 0-2-3-3 0-3-3-1 0-1 7 3 0 2 5-2 0-1 2-2 1 4 5-1 2 1 4-2 1-2 6-3-1 0-3-4 1-1 2-4 2-1-2-2 3-6 0 0 1-3 0-1-4-3 0-2-2-1-4 1-2-1-6-3-1-3 0-2 0-1-3-2 1-2-1-1 0-3-2-4-1-4 6z"},{"c":"04","n":"Cao Bằng","city":false,"cap":"Cao Bằng","capXY":[787,199],"r":0,"to":"tỉnh Cao Bằng","k":"khoản 24 (unchanged)","area":6690.7,"nb":["06","02","20","08"],"col":1,"lab":[816,207],"sz":144.2,"alt":[],"note":"","d":"M663 209l-3-1-3 1-1-5-1-3 0-3 2-1-2-2-2-5-1-5-3 0-3-3-2-1-1-2-4-1-2-3-5-2-3 0 0-2-5-2-1-3-5 0-2-2 0-3 6 1 0-5 1-3 2 0 3-3 4-1 1-5-1-3 3-3 4 0 3-2 6 1 7-2 1-4 3-5-1-1 3-3-1-2 3-5 3 0 3-2 1 3-1 3 0 2 3 2 2-1 2 0 2 1 3-2 3 0 5 3 2 0 8 0 0 2 0 3 2 1 1 0 6 2 2 4 2 1 4 0 2 3 2 1 1 3 2 2-1 2 2 1 0 2 2 0 3-4 4-2 3 2 3 1 0-2 4 0 3 2 1 0 0-4 2-2-2-1 1-3 3 0 5-1 2 1 3-1 3 0 2 2 2 0 5-2 6 3 4-2 5 7 2 1 2 2 0 2 4 4 1 3 0 3 2 2 1-1 3 2 2-3 4 4 4-2 1-3 2 0 5 1 0-2 2-1 2 1 2 0 1-3 2 2 3-3 2 1 2-1 0-5 1 1 1-3 3 0 5 4 2 1 5-3 2 2 2 5 4 2 0 3 2 1 3-1 0-3 5-1 3 1 2 3-2 2 6 4 2 2 3 1-1 3 2-1 3 1 3-2 2 1 3 3-1 3-2 0 0 2-3 2-1-1-2 4-4 2 1 5 2 1-5 4 1 1-1 2-2 1-2 3-1 6 1 6-4 3-2-1-3 2-3-1-3 0-2-3-1-2-4 0-1 3 0 5-1 2-1 0 0 3-2 3 0 9-3 2-1 3 1 3-1 2-5 1 0 2-2 2-3-2-3 1-1 2 1 2-2 0 2 2-6 3-3-2-3 1-2-2-3-1-3 3-3 1-4-4 1-3-3-4-3 0-3-3-1 0-2-4-3 0-4-3-4 2-3 4-1 3-2 6-1-3-3-1-3 3-4-2-2 1-2-3 1-4-2-2 2-2 3-4-1-2 1-5-3-1-2-4 1-2-4-1 1-4-4 0-2-1-2 3-3 0-3 3-3 0-6 5-4-1-3 6-2 0-1-2-5-2 0-1-7 1 0-2-2 1-4-1-2-5-4-1 2-3-2-3-3 0-1-1 2-3-2-4-3-2 2-1 2-4 5-4 0-1-3-1-1-3 1-2-4-4-5 2-1 2-1-2-1 3-4-2-1 0-3 5-5 0-3 2 0 4-3-1-1 2-2 0-5 1 0 4z"},{"c":"06","n":"Bắc Kạn","city":false,"cap":"Bắc Kạn","capXY":[719,307],"r":0,"to":"tỉnh Thái Nguyên","k":"khoản 3","area":4857.2,"nb":["04","08","19","20"],"col":2,"lab":[726,286],"sz":122.1,"alt":[],"note":"","d":"M765 344l-1-1-6 0-2-3-4-2-2 3-1 3-2 1-1-1-4 1 0 2-5 4-3 1-3 0-3 4-2 3-4 0 0 3-8 0-2 3-1 5-2 0-5-3-1-2 3-9 0-2 2 0-2-2 0-2-1-1 2-4 0-4-3-3 0-3-1-1 0-4-3-2-1 1-2-1-2 0-3-4-5-1-1 3-1 2-3-1-1 1-4 2-2-1-2 2-2 4 1 3-1 2-4 0-4-2-2-2-3-2 0-3-2-1-1-7-2-2-1-2-2-1 2-5-1-1-1-2 3-3-1-2 4-2 0-2-6-2 1-2-3-2-3-4 0-3 1-1-1-5 4-2 1 1 2-2-2-2 6-2-3-3 1-1 3-1-1-4 3-2 1-3-1-2 2-5 2-1 5 1 2-3-2 1-2-2 1-1 1-7 7-5-2-4 2-3-3-5-2-2-2 0-3-6 1-2-4-3 1-3 2-1 0-4 5-1 2 0 1-2 3 1 0-4 3-2 5 0 3-5 1 0 4 2 1-3 1 2 1-2 5-2 4 4-1 2 1 3 3 1 0 1-5 4-2 4-2 1 3 2 2 4-2 3 1 1 3 0 2 3-2 3 4 1 2 5 4 1 2-1 0 2 7-1 0 1 5 2 1 2 2 0 3-6 4 1 6-5 3 0 3-3 3 0 2-3 2 1 4 0-1 4 4 1-1 2 2 4 3 1-1 5 1 2-3 4-2 2 2 2-1 4 2 3 2-1 4 2 3-3 3 1 1 3 1 2 2 0 3 3 1 2-4 5 0 2 2 4 2 1 4 4 0 2-1 7-3 3 0 2 2 3-3 3-4 4-1 0-1 3 0 2-3 1-1 2-1 4-6 0-1 2-3 0 0 5-1 2 3 4-1 4 2 0-1 6-2 1 0 2 2 0z"},{"c":"08","n":"Tuyên Quang","city":false,"cap":"Tuyên Quang","capXY":[608,374],"r":0,"to":"tỉnh Tuyên Quang","k":"khoản 1","area":5868.0,"nb":["02","06","15","19","25","26","04"],"col":0,"lab":[608,313],"sz":134.0,"alt":[],"note":"","d":"M665 415l-3 3-1 4-2 0-4 3-5 0-1 2-5 1-1 1-2-3-4 1-1-2-7 0-1 2-3 1-1-2-3 1-1-5-4-1-1-1 2-2-5-5-1-3 2-1-2-2-2-1-1-2 2-3-1-3-4 0-5-3-1-2-2-1-2 2-1-3-3 0-2-2-2 0-2-2-2 0-2-1 0-3-4-2 3-1 2-3-2-2 2-2 1-4 2 0-2-4-2 0-3-5-3-2-1-5-4 0 0-3 1-2-1-3-1-1-2 2-2-1 0-2 1-4 0-1 1-4-2-3 1-7-4 0-2 2-3-1-1-4-2-1-2 1-2-1-6-4-1-3-1-6 0-2-1-3 0-3-1-3 1-2 4-1 0 3 3 1 2-6 2-1-1-4 1-2-4-5 2-1 1-2 2 0-2-5-3 0 1-7 1 0 3 3 3 0 2 3 4 0 1-1 3 2 0 2 3 2-1 2 1 3 4-3 3-1-1-5 3 0 0-3-2-1-2-4 3 0 4 1 2-2-3-4 1-3 2 0 2-4-1-2-1-2 5-4-1-1 0-4-1-1 3-6 1-3-1-6-2-2 4-2-1-3 2-2 1-3 3 1-2-5-3-4 1-4 2-1 4 1 0 1 6 1 3 3 2 0 2 1 6 3 2 6 4 0 3-5 6 0 4 2 2-1 3 4 6 1 3 0 3-3 2 1 2-3 3-1 3 1-1 3 4 3-1 2 3 6 2 0 2 2 3 5-2 3 2 4-7 5-1 7-1 1 2 2 2-1-2 3-5-1-2 1-2 5 1 2-1 3-3 2 1 4-3 1-1 1 3 3-6 2 2 2-2 2-1-1-4 2 1 5-1 1 0 3 3 4 3 2-1 2 6 2 0 2-4 2 1 2-3 3 1 2 1 1-2 5 2 1 1 2 2 2 1 7 2 1 0 3 3 2 2 2 4 2-1 3 1 7-2 1 0 2-4 1-1 2 2 5 0 3-2 2-4-1 0 5 1 2-1 3 1 2 3-1 2 1-3 3 1 3-2 1-3 6-2 1 2 1-1 2 0 4 3 6-1 2 2 1 3 5z"},{"c":"10","n":"Lào Cai","city":false,"cap":"Lào Cai","capXY":[384,256],"r":0,"to":"tỉnh Lào Cai","k":"khoản 2","area":6357.0,"nb":["15","12","02"],"col":0,"lab":[414,274],"sz":140.0,"alt":[],"note":"Than Uyên district moved from Lào Cai to Lai Châu in 2004 — NQ 22/2003/QH11","d":"M384 339l-2-2-2-4-2-1 3-3-2-2 0-4 0-3-3-4 1-5-1-2 0-4-4-1-3-2-2-3-4-2 1-4-3-1-1-3-1-1-1-4-4-6-5-5-2 0-3-1 4-5 0-2-3-2 0-7-3-3-3-2-3 1-3 1-10 1-3 1-4-2 0-3-3-1-4-6-2-1 0-2 4-3 2-4 1-3-2-1 0-4-3-3 1-2-4-2-3 0-1-2 3-3 1-5 4-1 1-4-2-3-1-4 2-4 4-3 3-6 2-2-1-1 5-3 3 2 1 3 2 1 1 3 4 1 6 7 0 2 2 2 3 0 3 4 2 1 4 5 1 4 3 2 1 2 3 2 2 4 4 0 4 4 0 2 2-1 1 3 2 0 3 4 3 0 2-3 3 1 1-2-1-3 2-2-1-2 1-1-2-2 2-1 2-6-1-3 2-3-2-4 3-11 0-1 5-6 4-3 1-4 4-4 2 0 1 1 6-3 2 0 3-1 5 0 4-3 3 0 2 1-3 12 0 2 2 2 1 3 1 0 4 2 5 0 2 1 1 3-2 4 4 3 2 0 6-1 2 3 0 2 2 4 3 3 4 1 1 5 0 3-2 0-2-1-3 1-1 5-1 3 3 2 2 3 4 3 1 1-1 3-3 1 1 4 2 4 4 1 2 3 2-1 3 3 4 2 1 1-1 2 1 2 2 0 3 1-3 4 2 3 1 2-3 3-4 2 1 5 2 2 5-1-1 4 3 2 3-2 2 1-2 2 0 2 2 5-4 0-1-1-3 1 1 3-1 1 0 2-2 9-2 2-6-4-1-3-6-4-3-3-3-2 0-3-3 0-1-2-3-1-4 5-2 0 2 3 1 2 0 3 1 3-2 1-1 4-1 0-1 4 3 5 3 3 3 12 0 3 1 2-1 1-7 5-1 3-5 4-3-1-2-3 0-4-6-2-2-2-2 1-3 0-6-3-2 1 4 4-1 4-3 2-3 1-10-2-3-2-5-2-2 2-2 0-6-2-5 0-2-2-2-2 1-1 0-3z"},{"c":"11","n":"Điện Biên","city":false,"cap":"Điện Biên Phủ","capXY":[217,448],"r":0,"to":"tỉnh Điện Biên","k":"khoản 24 (unchanged)","area":9560.0,"nb":["12","14"],"col":1,"lab":[255,387],"sz":170.4,"alt":[],"note":"Created 2004 from the old Lai Châu — NQ 22/2003/QH11","d":"M246 546l-3-2-2 1-4-3-3 2-4-1-2 3-1-1 0-2-1-2 0-3-2 0-2-2 0-5-2-2 0-2-2-2-1-2-3-5-1-4-5-1-1 1-5-1-2-2 1-4-1-4-4-2 2-2-4-5-1 2-3-2 1-3-1-2 1-3-1-3 1-2-2-1-1-2-6-2-3 2-4 0-3-3 8-7 8-1 1-3-2-3 1-5 1-1-1-4 4-4 0-2 3-6 2-2-3 0-3 4-2 0-4 3-1-1 2-4 0-5 5-1 0-5 4-4 5-4 0-2 6-6-1-3-1-1 1-3-1-4 1-8-2-2 2-1 0-4-4-5-2 3-4 1-2 0-3 2-3 1-2 2-4-4 0-3 1-5-1-1 1-6-2-8-2-1-4 1-1 4 2 4-1 2 1 2 0 4 1 4-3 2-2 4-2 0-3 3-2 3-4 3-1-1-8 1-2 1-2-4 0-2-2-6-1-4 0-4 2-6 0-2-2-2 0-3-1-5 0-2-6-3 2-4-2-4-3-1-6-4-5-3-4-1-4-6 1-4 2 0 3-2-2-2-3 0-2-1-2-4-6-3 1-1-1-2 0-1-1-4-2 0-3-2-3 0-1-4-5-3-4 0 0-4-2-3-2-1-2 1-3-1-2-4-1-2-4 0-1-2 1-1-2-2 0-4-4-1-4-3-2 0 1-4 2-2-3-1-2-2-1-2 2-2-4-4-1-2 2-3 0-2 6-2 3 2 3 0 2 0 5 3 1-2-3-8 2 0 1-3 2-5 2 0 2-5 4-4 3 5 2 5 0 2 1 0 1 3 4 1 2 2-1 3 2 5-2 1 4 5 2 1 1 2 4 2 1 4 3 3 0 1 7 9 0 2 5 4 3 0 1-3 3-1 5 5 2 0 0 3 0 5 4 2 0 2 3 0 4 2 3-7 1-2-4-6-3-2 3-2 1 1 4 3 4 1 4 4 0 5-2 5 1 6 4 3 3 4-1 2 1 0 8 5 5-1 1 1 1-3 4 1 3-3 4-1 0-2 1 0 0 3-1 2 0 2 3 0 3 3 1 4 4 1 2-5 4-1 3 2 3-1 1-2 6 1-1-2 2-7 4 2 2 4 3 1 0-1 3 0 1-2 3 3 4 0 3 1 2 2 7 3 2-2-3-4 1-2 1-2 0-3 2-2 3 0-1-3 2-2 3-3 3 1 7-1 1 3 2 2 0 3 3 8 2 3 3 1 3 4-2 4 4 7 4 1 1 3-3 3-1 4-1 1 2 2-1 1 2 4 2 1 3 2 1 5 3 3-1 1 2 3-1 5 3 2 4 11 3 4-1 2-2-2-3 1-1 3 0 2-3 2 3 3-3 5-2 3 0 4-2 1 0 4-1 2-2-1-4 3-4 0-2 7 1 1 0 4-2 5-5 1-4-2-4 2-5 0-2 2 1 3 3 3 1 3 4 0 1 2-3 4 0 2 5 2 3 0 2 1 2 5 0 5-1 1 0 9 1 2-1 6-2 2-2-1-3 2 2 6 0 2 3 6 0 3-6 0-6-2-4-3-8-1-1 1 1 2 3 2-1 2-3-1-1 2 0 2 2 2 1 3-2 1-1 3 2 1 2 3 0 6-2 0-2 1-1 3 3 3-2 2-2-1-4 2z"},{"c":"12","n":"Lai Châu","city":false,"cap":"Lai Châu","capXY":[297,259],"r":0,"to":"tỉnh Lai Châu","k":"khoản 24 (unchanged)","area":9059.4,"nb":["11","10","14","15"],"col":2,"lab":[266,259],"sz":166.9,"alt":[],"note":"New Lai Châu created 2004 and given Than Uyên from Lào Cai — NQ 22/2003/QH11","d":"M384 339l-2 1-2 5-3 3-4-3-3 2-2 0-1 3 0 1 0 7 5 5 0 2 3 2 3 3 0 3 3 4-1 2-2 1 1 2-2 0-5 0 0 3-1 2 2 3-3 2-4-3 0 4-5-1-3-3-1-7-1 2-3-1-6-8-4 0 0-1 1-4-5-1-1 1-2-3-3-1 0-2 1-1 3-7-3-1 0-4-4-4 1-3-4-2-1-5-2-3-3 0-3-2-2-2-1 0-10-3-3 0-2 3 0 4-3 4-4-1-4-7 2-4-3-4-3-1-2-3-3-8 0-3-2-2-1-3-7 1-3-1-3 3-2 2 1 3-3 0-2 2 0 3-1 2-1 2 3 4-2 2-7-3-2-2-3-1-4 0-3-3-1 2-3 0 0 1-3-1-2-4-4-2-2 7 1 2-6-1-1 2-3 1-3-2-4 1-2 5-4-1-1-4-3-3-3 0 0-2 1-2 0-3-1 0 0 2-4 1-3 3-4-1-1 3-1-1-5 1-8-5-1 0 1-2-3-4-4-3-1-6 2-5 0-5-4-4-4-1-4-3-1-1-3 2 3 2 4 6-1 2-3 7-4-2-3 0 0-2-4-2 0-5 0-3-2 0-5-5-3 1-1 3-3 0-5-4 0-2-7-9 0-1-3-3-1-4-4-2-1-2-2-1-4-5 2-1-2-5 1-3-2-2-4-1-1-3-1 0 0-2-2-5-3-5 0-1 6-2-2-3 1-2 4 0 2-3 1-2 3-3 2 0-1-2-1 0-4-7 2-2 2 1 5-3 2-5 2-2-1-2 2-4 3-1 1-2 4 1 7 6 3 3 1 5 3-1 1-3 2-2 1 0 4 5 4 2 1 2 6-3 4 2 0 2 2 1 2 2 3 0 3 4 4 1-1 1 1 2 5 1 1-1 3 2 2 1 4 3 1 2-1 2 2 1-1 2 3 3-1 2 3 2 1 3 2 0 1 5 6 1 5 0 1 3 3 1 1 1 3 2 5-2 1 1 2-1 0-3-1-2 0-2 2-4 6-2 4-4 3 0 5-4-4-4-1-3 4-7 1 0 0-2 2-2 3 1 3 0 1-2 3-3 2 0 4-2 0-3 1-2 0-6 2-2 3-6 1 0-1-7 3 2 7 2 3 3 4 1 1 2 3 2 1 3-2 1 1 6 5 5-1 4 4 4 2 4 4 1-1 2 4 1 1 2 3 0 4 2-1 2 3 3 0 4 2 1-1 3-2 4-4 3 0 2 2 1 4 6 3 1 0 3 4 2 3-1 10-1 3-1 3-1 3 2 3 3 0 7 3 2 0 2-4 5 3 1 2 0 5 5 4 6 1 4 1 1 1 3 3 1-1 4 4 2 2 3 3 2 4 1 0 4 1 2-1 5 3 4 0 3 0 4 2 2-3 3 2 1 2 4z"},{"c":"14","n":"Sơn La","city":false,"cap":"Sơn La","capXY":[372,460],"r":0,"to":"tỉnh Sơn La","k":"khoản 24 (unchanged)","area":14055.0,"nb":["11","15","17","12","38","25"],"col":0,"lab":[361,469],"sz":206.7,"alt":[],"note":"","d":"M246 546l5 0 4-2 2 1 2-2-3-3 1-3 2-1 2 0 0-6-2-3-2-1 1-3 2-1-1-3-2-2 0-2 1-2 3 1 1-2-3-2-1-2 1-1 8 1 4 3 6 2 6 0 0-3-3-6 0-2-2-6 3-2 2 1 2-2 1-6-1-2 0-9 1-1 0-5-2-5-2-1-3 0-5-2 0-2 3-4-1-2-4 0-1-3-3-3-1-3 2-2 5 0 4-2 4 2 5-1 2-5 0-4-1-1 2-7 4 0 4-3 2 1 1-2 0-4 2-1 0-4 2-3 3-5-3-3 3-2 0-2 1-3 3-1 2 2 1-2-3-4-4-11-3-2 1-5-2-3 1-1-3-3-1-5-3-2-2-1-2-4 1-1-2-2 1-1 1-4 3-3-1-3 3-4 0-4 2-3 3 0 10 3 1 0 2 2 3 2 3 0 2 3 1 5 4 2-1 3 4 4 0 4 3 1-3 7-1 1 0 2 3 1 2 3 1-1 5 1-1 4 0 1 4 0 6 8 3 1 1-2 1 7 3 3 5 1 0-4 4 3 3-2 3 2 0 4 5 0 0 1 3-2 4 1 0 1 4-1 4 2 5 2 3 1 5-1 7-1 2 1 4 0 3-4 4 0 4 0 0 1 6 1 1 1 4 0 4 0 0 3-1 0-3 4-2 2-3 1 2 6-2 1-2 3 3 5 0 4-2 3 0 3 3 3 0 4 4 2 2 4 2-1 0-1 5 4 2-1 6 4 0 3 3 2 2 0 5 1 6-5 2-4 2-3 9 1 2-3 3 1 1 2 6 4 6 2 2-2 0-3 3-1 1 1 4-1 0 5 2 3 1 2 3 2 0 3 2 1 3-2 2 1 2-1 0 2 5 3 0 9 1 2 1 4-2 1 2 1 2 3-3 5 2 1-1 5 3 1 2 2 2 1 3 3-3 1-3 2-2 4-2-1 0 2 2 8 3 1 1 3 1 4 5 5 3 6 3 1 2 3 2 1 0 2 4 7-1 2 2 0 0 4-3 2 2 0 5 3-3 3-1-1-1 5-2 2 4 2-1 3-6 0-3-2-6-1-1-2-2 0-2-2-4-1-2 3-3 0-1 4 1 0-1 4 2 2-2 1 0 2 0 5 1 2-4 3-4 3 0 7-3 0-1 2-2-2-4 2-3-3-1-3-4 0-2 2 0-3-4-3-2-3-3-3 0-3-6 0-4-2 0-4-3-3-3 0-3 1-2 3-5-4-2-10-2-2-3 0-1-3-3 0-1 1-4-4-4-3-1 1-6-6-1-1-2 0 1-3 0-1-4-5-2-1-1-3-2 0-3 2-2 3-3-2 0-2 1-3-6-1-3-1-1-2-5 0-5 2-2-5-3-1-2 3-7 2 1 2-2 2 0 4-3 1-6 0-4-2-3 3-3 1-3-2-5 0-5 4-4 5-3-2-4 1 1 2-3 1 2 4-6 5 1 2 1 2-1 3 1 3-3 3-3 0-4 0-1 2 2 2-1 4 2 3-2 2-3 0-6 1-1-1-2-6-2 0-1-1-2-3-5-2-2-3-6-1-3 1-2-2-3 1-2-1-2-4-3-4 0-3-3-3-3 1-2 5-4 0-3 2-3 0-3-4-3 1-5-3-3-1-3-3-2 2-3 1-4-2-2-4 1-4z"},{"c":"15","n":"Yên Bái","city":false,"cap":"Yên Bái","capXY":[551,388],"r":0,"to":"tỉnh Lào Cai","k":"khoản 2","area":6882.9,"nb":["14","10","25","08","12","02"],"col":1,"lab":[514,363],"sz":144.9,"alt":[],"note":"","d":"M373 390l-2-3 1-2 0-3 5 0 2 0-1-2 2-1 1-2-3-4 0-3-3-3-3-2 0-2-5-5 0-7 0-1 1-3 2 0 3-2 4 3 3-3 2-5 2-1 2 1 0 3-1 1 2 2 2 2 5 0 6 2 2 0 2-2 5 2 3 2 10 2 3-1 3-2 1-4-4-4 2-1 6 3 3 0 2-1 2 2 6 2 0 4 2 3 3 1 5-4 1-3 7-5 1-1-1-2 0-3-3-12-3-3-3-5 1-4 1 0 1-4 2-1-1-3 0-3-1-2-2-3 2 0 4-5 3 1 1 2 3 0 0 3 3 2 3 3 6 4 1 3 6 4 2-2 2-9 0-2 1-1-1-3 3-1 1 1 4 0-2-5 0-2 2-2-2-1-3 2-3-2 1-4-1-3 4-6 4 1 3 2 1 0 2 1 2-1 1 3 2 0 3 0 3 1 1 6-1 2 1 4 2 2 3 0 1 4 3 0 0-1 6 0 2-3 1 2 4-2 1 3 0 3 1 3 0 2 1 6 1 3 6 4 2 1 2-1 2 1 1 4 3 1 2-2 4 0-1 7 2 3-1 4 0 1-1 4 0 2 2 1 2-2 1 1 1 3-1 2 0 3 4 0 1 5 3 2 3 5 2 0 2 4-2 0-1 4-2 2 2 2-2 3-3 1 4 2 0 3 2 1 0 3 1 0 1 2-1 2-7-1-4-3-3 3-2-1-1 2-4 2 1 2-2 1 0 2-3-3-3 2-1 2-2 0-3 2 0 4-3 0 2 8-2 2-3 0-1 3 3 4 0 2 2 5 1 3 2 4 0 3-1 1 0 3-2 4-2 0 0 4 3 4-3 2-3-3-1-2-3 3 1 2-5 0-1 1-2 1-2-1-3 2-2-1 0-3-3-2-1-2-2-3 0-5-4 1-1-1-3 1 0 3-2 2-6-2-6-4-1-2-3-1-2 3-9-1-2 3-2 4-6 5-5-1-2 0-3-2 0-3-6-4-2 1-5-4 0 1-2 1-2-4-4-2 0-4-3-3 0-3 2-3 0-4-3-5 2-3 2-1-2-6 3-1 2-2 3-4 1 0 0-3-4 0-4 0-1-1-6-1 0-1-4 0-4 0-3 4-4 0-2-1-7 1-5 1-3-1-5-2-4-2-4 1 0-1-4-1-3 2 0-1-5 0 0-4z"},{"c":"17","n":"Hòa Bình","city":false,"cap":"Hòa Bình","capXY":[629,560],"r":0,"to":"tỉnh Phú Thọ","k":"khoản 4","area":4596.35,"nb":["01","38","14","25","37","35"],"col":1,"lab":[628,583],"sz":117.3,"alt":["Hoà Bình"],"note":"Lost 4 communes of Lương Sơn to Hà Nội on 1/8/2008 — NQ 15/2008/QH12","d":"M539 593l-1-2 0-5 0-2 2-1-2-2 1-4-1 0 1-4 3 0 2-3 4 1 2 2 2 0 1 2 6 1 3 2 6 0 1-3-4-2 2-2 1-5 1 1 3-3-5-3-2 0 3-2 0-4-2 0 1-2-4-7 0-2-2-1-2-3-3-1-3-6-5-5-1-4-1-3-3-1-2-8 0-2 2 1 2-4 3-2 3-1 1 4 2 1-3 4 3 0 2 2 4-1 1 1 4 1 4 2 2 3 1 0 2 2 3 1 3 3 3 5 1 1 2 1 5 3 8-1 3-2 2 1 0 2-2 2 0 2 3 0 2-2 0-1 5-2 2 2 2-1 1 3 2-1 1 1 3 0 1-2 5-1-3-9-2-5 2-1 0 2 4-1 1 1 3-1 3-2 1 4 4 1 1 3 2 1 2 4 4 2 2 0 2 2 5 3 3-2 9 0-1 3-2 1 0 1-2 3 5 6 1 3-2 4-3 0-2 4 5 1 2 0-1-4 1-3 2-2 3 2 3 0 0-1 2 2-3 2 1 3 0 1 3 1 0 6 1 3 2 2-1 2 4 5-1 2-2 1 4 8-2 2-3 0 1 2 4 0 2-1 1 5 3 0 1-1 2 1 5 4 0 2 1 3 2 2 2 6 2 2 3-1 0 2 3 3 2 0 1 9 0 1-6 2-3-3-2-5-2 4-2-1-4 1 1 4-1 2 2 5-1 2-2 0 0-3-3 0 1-3-5-2-4 0 3 2-1 1 3 6 3 5-1 2-4 1-2 3-3-1-5-5-5-2-3-3-3-1-4 2-3-1-3-1-1 2-4-1-4-2-3 0-5-2-5 2-4-1-3-2-4 0 0-1-4-2-3-3-2 1-3-3-4-1 2-4-1-2-4-2 1-2-3-2 0-1-5-3-5 1-2-2 0-2-4-2-6-5-2 1-3-2-4 1-1 2-5 0-2-2-3-1-3 0 1-2-4-4 0-4-2-3-3-1-5-4-3 0-4 2-2-1z"},{"c":"19","n":"Thái Nguyên","city":false,"cap":"Thái Nguyên","capXY":[714,414],"r":0,"to":"tỉnh Thái Nguyên","k":"khoản 3","area":3542.6,"nb":["06","24","08","20","26","01"],"col":1,"lab":[715,408],"sz":103.5,"alt":[],"note":"","d":"M728 463l-1 0-4-1-3-5 2-4-5 0-6-2-2 2-1 3-1 0-2-3-1-1 1-2-1-2-3-3-3 2-1-1 0-4-1 1-2-3-3 0-2-3-2 0-3 0-3-4 0-3-4-2-1-5-4-1-3-4-2-3-2 0-4-3-3-5-2-1 1-2-3-6 0-4 1-2-2-1 2-1 3-6 2-1-1-3 3-3-2-1-3 1-1-2 1-3-1-2 0-5 4 1 2-2 0-3-2-5 1-2 4-1 0-2 2-1-1-7 1-3 4 0 1-2-1-3 2-4 2-2 2 1 4-2 1-1 3 1 1-2 1-3 5 1 3 4 2 0 2 1 1-1 3 2 0 4 1 1 0 3 3 3 0 4-2 4 1 1 0 2 2 2-2 0 0 2-3 9 1 2 5 3 2 0 1-5 2-3 8 0 0-3 4 0 2-3 3-4 3 0 3-1 5-4 0-2 4-1 1 1 2-1 1-3 2-3 4 2 2 3 6 0 1 1 6 3-1 5-2 1 0 4-2 8-2 2 2 3 1 4 5 0 2 4 3 2 2 2 3 0 0 1 4 2 2-1 1 1 1 2-1 4-2 1 1 2-6 6 1 6-3 3-2-1-2-3-3 0-3 1-2 0-4-1-3 1-2 3-2 0-1 4-3 2 0 2 2 0 2 2 0 3-3 4 1 1-1 4 2 2-2 2 2 2 0 3-4 2 1 5-2 2-1-1-4-1-1-1-2 0-2-5-2 6-3 2 1 1-1 4-5-1-3 5 3 0-2 1-2 0-1 1z"},{"c":"20","n":"Lạng Sơn","city":false,"cap":"Lạng Sơn","capXY":[881,362],"r":0,"to":"tỉnh Lạng Sơn","k":"khoản 24 (unchanged)","area":8305.2,"nb":["24","22","06","04","19"],"col":0,"lab":[820,341],"sz":159.4,"alt":[],"note":"","d":"M780 409l3-3-1-6 6-6-1-2 2-1 1-4-1-2-1-1-2 1-4-2 0-1-3 0-2-2-3-2-2-4-5 0-1-4-2-3 2-2 2-8 0-4 2-1 1-5-6-3 2-2-2 0 0-2 2-1 1-6-2 0 1-4-3-4 1-2 0-5 3 0 1-2 6 0 1-4 1-2 3-1 0-2 1-3 1 0 4-4 3-3-2-3 0-2 3-3 1-7 0-2-4-4-2-1-2-4 0-2 4-5-1-2-3-3-2 0-1-2 2-6 1-3 3-4 4-2 4 3 3 0 2 4 1 0 3 3 3 0 3 4-1 3 4 4 3-1 3-3 3 1 2 2 3-1 3 2 6-3-2-2 2 0-1-2 1-2 3-1 3 2 2-2 0-2 5-1 3 5 1 0 0 4-2 1 0 2-2 2 4 2 1-1 6 2 3-1 2 0 3 6 1 4 2 0 2 2-2 2 2 5 2 3-1 4-3 0-2 4 1 3 3 2 2-1-2 5 0 6 3 1 0 1-1 5 1 1-2 3 1 3 0 3-4 3 0 5 4 2 0-1 3 0 3-7 5 0 3 1 1 2 2 1 1 3 5 0 0-2 2 1 7 0 4 2 2-1 2 8 5 0 1 3 3-2 3-5 1 2 4 0 3 3 4 0 1 3-1 2 0 2-1 2-3 1-3 3 3 1-3 6 1 1 9 2 1 0 1 2 4 1 2 3 2 1 1 2 8 3 2 3 3 2 7 3 0-2 2-2 7-3 4 5 4 6 0 2 2 1 1 7-1 1 1 6-6 2-3-2-3 1-3 6-4 0-2 3-2-2-3 1-2 2 2 2 1 2 2 0 1 3 0 2 1 2-1 5 1 5 2 2 0 4 2 0-1 4-2 3-2 0-1-2-3-3-2 2-2 0-4 3-3-1-5 0-3-1-2 0-1 3-3 3-3-1-2 4-3 1-2-2-1-2-5-3 1-3-2-5 1-2 3-1-3-4-4 1-3 2-1-2-3 1 0-3-3 2-4-4 2-4-1-1-1-2-4-1-4 0-1-2 4-3 1-3-3-1-1-4-8 0-2-3-4 1-2 2 1 2-1 2-4-1-1-2-3-1-2-2 0-4-4-2-5-1-3 1-3-1-5 2-3-1-4 3 0 1-4 5-1 4-3 3 3 4-2 3-3 0-2 7-2 0-1 2-9 0-2 2 2 4-4 0-3 2-2-1-5 1-3-2 1-3 1-3-1-2-6 1-2-2 0-4 1-3-3-1-5 2-1-2-5 0-8-4 1-6-1-6 0-3z"},{"c":"22","n":"Quảng Ninh","city":false,"cap":"Hạ Long","capXY":[950,530],"r":1,"to":"tỉnh Quảng Ninh","k":"khoản 24 (unchanged)","area":5899.6,"nb":["24","20","30","31"],"col":1,"lab":[960,492],"sz":128.8,"alt":[],"note":"Includes the Vân Đồn and Cô Tô island districts","d":"M857 521l-2-3-4-4-6 1-2 1-3 1 0-3-3 0-2-2-5 1-4-3 2-3-2-2 0-2 6 0 2-3-1-3 2-5 1-2 0-3 1 0 0-5 5 1 3 5 2 0 2 1 2-1 2 3 3 0 1 2 5 0 0-2 3 1 5 1 3 0 3 1 3 0 2 1 9 2 4-2 3 1-1-2 0-5 5 0 1 3 2 0 1-2 3 1 4-1 3 3 4-4 0-3 3-4 1 0 0-3 1-3-2-5 3-2 4 0 2-1 2-3 0-2 3-1 2-4 3 1 3-3 1-3 2 0 3 1 5 0 3 1 4-3 2 0 2-2 3 3 1 2 2 0 2-3 1-4-2 0 0-4-2-2-1-5 1-5-1-2 0-2-1-3-2 0-1-2-2-2 2-2 3-1 2 2 2-3 4 0 3-6 3-1 3 2 6-2 4 0 3-2-1-2 2-1 2-3 9-5 2 1 2 4 2 1-1 2 1 2-2 2 1 1 3 0 3 2 3-1 2-4 5-1 2 2 11 0 2-1 2 1 7-3 6-4 5-1 2-1 3-1 4 1 1 2 4-2 3 1 1 3 2 2 0 5 2 2 4 0 4 4 1 5 3 1 2-2 8 0 4 1 1 3-2-1-5-1 4 2 1 2-2 0-3-1 1 2 5 0-5 3 3 1 2-1 3 0 5 2-2 0-3 0-4 0-6 3-3 3-2 3-2 0 0-2-2 1-1 3-5-3 2 2 3 1 1 2-1 3-3 0-2 0-3-5-4-2 2-5 6-4-5-5-3 3 1 2-1 2-4-3-1-3-3 5-4-1-5 2 0 3-2 2-2 2-1 3-2 4-6 1-1 2-2-1-2 1-3-1 1 2-2 2-3 2-1 2-4 5 0 2-3 4-4 2-10-2-6-1-2 1-1 5 6 6 1 1 3 4 0 2-3-1 5 3 2-2 5-1 2-3 3 1-1 2-2 3-6 6-4 3 0-3-4 2 0 1-3 2 1 2-8 7-1 0-5 4 1 0-4 3-5 1-3 2 0 4-3 3-4 1-4-1-7-1-9 3 2 0-1 3-4 1-2 3-1 0-5 1 0 1-3 0-2 1-3-1-3-2-3 1-3-3-5 3-8-2-2 1-7 0-3-2-1 2-2 0 4 2 2 6-6 0-4 2-2 4 0 1-3 1 3 3 0 4-7 4-2-3-3-1-4 0-4-4-1-4 0-3 3-5-1-12-2-2-2-2-4 0-6-1-7-3-4 1zM1025 521l0 4 1 1-2 3-3 9-2 3-5 1-4 2-1-1-2-1-6 3-3 2 0-2 4-2 10-7 3-3 1-3-2 1 4-9 3-1 3-3zM1108 449l-7 3-4 5-3-1-8 1-6 3-1-1 1-3 1 2 2-1-2-1 4-2-5 0-4 1 7-3 4-1 3 1 9-3 7 0zM1037 513l-2 3-1 4-1 1-1 5-1 3-3 2 1-2 2-2-2-2 2-5 1-2 1-6 2-3 3-4 3-3-3 6zM1026 536l2 2-6 6-2 5-4 2 0 4-2 5-2 1 3-11-2-2 6-1 2-5 4-7 2-4zM1075 457l-5 4-4 2-4 2-1 2-2 0-1-1-4 2 6-5 5-2 6-4 3-1zM1032 504l-3 6-5 3 0-2-2-2 3-2 1-4 2 1 3-2zM1064 523l4 4-4-1 0 3 3 0 1 2-4 3-2-1 2-1 0-2-5-3 0-2 1-3zM1082 520l-3 2-4 5 0 2-2 0-1-3 2-3 1-3 3-3 1 1 2-1zM989 547l5-1 4 2 0 1-3 0 1 2-2 2-4-1-2-5 0 3-2-1 1-3zM1009 532l-2 4-5 5-2 1-7 2-3 0 8-2 3-2 2-4 5-5zM994 560l1-1 1 6-2-2-5 0-2-9 2 2zM996 535l-3 3-3 2-7-2 5-2 1 2 4-3 3-3zM1045 499l0-2 1-8 2-4 2-1-1 2-2 8 0 4zM1003 565l-1 4-3-1 0-4 1-2zM1091 446l-1 3-2 0-2-2-4 2 4-4zM1012 534l-4 4-1 0 2-2 0-2 3-4 2 2zM1033 475l-7-1 0-1 4-1zM1042 477l-5 4-1-2-2 0 9-4zM1103 481l-4 0-1-1 4-3zM925 542l-2 0 0-2-1-2 3-1 1 1zM1008 545l-4 3-2-2 5-2zM1024 513l-1 2-2 0-1 2-4 1 6-5 0-2zM1018 546l-5 0 7-4zM1053 468l-6 5 1-2 0-2zM1031 501l-2 2-2-2 4-2zM1019 502l-1-2 6-2zM984 545l0 3-2-3 1-3zM965 550l-3 0-1-1 1-2zM918 537l-1 1-3-1 0-3zM989 541l1 1-4-1-3-1 2-1zM983 546l2 4-4-4-1-3zM1009 580l-2 0 5-4 0 1zM1067 517l1 1-3 1 0-2zM1067 469l-5 2 3-3zM980 555l-2 2-2 1 2-3zM1063 456l-2-2 2 0zM1013 572l-1-1 3-1zM1027 516l-1-2 1-2z"},{"c":"24","n":"Bắc Giang","city":false,"cap":"Bắc Giang","capXY":[780,471],"r":0,"to":"tỉnh Bắc Ninh","k":"khoản 5","area":3822.7,"nb":["20","22","19","27","30","01"],"col":2,"lab":[867,455],"sz":108.6,"alt":[],"note":"","d":"M933 463l0 2-2 3-2 1-4 0-3 2 2 5-1 3 0 3-1 0-3 4 0 3-4 4-3-3-4 1-3-1-1 2-2 0-1-3-5 0 0 5 1 2-3-1-4 2-9-2-2-1-3 0-3-1-3 0-5-1-3-1 0 2-5 0-1-2-3 0-2-3-2 1-2-1-2 0-3-5-5-1-5-1-1 1-2-1-4 0-2 0-2 4-7 3-2 4-5 0-4-4 0 3 2 5-1 3-3 3-2-2-3 0-3-4 0-2-1-2-4 3-2-1 1-2-5-2-2 2-2-1-3-5-4-2-2 1 0 2-5-1-2-3-2 1-3-2-2 2 0 2-2-2 0-6-7-3-1 1 1 3-3 3-5-2-1 1-1-2-3-6 0-3 2-1-3 0 0-2-3-1 0-4-1 1-2-3 1-1 2 0 2-1-3 0 3-5 5 1 1-4-1-1 3-2 2-6 2 5 2 0 1 1 4 1 1 1 2-2-1-5 4-2 0-3-2-2 2-2-2-2 1-4-1-1 3-4 0-3-2-2-2 0 0-2 3-2 1-4 2 0 2-3 3-1 4 1 2 0 3-1 3 0 2 3 2 1-3 2 0 3 1 6-1 6 8 4 5 0 1 2 5-2 3 1-1 3 0 4 2 2 6-1 1 2-1 3-1 3 3 2 5-1 2 1 3-2 4 0-2-4 2-2 9 0 1-2 2 0 2-7 3 0 2-3-3-4 3-3 1-4 4-5 0-1 4-3 3 1 5-2 3 1 3-1 5 1 4 2 0 4 2 2 3 1 1 2 4 1 1-2-1-2 2-2 4-1 2 3 8 0 1 4 3 1-1 3-4 3 1 2 4 0 4 1 1 2 1 1-2 4 4 4 3-2 0 3 3-1 1 2 3-2 4-1 3 4-3 1-1 2 2 5-1 3 5 3 1 2z"},{"c":"25","n":"Phú Thọ","city":false,"cap":"Việt Trì","capXY":[633,460],"r":0,"to":"tỉnh Phú Thọ","k":"khoản 4","area":3519.6,"nb":["15","17","01","08","26","14"],"col":2,"lab":[590,460],"sz":103.5,"alt":[],"note":"","d":"M551 504l-3-3-2-1-2-2-3-1 1-5-2-1 3-5-2-3-2-1 2-1-1-4-1-2 0-9-5-3 0-2 1-1 5 0-1-2 3-3 1 2 3 3 3-2-3-4 0-4 2 0 2-4 0-3 1-1 0-3-2-4-1-3-2-5 0-2-3-4 1-3 3 0 2-2-2-8 3 0 0-4 3-2 2 0 1-2 3-2 3 3 0-2 2-1-1-2 4-2 1-2 2 1 3-3 4 3 7 1 1-2-1-2-1 0 0-3 2 0 2 2 2 0 2 2 3 0 1 3 2-2 2 1 1 2 5 3 4 0 1 3-2 3 1 2 2 1 2 2-2 1 1 3 5 5-2 2 1 1 4 1 1 5 3-1 1 2 0 2 2 2 2 8-1 3 3 2 3-3 3 1 2 3-2 5 1 4 1 3 6 3 2 2 2 4-1 7-1 0-1-3-6-4-2 0-4 2-2 2-1-2 0 6-1 7-2 4-6 3-3 5-1 0 5 6 2 4-1 3-4 8 0 3 2 3 2 2 2 5 3 9-5 1-1 2-3 0-1-1-2 1-1-3-2 1-2-2-5 2 0 1-2 2-3 0 0-2 2-2 0-2-2-1-3 2-8 1-5-3-2-1-1-1-3-5-3-3-3-1-2-2-1 0-2-3-4-2-4-1-1-1-4 1-2-2-3 0 3-4-2-1z"},{"c":"26","n":"Vĩnh Phúc","city":false,"cap":"Vĩnh Yên","capXY":[676,466],"r":1,"to":"tỉnh Phú Thọ","k":"khoản 4","area":1231.76,"nb":["01","19","25","08"],"col":3,"lab":[672,459],"sz":61.2,"alt":[],"note":"Lost Mê Linh district to Hà Nội on 1/8/2008 — NQ 15/2008/QH12","d":"M647 474l1 0 1-7-2-4-2-2-6-3-1-3-1-4 2-5-2-3-3-1-3 3-3-2 1-3-2-8-2-2 0-2 3-1 1-2 7 0 1 2 4-1 2 3 1-1 5-1 1-2 5 0 4-3 2 0 1-4 3-3 2 0 2 3 3 4 4 1 1 5 4 2 0 3 3 4 3 0 2 0 2 3 3 0 2 3 1-1 0 4 1 1 3-2 3 3 1 2-1 2 1 1 2 3 1 0 2 3-3 1-4 7-2 2-4 5 1 5 2 1-3 2-2 1-4 0-1-3-1 2-2-3-4 1 0 2 3 1-5 1 1 2-3 0 1 6-2-1-5 3-5 2-8-1-3 0-5-4-1-4-1-4-3-4z"},{"c":"27","n":"Bắc Ninh","city":false,"cap":"Bắc Ninh","capXY":[759,491],"r":1,"to":"tỉnh Bắc Ninh","k":"khoản 5","area":807.6,"nb":["24","01","30","33"],"col":3,"lab":[767,506],"sz":49.8,"alt":[],"note":"","d":"M770 529l-2 0 0-3-3 0-1-2-3 2-3-1-2-1-4 3-2-2-3 1 1-2 0-2 3-4-2-3-1-1-1-3-1 1-5 0-2-4-3 1-1-4-3-2-1-2 3-3-2-5 1-3-3-2 2-4-2-3 3 0 3-2 1 2 1-1 5 2 3-3-1-3 1-1 7 3 0 6 2 2 0-2 2-2 3 2 2-1 2 3 5 1 0-2 2-1 4 2 3 5 2 1 2-2 5 2-1 2 2 1 4-3 1 2 0 2 3 4 3 0 2 2-1 2 2 8 1 2-3 5 0 2-4 4-1 3-4-2 0 1-4-1 0 1-4 2-2 0-4 2-1-1 2-2-4 0-2-3z"},{"c":"30","n":"Hải Dương","city":false,"cap":"Hải Dương","capXY":[804,538],"r":1,"to":"Thành phố Hải Phòng","k":"khoản 7","area":1648.4,"nb":["31","33","22","27","24","34"],"col":0,"lab":[805,553],"sz":70.9,"alt":[],"note":"","d":"M820 578l-1 0-3 3-6 2-2-2-6 4-2-1 0-2-2-1 1 3-2 1-2-2-3 1 4 2-4 0-1-2-3-2-1-2-2-3 1 0 0-3-3-1-1-2-3 0-2-4-2 1-4-5 1-2-2-3 0-3 2-2 2-6-2-3 3-3-1-2 1-4-4-2 1-3-2-1 2-4 2 3 4 0-2 2 1 1 4-2 2 0 4-2 0-1 4 1 0-1 4 2 1-3 4-4 0-2 3-5-1-2-2-8 1-2 3-3 1-3-2-5 0-3 4 4 5 0 2-4 7-3 2-4 2 0 4 0 2 1 1-1 5 1 0 5-1 0 0 3-1 2-2 5 1 3-2 3-6 0 0 2 2 2-2 3 4 3 5-1 2 2 3 0 0 3 3-1 2-1 6-1 4 4 2 3-7 2-1-1-2 4 2 4 3 1 2 5-3 3-1-1 1-2-2-1 0 2-2 2 0-3-2 0 0 4-3 3 3 3-1 1 2 2-3 2 0 3-2-2-3 0-1 2-1-3-3 2 3 3-1 4 1 0 4 0-1 4-1-1-4 1 2 2 1 6-2 2-3-1-1 2-2 0 2 3-3 1 0-3-2 3-2-2-3 0z"},{"c":"31","n":"Hải Phòng","city":true,"cap":"","capXY":null,"r":1,"to":"Thành phố Hải Phòng","k":"khoản 7","area":1526.3,"nb":["30","22","34"],"col":2,"lab":[861,569],"sz":60.2,"alt":[],"note":"Includes the Cát Hải (Cát Bà) and Bạch Long Vĩ island districts","d":"M820 578l1-1 3 0 2 2 2-3 0 3 3-1-2-3 2 0 1-2 3 1 2-2-1-6-2-2 4-1 1 1 1-4-4 0-1 0 1-4-3-3 3-2 1 3 1-2 3 0 2 2 0-3 3-2-2-2 1-1-3-3 3-3 0-4 2 0 0 3 2-2 0-2 2 1-1 2 1 1 3-3-2-5-3-1-2-4 2-4 1 1 7-2 3 2 4-1 7 3 6 1 4 0 2 2 2 2 1 12-3 5 0 3 1 4 4 4 4 0 3 1 2 3 7-4 1 1 5 4-3 2-2 0-3 1-2-2-14-1-3 5 5 6 1 5 2 0-2 4 1 3 3 2-4-3-1-2-1 0-2-2-4 1-7 6 0 2-3 7-6 3-4-3-4 0-2-2-6 4-1-1-3-1-1 4-4 1 0-2-4-1-2 4-2 0-1-3-3-2 1-3-3-4-6-5-1-1 3-3 0-2zM919 554l5-1 2-1 3 2-1-2 3 1 2-1 2 4 0 3 2-1 2 4 2-3 2 2 4 3 0 2-3 0 0 2-3 0-2-5-1-2-2 0 4 6-2 2-2 0 1 1-2 2 5 2 0 2-3-2 1 2 0 4-3 1 1-2-3-2 0 2-3-2 5-1-4-1-1-2-1 2-3-1 1 4-1-2-5-4 1 0-1-4-3-3-4 0 3-4 1-5 0-3-1-1 2-3zM950 565l1-1 0 3-1 2-2-2 0-3 2-1zM909 555l-2 1-2-2 2-4 2 3zM914 564l-1 0-1-3 2-2 1 1zM953 574l-2 2-1-3 3-3zM946 556l-1 2-1-3-1 2 0-3zM1056 693l5-3-2 4zM911 560l0-1 1-3 2 2zM926 549l0 2-3-1 1-2zM923 550l-1 2-2 0zM917 555l0 3-3-1 0-1z"},{"c":"33","n":"Hưng Yên","city":false,"cap":"Hưng Yên","capXY":[757,591],"r":1,"to":"tỉnh Hưng Yên","k":"khoản 6","area":923.1,"nb":["01","30","34","27","35"],"col":1,"lab":[753,547],"sz":52.9,"alt":[],"note":"","d":"M748 582l-6 1-1-4 1-2-1-7 0-1-7-2-1-2-2-5 1-4 3-3 0-3-6-4-1-1 3-4 0-1 1-2-2-2 2-6 4 2 3 0 2 1-1-5 2 0 1-2 4 0 3-1 2 2 4-3 2 1 3 1 3-2 1 2 3 0 0 3 2 0 2 1-1 3 4 2-1 4 1 2-3 3 2 3-2 6-2 2 0 3 2 3-1 2 4 5 2-1 2 4 3 0 1 2 3 1 0 3-1 0 2 3 1 2 3 2 1 2 4 0-5 3-2 2-3 1 2 2-5 0-3-2-2 0-2 2-3-3-3 2-3 1 3 4-1 1-5 1-3 2-3-1-4-4-1-3 0-7-3-4z"},{"c":"34","n":"Thái Bình","city":false,"cap":"Thái Bình","capXY":[808,631],"r":1,"to":"tỉnh Hưng Yên","k":"khoản 6","area":1545.4,"nb":["36","31","33","30","35"],"col":3,"lab":[827,628],"sz":70.3,"alt":[],"note":"","d":"M854 671l-3-4-5-5-5-5-2 2-2-1-3 3-3 1-3 0-4-2-4-6-3-2-3 0-2-2-4-5-8 8-4 2-3-1-1-3 1-2 5-4 0-3-4-2-4 0-3-1-2-4 2-4 1-2-3-3-4 0-1-1-1-3 0-3-1-6-2-3-5-2-1-2 1-5-2-2 1-1-3-4 3-1 3-2 3 3 2-2 2 0 3 2 5 0-2-2 3-1 2-2 5-3-4-2 3-1 2 2 2-1-1-3 2 1 0 2 2 1 6-4 2 2 6-2 3-3 1 0 2 2 0 2-3 3 1 1 6 5 3 4-1 3 3 2 1 3 2 0 2-4 4 1 0 2 4-1 1-4 3 1 1 1 6-4 2 2 4 0 4 3-3 2-5 3-3 6-1 7 0 1 2 3 1 4 0 4 4 3-2 2-3 5 0 2 4 4 0 3 0 4-3 14z"},{"c":"35","n":"Hà Nam","city":false,"cap":"Phủ Lý","capXY":[732,615],"r":1,"to":"tỉnh Ninh Bình","k":"khoản 8","area":852.2,"nb":["36","01","17","33","34","37"],"col":2,"lab":[737,614],"sz":50.8,"alt":[],"note":"","d":"M735 647l-2 1-2-3-1 1-2-3-4-4-3-3 0-1-1-9-2 0-3-3 0-2-3 1-2-2-2-6-2-2-1-3 5 0 1-5 2-2-1-2 2-1 0-3 3-2-2-3 0-1 3 1 3 3 4 0 3-1 0-4 1 1 4-2 4-1 0 5 4-2 2 0 5-8 2 1 3 4 0 7 1 3 4 4 3 1 3-2 5-1 2 2-1 5 1 2 5 2 2 3 1 6 0 3 1 3-2 2-5 1-1-2 0-3-1-1-3 0-3 2 1 3-1 3-3-2-3 0-2-1-2 0 0 4-3 1-1 6 1 3-3 0-4-1 1-4-2-1-1-2-1 4-1-1-3 2 0 2-4 1 0 4 2 1z"},{"c":"36","n":"Nam Định","city":false,"cap":"Nam Định","capXY":[778,636],"r":1,"to":"tỉnh Ninh Bình","k":"khoản 8","area":1641.3,"nb":["37","34","35"],"col":1,"lab":[769,650],"sz":70.3,"alt":[],"note":"","d":"M765 733l0-3-1-7 3-10 1-5 3-2 2-3 0-3 2-5 2-2-1-7 0-5-2-7-1 0-6 2-2-2-1-5-1 0-2 4-3 3-2 0-3-2-1-2 4-1-2-2-2 1-4 0-4-3 0-4-4-6-4-2 2-3 0-2-2-1-1-2 1-1-2-1 0-4 4-1 0-2 3-2 1 1 1-4 1 2 2 1-1 4 4 1 3 0-1-3 1-6 3-1 0-4 2 0 2 1 3 0 3 2 1-3-1-3 3-2 3 0 1 1 0 3 1 2 5-1 2-2 1 1 4 0 3 3-1 2-2 4 2 4 3 1 4 0 4 2 0 3-5 4-1 2 1 3 3 1 4-2 8-8 4 5 2 2 3 0 3 2 4 6 4 2 3 0 3-1 3-3 2 1 2-2 5 5 5 5 3 4-2 4-1 2-4 2-4 1-7 1-3-1 1-2 0-2-7 1-6 1-9 6-4 4-3 3-14 16-8 11-2 1-2 4-4 5-2 3-6 7-2 1-1 0 2-6z"},{"c":"37","n":"Ninh Bình","city":false,"cap":"Ninh Bình","capXY":[744,672],"r":1,"to":"tỉnh Ninh Bình","k":"khoản 8","area":1383.7,"nb":["38","36","17","35"],"col":0,"lab":[717,665],"sz":63.9,"alt":[],"note":"","d":"M765 733l-3 1-3 0-7-8-1-5 2-3 4-1 1-3 2-7 0-2-9 1-5-1-6 0-6-5-1-2-2 0-3-3-4-1-4-3-3-1 0-1-3-1-4-3-3 0-7-3 0-2-8-5 0-2-2 0-1-3-5-5-5-1-2-2-1-3-2-2-3 1-3-1 1-1-3-3 0-2-1-3 3 1 4-2 3 1 3 3 5 2 5 5 3 1 2-3 4-1 1-2-3-5-3-6 1-1-3-2 4 0 5 2-1 3 3 0 0 3 2 0 1-2-2-5 1-2-1-4 4-1 2 1 2-4 2 5 3 3 6-2 3 3 4 4 2 3 1-1 2 3 2-1 1 2 2 1 0 2-2 3 4 2 4 6 0 4 4 3 4 0 2-1 2 2-4 1 1 2 3 2 2 0 3-3 2-4 1 0 1 5 2 2 6-2 1 0 2 7 0 5 1 7-2 2-2 5 0 3-2 3-3 2-1 5-3 10 1 7z"},{"c":"38","n":"Thanh Hóa","city":false,"cap":"Thanh Hóa","capXY":[709,755],"r":2,"to":"tỉnh Thanh Hóa","k":"khoản 24 (unchanged)","area":11116.3,"nb":["40","17","37","14"],"col":2,"lab":[666,739],"sz":181.7,"alt":["Thanh Hoá"],"note":"","d":"M712 854l-1-3-6 2-2-3-2 1 0-4-6 4-4 0-3-4-1 2 0-5-2 0 0-2-2-1-1-2-2-1-1-2-2 2-3 0-2-4-2-2-5-7-2-4-4-1-2 1-4 2-1-1-5 3-2-3-3-1-2 2-3-1 1-2-2-4-3-2 0-4-2-4-4 1-1 4-3 3-1 1-2 3-1-3-2 0 0-2-1-1 0-4 0-6 2-1-1-5 1-2-2-2-2-5-3-4-2 3-2-1-2-3-5-4-2 1-1-4-2-2 1-1-4-5 0-6-1-2-1-3 1-6 2-1 2-4 5 1 1-2-2-4 0-2-2-4-2-1-5 0-2-3-4-1-8 2-7-4-3 0 1-2-5-2-1 0-2-3-6 0-3-2 2-1 0-2 3-4 3-2 2-1 2-2 1-4 2-3-3 0-2-3-4-2-3-4 1-1 0-2-5 3-7 1-6-3-1-3-9-5-10-1-3-2-6-1-1-3-3 0-3 1-3-3 0-6 1-3 0-3 1-7-1-1 0-3 3-1 3-1 6-4 0-2 6 1 1-1-2-1-5-6-3-2 1-2-2-2-2 0-4 2-3 3 1 1-1 4-2 1-7 0-2 1-4-1 0 4-3 2-3 0-4 3-2-1-2-1-5 1-2-2-1-3 1-5-4-3-2-5 3-2-1-2 6-1 2-3 7-1 5-6 4-1 0-2 2-3 1-4 3-2 5 0 3 0 2-2 3-1 1-5 1-1 3 3 2 3 4 3 0 3 2-2 4 0 1 3 3 3 4-2 2 2 1-2 3 0 0-7 4-3 4-3 2-3 2 1 4-2 3 0 5 4 3 1 2 3 0 4 4 4-1 2 3 0 3 1 2 2 5 0 1-2 4-1 3 2 2-1 6 5 4 2 0 2 2 2 5-1 5 3 0 1 3 2-1 2 4 2 1 2-2 4 4 1 3 3 2-1 3 3 4 2 0 1 4 0 3 2 4 1 5-2 5 2 3 0 4 2 4 1 1-2 3 1 1 3 0 2 3 3-1 1 3 1 3-1 2 2 1 3 2 2 5 1 5 5 1 3 2 0 0 2 8 5 0 2 7 3 3 0 4 3 3 1 0 1 3 1 4 3 4 1 3 3 2 0 1 2 6 5 6 0 5 1 9-1 0 2-2 7-1 3-4 1-2 3 1 5-6 1-4 3-3 3-1 6 3 0-3 4-2 5-1 4 0 3 1 1-1 4-3 3-3 6 0 2-3-1-3 2-4 6-2 8-2 11-2 5-1 7 1 13 0 6-1-1-2 1 0 4-2 0 1 8 2 4 2 1 3-1 0 6-1-1-2 2zM736 837l-1 2-2 1-2-2 3-3z"},{"c":"40","n":"Nghệ An","city":false,"cap":"Vinh","capXY":[690,968],"r":2,"to":"tỉnh Nghệ An","k":"khoản 24 (unchanged)","area":16487.4,"nb":["38","42"],"col":0,"lab":[548,860],"sz":220.7,"alt":[],"note":"","d":"M601 984l1 0-1-4 2-3-3-3-3 0-3-4-3-2 2-3-2-2-3 0-2 2-4-1-2 1-4-1 2-3-2-1-2 1-3-2 0-3-4 3-7-1-3 0-2-3 1-2-3-3-2-1-7 1-2 2-3-2-6 0-3 0-2-3-4 1-4-1 0-3-3-1-2-3-3 0-4-1 0-2-3-2-3-1-2-2 0-2-8-2-4-8-2-2-1-4-3-2-2 0-4-4-2 0-2 3-5 1-5-4 0-3-3-4 0-3-4-1-2-2-4 0-7-4-1-4-5-2-4 2-4 0-3-3 2-5-4-1-4-7-5 0-4-1-3-4-2 2-1-3-5-4-12 3-2-1-4-2-8-7-1-3-3-1-3 1-2-1 0-2 3-2 3 0 2-2 2-1 4-3 2-6 6-3 3 1 2-3 1 0 3-2 1 2 4 0 0-6-2-1 4-3 1-5 4 1 2-2-4-4 1-2 0-7-1-1-3-1-4-6-1-2 2-3-2-3 2-2 1-3 2 2 4 1 5 1 3-2 1-5 7 1 2-2 5-1 5 0 4 2 3 0 3 1 1 5 3-3 2-2 7-2 2 1 2-2 2 2 0 3 1 1 3 0 1 3 2 1 5 0 2 1 1 4 4 2 3-1 2 1 3 0 1-2 6-2 3 3 3-1 1-2-1-3 3-2 0-2 2-2-2-3 2 0 1-2 6-6 0-2 8 1 2-3-1-2 3-1 3-2 4 1 3-1 0-2 0-5 2-3-2-1 2-4-1-3 2-5-2-1 1-3 4-3 4-1 3-3 1-4-1-2 3 2 6 0 2 3 1 0 5 2-1 2 3 0 7 4 8-2 4 1 2 3 5 0 2 1 2 4 0 2 2 4-1 2-5-1-2 4-2 1-1 6 1 3 1 2 0 6 4 5-1 1 2 2 1 4 2-1 5 4 2 3 2 1 2-3 3 4 2 5 2 2-1 2 1 5-2 1 0 6 0 4 1 1 0 2 2 0 1 3 2-3 1-1 3-3 1-4 4-1 2 4 0 4 3 2 2 4-1 2 3 1 2-2 3 1 2 3 5-3 1 1 4-2 2-1 4 1 2 4 5 7 2 2 2 4 3 0 2-2 1 2 2 1 1 2 2 1 0 2 2 0 0 5 1-2 3 4 4 0 6-4 0 4 2-1 2 3 6-2 1 3 0 2-4 0-1 3-1 5-3 2-1-1-2 2-1 6-1 7 1 7 1 2-5 1-3 3-4-3-4 4-4 6-1 4-1 9 1 6 2 9 5 2 1 1 4 2 1 2 5 5-1 2 3 6 5 6-3 2 0 3 4 11-1 1-3 1-3-1-3 2-2 6-2 2 0 4-3 4-1-1-3 1-2 2-3 0-1-2-5 1-1 3-6 0-1 1-2-2-1-3-2-1 0-3-3-2-4-1 0 1-7 2-1 2-3-1-3 3-7-1-4-1-2-3-4-1-2-2-2-1-4 1-4 3-2 3-3-2-4 0z"},{"c":"42","n":"Hà Tĩnh","city":false,"cap":"Hà Tĩnh","capXY":[729,1029],"r":2,"to":"tỉnh Hà Tĩnh","k":"khoản 24 (unchanged)","area":6055.6,"nb":["44","40"],"col":1,"lab":[698,1042],"sz":131.9,"alt":[],"note":"","d":"M683 1100l-2 0-4-4-2 2-3-2-1-3 1-3-1-3-2-5-1 1-4 0 0-5-3-3-3 0 0-3 1-2-2-7-2 2 0-2 1-2-3 0-3-1-3 0 1 1-2 3-3 0-2 5-3-1-2-2-1 2-2 0-2-4-3 0 0-2-3-2 1-1-1-4 2-4-1-3-3 0-2 6 0-4-3-1-5 1 1-2-3-6-5-1-1-2-5-2 1-4-2-5 1-3-2-1-4 1-2-4 0-2-3 0-1-2-1-1-1-2 0-2 0-4 1-3 0-2 1-3 0-4 2-2 0-1 2-1-1-2 0-4 5-4 4 2 1 0 0 1 4 0 3 2 2-3 4-3 4-1 2 1 2 2 4 1 2 3 4 1 7 1 3-3 3 1 1-2 7-2 0-1 4 1 3 2 0 3 2 1 1 3 2 2 1-1 6 0 1-3 5-1 1 2 3 0 2-2 3-1 1 1 3-4 0-4 2-2 2-6 3-2 3 1 3-1 1-1-4-11 0-3 3-2 3 0 2 8 2 10 2 8 5 9 3 5 5 8 6 8 1 3 4-4-1 2 4 6 8 11 7 8 6 7 4 3 4 2 7 0 4 3 7 5 2 2 3 0 6 6 7 8 6 5 6 3 3-1 1-3 4-1-2 4 0 2 1 3 2 5 3 6 3 4 4 6 3 1-3 0-2 1-3 0-3 1-1 0 0-4-6 0-2-2-11-2-2 2-1 3-3 0-2 4-2 2 1 2-1 2-2-1-2 1-4-3-5 0-2 2-2-1-4 2-6-2-3-1-7-1-6-2 1-4 2-2 2-4-2-2 0-1-3-3-2 1-7-6-2-2-3 2-3-1-1-2-3-3-2 1-4-2-4 5-6 0-3 1-2 1 4 2-1 2-2-1-1 3-4 0-2 1-5-3-3 0-2 3 0 2-3 3z"},{"c":"44","n":"Quảng Bình","city":false,"cap":"Đồng Hới","capXY":[853,1200],"r":2,"to":"tỉnh Quảng Trị","k":"khoản 9","area":8051.8,"nb":["42","45"],"col":0,"lab":[785,1165],"sz":151.8,"alt":[],"note":"","d":"M926 1257l-7 7-3 2-3 1-5 3-3 2-4 1 2 4-3 3-3 1-3-1-2 3 1 4-1 2-4 1-2 6 1 4-1 1-3 0-2 1-4-2-2-2-2 0-1-2-2-1-3 2-1 2-6-1-4 1-1-3-1-1-1-4 1-1-6 0-2-3-2 1-1 3-3 2-4-2-4-1-2-3-3 1-3-2-1-5-4-4 3-5-5-4-3-2-1-3-4-4 2-2-3-2-3-4 1-1-4-2 0-2 3 1 2-4-5-1 2-1-2-2 0-3 0-4-5 0 0 3 0 3-3 1-5 1-6-4-7-6-3-1-2-5-4-3-4-2-41-50-3 0-2-4-4-2-1 1-4-4-6 1-1-10-3 0 0-4-5-3-2-5-2-1 0-2 1-3 0-3-4-4-4-1-3-3-3 0 1-4 1-2 1-3 0-3 2-4 2 0 0-6 11 0 3-3 0-2 2-3 3 0 5 3 2-1 4 0 1-3 2 1 1-2-4-2 2-1 3-1 6 0 4-5 4 2 2-1 3 3 1 2 3 1 3-2 2 2 7 6 2-1 3 3 0 1 2 2-2 4-2 2-1 4 6 2 7 1 3 1 6 2 4-2 2 1 2-2 5 0 4 3 2-1 2 1 1-2-1-2 2-2 2-4 3 0 1-3 2-2 11 2 2 2 6 0 0 4 1 0 3-1 3 0 2-1 3 0-1 1 2 3-4 3-1 0-4 4 0 1-3 6-1 2 0 7 3 10 5 12 1 0 2 5 4 7 3 3 4 8 5 8 6 8 3 6 7 9 12 12 8 7 10 8 16 13z"},{"c":"45","n":"Quảng Trị","city":false,"cap":"Đông Hà","capXY":[946,1323],"r":2,"to":"tỉnh Quảng Trị","k":"khoản 9","area":4745.7,"nb":["46","44"],"col":2,"lab":[923,1329],"sz":115.0,"alt":[],"note":"Includes Cồn Cỏ island district","d":"M932 1417l-1 1-3-2-6 2-2 0 1-6 0-4-8-2-1-2-3-2-1-4 1-3-2 1-3-1 0-2 3-2-2-7 2-1 0-6-5-3-5-2-2 4 1 1-1 4-3 4-1 3-1-2-4 2 1 1-1 5-2 1-3 1-1 2-1-5-3 1-5-2 1-1-2-2-2 0 0-3-2 0 0-6-3-3 1-3 2-3 2-1-2-2 1-3-2 1-1-2-3 0-1 2 0-4-3-1-4 1-1-1 1-3-4-4 0-4-1 0-2-5 0-32-2-2-1-2-3-2 1-1-1-3 1-2 5 0 0-14 2 3 6 0-1 1 1 4 1 1 1 3 4-1 6 1 1-2 3-2 2 1 1 2 2 0 2 2 4 2 2-1 3 0 1-1-1-4 2-6 4-1 1-2-1-4 2-3 3 1 3-1 3-3-2-4 4-1 3-2 5-3 3-1 3-2 7-7 9 6 5 4 4 1 3 3 1 8-1 1 0 3 1 4 4 7 7 7 4 5 5 5 12 12 10 7 7 6-3 1-4 7-5 5-1 2 1 1-3 3 2 0-1 3 2 1 1 2-2 2-8 6-4-2-1-2-5 2-3-1-4 1-2 0-7 2-1 2-4 0-5 2-2-1 0 3-1 2 5 4 2-1 1 3 1-1 4 3 1 4-2 3-3 0-3-1-5 0-2 4 2 3 0 4-3 2-1 2-4 1 1 1 0 7zM988 1256l2 2-1 1-2-2z"},{"c":"46","n":"Huế","city":true,"cap":"","capXY":null,"r":2,"to":"Thành phố Huế","k":"khoản 24 (unchanged)","area":5054.0,"nb":["45","48","49"],"col":1,"lab":[1008,1407],"sz":119.8,"alt":["Thừa Thiên Huế","Thừa Thiên - Huế"],"note":"Province of Thừa Thiên Huế (capital Huế) until 31/12/2024; centrally-run city from 1/1/2025 — NQ 175/2024/QH15","d":"M1074 1464l-2 1-3-2-2 1-4 3-2 0-3 3 0 2-4 4-5-1-3-3-2-1-3-2-2 0 0-3 0-3-5 1-4 1-4 2 2 4-3 2-6-1-3-4-1-1-4 3-4-2 0-3 3-4-2-3-4 2-3-1-1 1-1 3-2 0-2-2-2 2-4 0-2 2-1-2-4-3-4-7-3 0-1-4-1 1-2-3-4 1-5 0-6-4-2-5-1-5 2-2-1-1 1-4-2-3-11-8-2 2-4 0-1 2-3-3-1-2 0-7-1-1 4-1 1-2 3-2 0-4-2-3 2-4 5 0 3 1 3 0 2-3-1-4-4-3-1 1-1-3-2 1-5-4 1-2 0-3 2 1 5-2 4 0 1-2 7-2 2 0 4-1 3 1 5-2 1 2 4 2 8-6 2-2-1-2-2-1 1-3-2 0 3-3-1-1 1-2 5-5 4-7 3-1 13 10 7 6 15 11 5 3 2 3 1-1 7 3 9 6 11 9 5 4 11 11 6 5 7 4 3 0 2 4 3 2 5 0 3-2-2-2 1-2 2 3 1 3 0 2 9 14 5 3 6-1 4 2 2-1 2 1-4 1-3-1-5 5-5-1-1 1-5-1-1 1-4-2-4 0-2-2-3-2-3 4-3 1-5-2-2-3-2 0-3 3-2 0-2 2 2 3-1 2-2 1-1 8-3 2-3 4 0 2zM1145 1434l-1 2-1-1 1-2z"},{"c":"48","n":"Đà Nẵng","city":true,"cap":"","capXY":null,"r":2,"to":"Thành phố Đà Nẵng","k":"khoản 10","area":1255.5,"nb":["49","46"],"col":2,"lab":[1121,1469],"sz":52.8,"alt":[],"note":"Includes huyện Hoàng Sa (Paracel Islands, 305 km² of the official area)","d":"M1159 1481l-3 1-3-3-3 1-3 3 0 2-2 1-2-3 1-1-3 0-2 4-2-2-2 0-2 3-1 1-5-3-4 2-1 2-4-2-3 0-4 1-3 2-4 0-6-5 1-4 5-4 0-4-2-2-3-3 1-4-1-1-7 4-3 2-1-3-4-1-2-2-4 1-1 1-3-1 1-2 0-2 3-4 3-2 1-8 2-1 1-2-2-3 2-2 2 0 3-3 2 0 2 3 5 2 3-1 3-4 3 2 2 2 4 0 4 2 1-1 5 1 1-1 5 1 5-5 3 1 4-1 0 2-3-1-4 3 0 5-3 0 0 3-2 1-1 3 4 5 6 4 4 0 2-2-1-1 5-2 1-2-5-2 3-3 0-2 4-1 1 0 3 4 2-1 3 3 2-1 0-3 2 1 3 3-5 2 0 3-3-2-5 2-2 0-2 4 1 4 3 9zM1864 1531l1 1 4 0 3-3 2-2-1-3-1-1-4 2-4 3zM1677 1518l5 0 1-2-2-1-4 0zM1680 1513l3 1 1 0 0-1-1-1-1 0zM1904 1470l-2-4 0 3zM1908 1473l4 2 9-1 11-2 5-4 1-4-3-2-2 0-21 4-2 2-2 2zM1782 1461l-1 8 3 0 12-2 1-3-1-3-9-1zM1758 1429l-1-3-2-1-1 0-2 2-1 0-2 3-2 0-1 3-6 5 1 4 2 2 7 0 0 1 4-1 1 1 9-5 2 1 2-1 4 1 1-3 0-1-7-1-5 1-8 4-6 0-2-2 2-3zM1777 1441l5-2 1 1 4-2 1 0 3-2 1-3 0-4-1-1-3-2-3-3-6-1-7 0-3-1-5 0 0 2 1 3 6-1 10 2 4 2 2 1 0 3-3 2-4 2-4 1 0 1zM1893 1422l1 2 2-1 1 0 3-2-2-1-1 1zM1884 1423l4-1 4-3-2-1-2 2 0-1-1 1-1 1-1 0-2 0zM1910 1422l2 1 2-1 2 0 0-2 1 0 1-1 0-2-8 3zM1913 1411l3-2 1-2-6 3zM1816 1413l2 1 2-1 1 1 2-1 1 1 1-1 2 1 2-2 2 2 2-1 2 1 4-4-2-2-1-1-1 0-2-2-2 1-2-1-2 0-2-1-2 2-1-1-1 0-1 2-3 1zM1910 1407l6-1 0-2-2 0-2 1-1 0-1 1zM1942 1401l1 3 0-3zM1937 1399l0 4 1 2-1 1 1 1 3-1 0-7-3-1zM1734 1392l0 1 2 1 1 1 2-1 1 1 1-1zM1917 1396l2 1 2-2 1 1 0-1 1-2 1 1 0-3-7 4-1 1zM1940 1390l1 2 2 1 0-1 0-2-2-1zM1734 1390l5 1 3 0-1-2-2 1-1-1-2 0-1 0zM1754 1392l1 0-8-6-1 0 0 2 2 2 1 1 3 0zM1755 1389l0-3-1-1-1-2-2 0 0 1zM1750 1383l1-1-2 0zM1925 1383l1 3 2-1 2-2 0-1 0-2-2 0zM1914 1382l3 1-2-3-1 1zM1920 1381l1 0 0-2-1-1 0-1-1-1-2 0 0 1zM1775 1371l2 7 2 4 0 2-5 7 0 1 2 0 1-2 2 0 1-3 2-5 0-3 2-3-1-1 0-2-2-1-2 0-2-2zM1763 1370l1-5-1-1-2 1-2 3 2 3zM1769 1370l2 0 0-1 0-4-1-1-1 1zM1949 1360l-1 2 1 1-1 2 2 1-1 1 0 1 1 2 1 0 1-1 0-3-1-6-1-1zM1946 1354l3 0 4 3 1 0-8-6zM1948 1348l1 2 2 2 1-1 0-3-1-1zM1947 1345l9 4-1-2-4-2-1-1-2 0zM1860 1332l-1 1 1 1 2 1 0 1 2 0zM1864 1327l0 2 1 1 6 4 3-1 0-1 1-1-1-2-6-3-3 0zM1879 1322l2-5 2-2 0-3-2-1-2 1-3 4 1 3-1 0 0 2 1 1zM1887 1309l-1 4 2 4 0 3 2-1 0-2-2-4-1-2zM1866 1309l-4-3-5-3 0 1-1 2 2 1 1 2 2 0 3 1 2 0zM1877 1303l2 1 0 1 3 0-5-4zM1861 1300l3 1 3-1-6-2zM1883 1304l1-2 0-4-2 0-1 1 1 4zM1872 1298l2 1 1 0-1-4-1 0zM1856 1295l7 1 2-1 2 0 2-1 1-1 3 0-1-1-2-1 1-3-3 0-2 0-1-1-5 0-2 2-1 2-2 1 0 2zM1737 1272l2-1 1 0 1 0 0-2-5 2zM1724 1274l1 1 1 0 6-7 1-2-2 0-1 1-2 0-1 2-2 1zM1735 1266l5 0 0-1 0-1-2 0-4 2z"},{"c":"49","n":"Quảng Nam","city":false,"cap":"Tam Kỳ","capXY":[1198,1550],"r":2,"to":"Thành phố Đà Nẵng","k":"khoản 10","area":10407.4,"nb":["62","51","48","46"],"col":0,"lab":[1116,1557],"sz":173.0,"alt":[],"note":"Includes Cù Lao Chàm (Hội An)","d":"M1150 1656l-5 0-6-5-3-1-3 3 1 2 0 3 2 8 0 1-2 2-6 0-2 2-3 0-1-3-4 0-2-5-6-2-5 1-1-2-2-1-4-7 5-3 0-3 1-1 2-5 2-5-1-2-3-2-6-2-1-2-1-1-2-3-2-1-5 4-3-3-4 0-4 0-2-2-1 1-7-2 0-1-3-1-3 1-2-6 0-9-4 1-2-2-6-8 0-5-4-6-3 0-3-1-3 2-3 2-2 1-3-2-3 0-2-2 2-4-1-3-2-3-3-1-2 0 0-2-3-2-2-1-4 0 0 2-3-1-6 1-1-7-2-3 0-5-2 1-2-2 2-2-2-5-1-1-4-1-5 0-2-1-1-5-1-1 1-3 1-5-2-1 0-2-2 0 0-3-1-1-7 1 0-4 1-3 2-2 0-3-2-4 1-2 2-2 2 1 2-2 2 0 6-3 2 0 1-3 5-2 4 0 3 2 2-1 4-5 2-4 1-5 3-5 1-3 2-4 4-3 1 1 3 4 6 1 3-2-2-4 4-2 4-1 5-1 0 3 0 3 2 0 3 2 2 1 3 3 5 1 4-4 0-2 3-3 2 0 4-3 2-1 3 2 2-1 3 1 1-1 4-1 2 2 4 1 1 3 3-2 7-4 1 1-1 4 3 3 2 2 0 4-5 4-1 4 6 5 4 0 3-2 4-1 3 0 4 2 1-2 4-2 5 3 1-1 2-3 2 0 2 2 2-4 3 0-1 1 2 3 2-1 0-2 3-3 3-1 3 3 3-1 5 6 5 5 6 4 5 4 0 3 1 6 4 8 5 8 7 13 5 7 9 12 8 9 5 3 4-1 0-2 2 1-2 3 2 2 2 0 1 4 0 4 7 7-2 4-3 2-2-1-5 2-6-1-1 2-6 1 0 1-3 0-4 2-3 0-3 3-4-1-4 3-8-1-1-2-3 4-2-1 0 2-2 0-3-1-2 2-9-1-3 3 1 3 0 2-4 2 2 3 2 1 0 3-3 1 2 2 1 3-2 1-2 3-1 4-4 3 1 4-2 2-3 1 2 3-1 3zM1200 1482l4 1 0 4-1 3-1-2-3-2-1-3-2 0-2-2 3-2z"},{"c":"51","n":"Quảng Ngãi","city":false,"cap":"Quảng Ngãi","capXY":[1251,1640],"r":2,"to":"tỉnh Quảng Ngãi","k":"khoản 11","area":5137.6,"nb":["49","62","52","64"],"col":1,"lab":[1217,1652],"sz":120.4,"alt":[],"note":"Includes Lý Sơn island district","d":"M1220 1747l-2 0-1 2-3-3 0-3-4-2-2-2-3-1-2-3-1-3-4 0-4 0 0-4 5-7-3-3 4-5 1-3 1-1-2-5-2-1-2-4-4 1-3 1-1-2-2-1-2-2-3 0-3-2-3-3-2-7-3 0 0-3-2-2-3-1-2-6-5-4 0-2-3-2-2-3-1-4-2-1 0-3 1-3-2-3 3-1 2-2-1-4 4-3 1-4 2-3 2-1-1-3-2-2 3-1 0-3-2-1-2-3 4-2 0-2-1-3 3-3 9 1 2-2 3 1 2 0 0-2 2 1 3-4 1 2 8 1 4-3 4 1 3-3 3 0 4-2 3 0 0-1 6-1 1-2 6 1 5-2 2 1 3-2 2-4 3 2 2 1 5-1 2-3-2-2 1-1 2 2 2-2 1 4 1 0-1 4 3 4 4 3 0 2 3 1-2 4 3 7 3 3 3 1 1-1 3 1 0 2-2 3-1 2-2-1 1 2-3 0-2 3 1 9 0 2 1 5-1 2 3 10 2 7 5 14 2 5 7 15 8 13 5 8-1 2 2 5-3 0 0 2 1 4 0 6 2 4-4-2-3-4 0-3-1-3-2-1-2-3-4-2-3 1-5-4-5-1-6 3-4-2-2 0-2 2-1-2-2 3-3 1-5 0-2-1-2 2 1 4-1 5 0 3-1 1-3 0 0 1-6-3-3 3-1-1-1 2-7 4 1 3zM1313 1589l-1 2-3 2-4-1-1-2 3-1z"},{"c":"52","n":"Bình Định","city":false,"cap":"Quy Nhơn","capXY":[1318,1897],"r":2,"to":"tỉnh Gia Lai","k":"khoản 12","area":6025.0,"nb":["64","51","54"],"col":3,"lab":[1275,1809],"sz":130.3,"alt":[],"note":"","d":"M1260 1928l-1-8-3-4-1-5 0-3-2-4 4-2-1-3 1-3 0-4-2-3 1-2-1-2-4-1-1-2 0-4 0-2-4-4-1-4-4-4 0-4 2-7-1-2 3-2-3-5 1-3-1-2-3-1-3-4-1-4-2-2-3-5-1-3 0-2-2-1 2-2 1-3-2-3 1-2-2-3 0-2-2-3 1-3-3-4-1-5-1-4-2-1 2-3-1-3-3-7 0-3-2-4 6 3 1-1 1-5-2-4 1-1-2-2 1-2-1-3 3-1-1-3 7-4 1-2 1 1 3-3 6 3 0-1 3 0 1-1 0-3 1-5-1-4 2-2 2 1 5 0 3-1 2-3 1 2 2-2 2 0 4 2 6-3 5 1 5 4 3-1 4 2 2 3 2 1 1 3 0 3 3 4 4 2-2 0-1 4 2 4 4 9 4 8-1 4 2 5-1 3 1 4 4 6 6 9 0 2 2 4 1 2-3 2 1 5 1 4 5 7 0 2-2 0-1 3 3 8 6 10-2 1 2 4-1 1 2 4-3 1 0 2 3 7 3 3 3 1 0 2 1 6 0 3-3 4 2 4-1 5-1-1-4 1-2-2-2-1-4 3 0 2 1 2-1 4 3 6 0 2-3-2-2 0 0-2-3 0-1 1-5 1-1 5 0 3-1 1-4-2-1 1 2 3-2 1-1 4-3 4-2 1-5-1-5 8-5 1-1 1-6 0-5-3-2-1-5 0-5 1 1-2-3-1zM1350 1918l2 2-2 0-2-3 1-2z"},{"c":"54","n":"Phú Yên","city":false,"cap":"Tuy Hòa","capXY":[1334,2008],"r":2,"to":"tỉnh Đắk Lắk","k":"khoản 15","area":5045.3,"nb":["64","52","66","56"],"col":2,"lab":[1299,2024],"sz":118.1,"alt":[],"note":"","d":"M1286 2087l-2-7 1-2 0-5-2-1 0-2-1-3-1 0-4 2-2-1-4 0-3-1-5 0-3-4 0-3-5-3-1-1-4 1-1-1-1-3-2-2 0-3-2-1-2-4-5-2-3 3 0-5-2-1-1-2-2 0-1-2 2-1 2-3 3 0 8-3-1-12 2-4 1 0-1-2 2-1 1-2 2 1 1-2 3-2 2 1 1-2 4-3 1-2-1-2 0-2 2-2 2-4-1-3 1-3-1-2-2-1-3-5-5-6-1-6 0-1 0-8-2-3 0-4-7 3-4 0-4-1 1-2-2-2 1-3 1-3 2 0 1-4 3-5 3 1 3-3 6 0 2 2 4 0 1 3 3 1-1 2 5-1 5 0 2 1 5 3 6 0 1-1 5-1 5-8 5 1 2-1 3-4 1-4 2-1-2-3 1-1 4 2 1-1 0-3 1-5 5-1 1-1 3 0 0 2 2 0 3 2 0 3-1 2 4 7 3 5 3 1 2 0-3 5 0 2 4 2-2 3 0 3 2 4 3 1 1-2 1 1-2 3 1 2-2 1 0 4-2 0 0 2-2-2-3 0-2-2 1-2 2 0 3-3-3-2-2-3-3 0-1-2-3 2 1 1-1 2-1 3 1 3 2 1-3 1 2 1-2 5 3-1 2 5 2 2 2-2 4 0 0 4 1 2-2 0-1 2 1 3 3 6 2 4-2 0 0 5-2 1 2 6-2 4 0 3 2 5 5 7 2 4 6 11 5 6 5 5-1 1 3 4 2 1-1 2 2 1-2 3 1 3-3 1-2 2-1 0 3-4 0-2-7 2 1 2-3 3-4-5 0 2-4 2-2 0-2 2-1-1-3 0-3 2-4-1-6 4-3-3-5 0-3 1-4 8-4-3-2 5-3 2-1 3-4-2-1 2-4 0 0 1-4 2 1 1zM1349 1981l-3 1 1-2z"},{"c":"56","n":"Khánh Hòa","city":false,"cap":"Nha Trang","capXY":[1318,2160],"r":2,"to":"tỉnh Khánh Hòa","k":"khoản 13","area":5198.2,"nb":["66","58","54","68"],"col":3,"lab":[1283,2168],"sz":113.9,"alt":["Khánh Hoà"],"note":"Includes huyện Trường Sa (Spratly Islands, 496 km² of the official area)","d":"M1322 2252l-1 0-8 1-5 0-4-2-1-2-2-1-3-5-2-7-3-2-2 0-3-3-4 2-5-2-1-2-3 0-3-3-4 1-5-4-2 1-1-3 2-3-1-4-3-1-3-3-4-1 2-3-1-2-2-7-1-3 1-6-3-1-2 1-5 0-1-1-4-5 2-5-4-5 1-2-1-6 2-2-2-2-3-1 0-1-1-5 2-3 0-4-2-3 1-2-2-2 5-7 0-2 3-2 4 1 2 0 1-3 4-2 3 1 1 4 2-1 4 3 1 1 5 2 2-5-3-3 3-2 0-4 1-3 2-1 0-5-5-4 0-3 2-2 4 0 2-3 1-3-2-3 3-1 4-3 4 2 3 1 1-3 1-2 5-3-1-1 4-2 0-1 4 0 1-2 4 2 1-3 3-2 2-5 4 3 4-8 3-1 5 0 3 3 6-4 4 1 3-2 3 0 1 1 2-2 2 0 4-2 0-2 4 5-2 1-2 0-2 3 1 6 3 9 4 7 5 6 2-1 1 2 2-1 0 3-3 1-2 9 2 5-1 2-1-3-2 0 0-5-3 0-2-5 3 0 1-3-1-5-2-2 0 3-4-1 0 3-2 1-1-1-3 1-2-2 3-1 2-4 3 0 1-4-3-6-1-4 0-4-1-2-3 1-2 5-3 1-3 4-3 3-3 4-3 0-2 1-3 5 1 3-2 1-3 3 3 3-1 6 0 3 4-2 2-3 2 1 0 2-1 1-2 6 2 6 2 0 5 4 1-1 3 3-2 3-1 3 1 3 4 2 1-1 2 2 2 0 1 2-3 2 0 2-3-3-2 2 0 5-1 1-3-2-3-1 1-2-3-3-1-2-4-3-3-4-2 0-3-3-3 4-2 1 2 2 0 3 2-1 5 2 0 9 2 4 6 4-2 2-5 1-2 7 1 4 3 3 0 3-2 1 0 3-1 2 4 2-2 6-3 1 0 6 1 4 5 9 4 6 2 0 2 2 0 2 1 1-1 3-2 2 0 4 4 4-2 4-4-1-3-3-4 0-3 2-3 3 0 4 1 0 0 3zM1349 2102l4-1 3 1 0 4 3 2 0 4 2 3-1 1-2 0-2-3-2 0-1-2-5-3 0-2-2-1-2 0-3-2 1-2 2-2zM1337 2175l3 0 2 3 2-3 3 2-1 3 1 1-2 2-4-2 1-2-3 2 0 3-2-1-2-2-2-1-3-3-1-3 5 4 1-4zM1328 2245l2 2 1-2 1 0 0 3-3 1-2-2zM1330 2146l-1 1-2-1 2-2zM1342 2128l-3 0 1-2 4-1zM1342 2086l-1-2 2 0zM1759 3068l2 1 1-1 0-1 0-2 0-1-2 1-1 2zM1685 3054l0 1 1 0 2-1 1 0 0-2-1 0 0-1-1 1-2 1zM1769 3047l1 1 3-1 0-1 0-2-1 0-2 0-2 1 0 1zM1374 3059l2 0 7-11 4-3 5-1 5-1 11 2 1-1-2-1-3-1-7-1-7 1-6 2-5 5-5 8zM1523 3045l3-1 2-3 0-2-1-2-2 1-2 3-1 3zM1749 3042l2-2 1-1 0-1-1-1-2 0-1 1-1 2 1 1zM1697 3038l0 1 2 1 1-1 0-1 0-1-2 0zM1684 3038l2 0 2 0 0-1 0-1-1-1-1 0-1 0-2 1 0 1 0 1zM1532 3036l2 0 2-2 1-2 0-2-2-1-2 2-1 2zM1445 3025l2 1 1-1 1-2 0-1-1 0-1 0-2 2zM1621 3020l1 1 1-1 1-1 1-1-1-1-1 0-1 0-1 0 0 1 0 1zM1527 3027l3-7 3-2 3 0 1-1-1-3-3 0-3 0-2 2-1 3-2 2-2 2 0 2 1 2zM1411 3023l5-2 1-2 1-3 0-2-2-1-1 0-7 5-1 1-1 3 2 1zM1762 3012l1 1 1 0 1 0 1-1-1-2 0-1-2-1-1 1 0 2zM1693 3013l3 1 1-1 1-1-2-3-1-1-1 0-1 0-1 1 0 2zM1456 3011l2 0 0-4-2 0-1 2zM1551 3005l2 1 2 0 1 0 1-1 0-2-1-1-2 0-2 0-1 1zM1707 3004l2 0 1-2 0-1-2-1-1 1-1 1zM1648 3003l1 1 1 0 0-2 1 0 0-1 0-1-2 0-1 0 0 2zM1756 3001l2 1 1-1 0-2-1-1-2 0-1 1zM1444 3000l1 4 2 1 5-2 3-4 0-2-2-1zM1738 3002l4-1 2-1 0-2 0-2-1 0-2 1 0 1-1 0-1 0-1 1-2 1 0 1 1 1zM1748 2994l1 2 2 0 2 0-1-2-2-1-1 0zM1647 3000l1 0 2-3 1-1 0 1 0 2 2-2 3-5 0-3 0-1-1-1-1 0-1 1 0 1 0 1 0 2-1 0-1 0 0 1 0 1-3 3zM1785 2984l2 1 3 1 2 0 1-1 0-1-2-1-2-1-1-1-1-1-1 1-1 1 0 1zM1808 2974l1 2 1 0 2 0 1-2-1-2 0-1-3 0 0 1zM1791 2975l2-1 0-2 0-1-2 0-1 1 0 1zM1517 2970l0 2 1 0 2-1 0-1 0-1-2 0zM1551 2964l-1 0 0 1 1 0zM1531 2964l2 0 2-2 0-1 0-1-2 0-2 0 0 1-1 1 0 1zM1715 2958l1 0 0-2 1 0 0 1 1 0-1-2-1-2-1-1-1 0-1 1 0 1 1 2zM1698 2952l1 1 1 0 0-1-2-2-1-2-1 0 0 1 0 1zM1596 2950l1 0 4 0 2 0-1-1-3-2-1 0-3 0-1 1zM1571 2949l1 0 1 0 2-1-1-1-1 0-1-1-1 0-1 0 1 2zM1700 2949l1 2 0 1 1 1 1 0 0-1 0-3 0-1-2-1-2-1-1 0 0 1 1 1zM1694 2949l1 0 0-2 0-2-1 0-1 0-1 0 0 1 0 1zM1573 2945l1 1 2 1 1-1 0-1 0-1-1 0-1 0zM1615 2942l0 2 1 0 2 1 1-1-1-1-1-1-1 0zM1865 2947l1 0 0-2 1 0 1-1 0-1-2-1-3 3 1 1zM1745 2947l2 0 1-1 2-3 0-1-1 0-2 0-1 1 0 1 0 1-1 0 0 1zM1580 2942l1 1 1 0 1 0 1-1 0-1-1 0-2 0-1 0zM1674 2939l2 0 0-1-2 0zM1678 2939l1 0 1 0 1-1-1-1zM1677 2934l1 2 2 0 0-1-1-1-1 0zM1674 2937l1 0 1 0 0-1 1-1-1-1-1 0-1 1-1 0 0 1zM1879 2926l0-1 1-1-1-2-1 0-1 1-1 1 0 1 1 1zM1676 2923l2 1 0-1 0-1 1-1-2-1-2 0 0 1 0 1 0 1zM1837 2913l1 3 2 0 1 0 1-2-1-1-1-2-2 1zM1712 2912l1 0 1-1 0-1 0-1-1-1-1 1-1 0 1 2zM1802 2908l0 3 1 1 1 1 1 0 1-1 0-3-1-2-1 0-1 0zM1910 2905l0 2 1 0 2 0 2-2 0-1-1-2-1 0-3 1-2 1 0 1zM1617 2898l1 0 1-1 1-1-1 0-1 1-1 0zM1593 2899l3 0 1-1 0-2-1 0-1 0-1 0-1 1 0 1zM1620 2895l1 0 0-1-1 0zM1855 2896l2 0 1-1 0-1-1-1-1 0-1 0-1 1zM1621 2893l2-1 0-1 1-1 0 1 1-1 0-1 0-1-1 0 0 1-1 0-1 0 0 2-1 0 0 1zM1626 2887l1 2 1 0 2 1 1-1 1-1-2-1-2-1 0 1-1 0zM1720 2887l1 0 1-1 0-1-3-1-1 1 1 1zM1749 2885l1 0 1 0 0-1 0-1-2 0 0 1zM1725 2883l1 0 0-1-1-1 0 1zM1884 2883l2 1 0-1-1-2-1 0 0 1zM1728 2881l1 0-1-1-1 0zM1720 2883l1 0 0-1 0-2 0-1-1-1-1 0-1 1 1 2 0 1zM1834 2890l1 0 1-1 0-1 1-1 1-3 0-3-1-2 0-1-4 1 0 2-1 2 0 2 1 2zM1872 2879l2 1 1 0 1 0 0-2-1 0-1-1-1 1zM1732 2878l1 1 0-1 1 0-1-1-1 0zM1878 2878l0 1 1 1 1-1 0-1-1-1-1 0-1 0zM1734 2877l1 0 0-1-1 0zM1718 2876l1 1 1-1-1-1zM1736 2876l1 0 0-1-1 0-1 0 0 1zM1727 2875l1 0 1 0 0-1-1 1-1-1zM1719 2875l1 0 0-1-1 0zM1721 2875l0-1-1 0zM1738 2874l1 0-1-1zM1727 2873l0 1 1 0 0-1-1-1zM1742 2873l1 0 0-1-1 0zM1723 2873l1 1 0-1 1 0 0-1-1 0 0 1zM1732 2873l1 0 1 0-1-1-1 0-1 0 0 1zM1739 2873l1 0 1 0-1-1-1 0zM1735 2873l0-1 0-1-1 1zM1736 2871l1 0 0-1-1 0zM1811 2875l2 0 1-1 0-2-1-1 0-1-2-1-1 1-1 1 0 1 0 1 0 2zM1740 2869l1 0 0-1-1 0-1 0zM1744 2870l1 1 1 0 2-1 0-2-1-2-1 0-2 0 0 1 1 1zM1941 2859l2 0 1-2-1-1-1 0-1 0 0 1 0 1zM1690 2856l0 4-1 5 0 1 1 0 1-1 1-1 0-6 1-1-1-2-1 0zM1848 2859l2 0 1-1 0-2-1-2-1 0-1 0-1 2 0 1 1 1zM1717 2854l1 0 1 0 1-1 0-1-1-1-1 0-1 0 0 1zM1721 2852l2 0 1 0 0-1 0-1-2-1-1 2zM1794 2853l1 0 1-1 1 0 0-1 0-1-2-1-1 0-1 0-1 2 1 2zM1726 2851l3-1 1-1 1-1 0-1-1 0-1 0-2 1-1 0 0 1 0 1zM1798 2848l1 0 1 0 0-2-1 0-2 0 0 1zM1671 2846l1 2 1 0 1-2-1-1-1 0-1 0zM1739 2847l1-1 2 0 1-1 2-1 0-1-1 0-3 1-2 0 0 1 0 1zM1717 2848l1 0 1-1 1-2 1 0 1-1 1-2-1 0-1 0-2 2-2 1-1 1zM1934 2841l1 0 1 0 1 0 0-2 0-1-1-1-1 0-1 1 0 1zM1750 2840l1 1 0-1 1 0 1-2 1 0 0-2-2 0-1 0-2 2zM1726 2837l1-1-1-1-1 1zM1734 2836l1 0 0-1-1 0zM1729 2835l1 1 0-1zM1741 2834l1 0 0-1-1 0zM1879 2835l-2 1-1 2 1 2 1 1 2 1 5-1 5-2 0-1 0-1-8 1-1-1 1-2 1-2 0-1-1 0-2 1zM1825 2832l0-1 0-1 0-1-1 0 0 2 0 1zM1827 2830l0 2 1 0 1-1 1 0-1-1-1-1-1 0zM1904 2829l2 0 1-1-2 0-1 0zM1890 2827l0 1 3 0 2 0 0-1-1-1-2 0-2 0zM1824 2828l1 0 1 0 0-1 0-1 0-1-1 0-1 1 0 1-1 0 0 1zM1829 2827l1 0 0-1-1-2-1 0 0 1 0 1zM1928 2820l2 1 1 0 0-1-2-2-1 0 0 1zM1962 2818l1 0 1-2-1 0-2 0 0 1 0 1zM1833 2814l-1 0-1 1 0 1 0 1 1 0 1 0 0-1 0-1zM1733 2813l1 0 1-1 0-1-1-1-1 1-1 0 0 1zM1931 2812l0-1 1-1-1 0-1-1-1 0 0 1 0 1 1 0zM1830 2812l1-1 0-1-1-1-1 0 0 1 0 1zM1935 2813l1 1 4 1 6-1 0-1 0-1-1-2-3-1-3 0-2 1-1 1zM1724 2813l2 0 1-2 5-4 1-1-1 0-1 0-8 4 0 3zM1740 2807l1 1 1 0 0-1 1 0 0-1-2-1-1 1zM1830 2805l2 0 0-2-1 0-1 1zM1761 2804l1 0 1 0 0-1-1-1-1 1zM1971 2808l2 1 1-1 1-1 1-3 0-1-1-1-1 0-3 3 0 1zM1834 2803l0-1 0-1-1 0-1 1 1 1zM1766 2802l1 0 1 0 0-1 1-3-1-1-1 0-1 3-1 0zM1734 2804l1 0 1 0 1-2 1-1 1 0 1 1 1 1 1-1 1-1 0-3-1-1-2 0-1 2-2 0-3 3zM1705 2798l1 1 0 1 2 0 1 0 0-1 1-1 0-2-2 0-2 0zM1720 2788l1 0 0-1zM1963 2789l1 0 1 0 1-1-1-1-1-1-1 1 0 1zM1714 2788l2-1 0-1-1 0 0 1-1 0zM1935 2788l1 0 1 0 1 0 0-1-1-2-1 0-1 1zM1717 2786l2-1-1-1 0 1-1-1 0 1zM1773 2786l1 0 1 0 0-1 0-1-1 0-1 0zM1918 2788l1 0 1 0 1-1 0-1-1-1-1-1-1 0-1 2zM1948 2786l1 0 1-1 1 0 0-1-1 0-1 0-1 1zM1723 2786l0 1 1 0 1 0 2-1 0-1-1-2-1 0-2 2zM1751 2791l3-3 1-1 2-2 1-1 0-1-2-1-1 0-4 5-1 3zM1756 2780l3 1 0-1 0-1-2 0-1 0zM1741 2768l2-1 0-1-1-1-1 2zM1723 2762l-1-2-1 1 1 1zM1724 2760l0-1 0-1-1 0 0 1zM1725 2758l1-1-1 0zM1728 2756l1 1 0 1 0-3zM1751 2759l2 0 0-3 0-1-1-1-1 0-1 0-1 1 0 1 1 1zM1745 2760l1-1 1 0 1-7-1 0-1-1-2 1 0 4 0 2 0 1z"},{"c":"58","n":"Ninh Thuận","city":false,"cap":"Phan Rang - Tháp Chàm","capXY":[1288,2294],"r":2,"to":"tỉnh Khánh Hòa","k":"khoản 13","area":3360.1,"nb":["68","56","60"],"col":1,"lab":[1270,2266],"sz":96.0,"alt":[],"note":"","d":"M1263 2340l1-1 1-3-2 0-4-3 0-1-6-1-5-1 0-1-5-4 1-10-2-1-4 1-2 1-7-2-3-6-3-8-11-1-2-4-4-5 1-5 1-2 4 0 2-1 5 0 1-1 7-3 2 0 3-5 1 0-2-6 0-1-4-3 0-3 1-3 0-1-6-1-3-2 2-5 1 0 3-2-1-4 1-5 2-4-1-2 1-2-1-3 0-2 4-4 0-4-1-1 3-5 2-1 1-3-2-6-3-4-2-1 4-2 0-3 2-1 4-1 1-1 1 1 5 0 2-1 3 1-1 6 1 3 2 7 1 2-2 3 4 1 3 3 3 1 1 4-2 3 1 3 2-1 5 4 4-1 3 3 3 0 1 2 5 2 4-2 3 3 2 0 3 2 2 7 3 5 2 1 1 2 4 2 5 0 8-1 1 0-2 1 1 4 4 2 0 3 4 2 0 4-2 1-3 1-1-3 0 4-2 3 0 1-2 1-2 11-3 1-2 6-3 2-5-3-5 1-3-1-3 0-1 2-1 3 2 2-1 3-2 1-1 5 1 6-2 5 1 3-1 2 0 3 1 4 2 1-1 3-4 1-1 2-5 4-5 1-3 0-1-2-4-3z"},{"c":"60","n":"Bình Thuận","city":false,"cap":"Phan Thiết","capXY":[1154,2403],"r":2,"to":"tỉnh Lâm Đồng","k":"khoản 14","area":7828.4,"nb":["68","75","58","77"],"col":2,"lab":[1076,2394],"sz":147.1,"alt":[],"note":"Includes Phú Quý island district","d":"M1030 2480l-1-3 1-3 0-3-4-6-2-6 2-2-3-5-5-5 0-4 3-1 6-3 3-4 1-3-1-3-2-4 0-12-3-8-5-4-2-3-6 2-1-2-3-1-1-1-7-3-1-2 3 1 2-3-1-2 3-3 1 1 2-5-4-4 2-2 2-1 0-2 1-3 2-2 2-6 3-1-1-2 2 0 3-3-1-6 1-2-1-3 3-2 2-7 4-3 2 0 3 4 2 2 3 2 4 0 4 2 4 1 4-2 1-2 1-3 3-1 10-1 20 1 6 2 0 1 4-1 3 2 3 0 2 2 4 1 1 5 2 4 0 3 1 4-1 1 0 3 2 0 0-5 6-4 3 0 1-2 1-3 1 2 1-1 4-2 6-1 2-3 4-2 2-3 5-2 6-7 3-3 0-2-4-4-2 1-3-6 3-3-1-1 2-4 3 0 2-1 4-2 0 2 3-1 1 1 0 2 4 0 2-3 2 2 4-2 3 2 2 0 5 0 1-2 3 0 9 4 2-2 2-4 3-3 11 1 3 8 3 6 7 2 2-1 4-1 2 1-1 10 5 4 0 1 5 1 6 1 0 1 4 3 2 0-1 3-1 1-3-1-2 3-4 0-4 1-2 1-1 4-3 1-1 1-2 8-2 3-1 6-3 2-1 2 0-3-2-1-6-2-6 1-2 2-1-1-4 0-2 1-3 3-5 1-3 2-4 6-3 7-1 5-2 1-3-1-3 1-2 3-1-1-6 0-3 1-2 3-1 4-1 7-3-2-2 0-2 3-2 6-1-5-2-1-8-2-2 0-5 3-6 2-3-1-6 3-3 0-2 2-4 8-3 5-2 7-2 11-4 7-6-1-4-2-5-1-5 0-4 1-3 2-2 0-4 2-6 7-3 2-6 2-4 0-5 2-2 2-5 3-5 1zM1278 2483l2 5 1 3-3 1-3-2-2-6 2-1z"},{"c":"62","n":"Kon Tum","city":false,"cap":"Kon Tum","capXY":[1102,1788],"r":3,"to":"tỉnh Quảng Ngãi","k":"khoản 11","area":9614.5,"nb":["64","49","51"],"col":2,"lab":[1091,1727],"sz":165.0,"alt":[],"note":"","d":"M1010 1863l-2-2 1-10-2-3-11 2 0-1-5-5 2-2 0-6 3-1 0-2-4-1-5-3 1-6 4-6-1-1 3-2 1 0 2-5 3-5-1-3 2-2-1-7-3-3 0-2 3-4 1-2 3-4-2-1 2-6 1 1 3-2 1 1 1 2 5 0 0-4 2-3 1-2-1-2 1-3 1-3-1-2 2 0 2-5 1-4-2-1-1-4 1-2 4-2-1-3 2-6 0-4 1-2-3-1 2 0 0-3-1-2-4 0 0-2 3-2 1-2-3-4-4-2 0-2 3-2 0-2 3-1 0-1 4-2 2-3 3-2 0-2-1-3-2 0-2-2-4-1-2-4-4 0-1-3-2 0-2-2 1-3-3-3 2-1-2-3 1-2 4 0 4-2 0-2 4-1 3 1 4 2 2 0 1-4 2 1 3-1-4-7 4-3-2-4 2-1 1-3-2-1-3-6-2-3 1-2 1 2 4-2 1-3-1-3 0-3-1-5 1-1 0-3 2-2-4-3-1-3 1-3-3-3 3-2 2-4 3 0 4 6 0 5 6 8 2 2 4-1 0 9 2 6 3-1 3 1 0 1 7 2 1-1 2 2 4 0 4 0 3 3 5-4 2 1 2 3 1 1 1 2 6 2 3 2 1 2-2 5-2 5-1 1 0 3-5 3 4 7 2 1 1 2 5-1 6 2 2 5 4 0 1 3 3 0 2-2 6 0 2-2 0-1-2-8 0-3-1-2 3-3 3 1 6 5 5 0 2 1 1 4 2 3 3 2 0 2 5 4 2 6 3 1 2 2 0 3 3 0 2 7 3 3 3 2 3 0 2 2 2 1 1 2 3-1 4-1 2 4 2 1 2 5-1 1-1 3-4 5 3 3-5 7 0 4 4 0 4 0 1 3 2 3-2 2-1 4-6 3-11-3-3-2-3-5-5-1-1 3-2 1 1 3 2 3 0 3 2 1 0 3-11 10 0 2-3 4-1 1-2 2 1 3-3 1-5-1-1-1-2 1-4 1-1 2-3 1-3 0-2 1-1 3-7-3-1 2 0 1-3 3-2 0 1 3-3 2-2 7-3-2-5 5 0 2-5 1-2-1-3 2-2-3-3 1-3-4-3-3-4-1-1 2-4-1-2 2 0 6-2 0-2 4-2 0-4-2-1 2-3 0 0 2-7-2-4 0-2-1-2 3 0 3-4 4 2 5-2 6-1 2 1 2-1 3-3 3-3-2-3 3 0 3-2 2-3 0-3-1-2 2-4 0 1 5-3 1-1 1-3 3-3 1 0 4z"},{"c":"64","n":"Gia Lai","city":false,"cap":"Pleiku","capXY":[1105,1862],"r":3,"to":"tỉnh Gia Lai","k":"khoản 12","area":15494.9,"nb":["62","66","52","54","51"],"col":0,"lab":[1156,1875],"sz":208.0,"alt":[],"note":"","d":"M1036 1976l5-10-2-19-1-12-8-17-1-8-3-5-3-10-8-5-3 0-4-3 2-5-1-1 4-6-4-3 3-4 0-5-2 0 2-3 0-4 3-1 3-3 1-1 3-1-1-5 4 0 2-2 3 1 3 0 2-2 0-3 3-3 3 2 3-3 1-3-1-2 1-2 2-6-2-5 4-4 0-3 2-3 2 1 4 0 7 2 0-2 3 0 1-2 4 2 2 0 2-4 2 0 0-6 2-2 4 1 1-2 4 1 3 3 3 4 3-1 2 3 3-2 2 1 5-1 0-2 5-5 3 2 2-7 3-2-1-3 2 0 3-3 0-1 1-2 7 3 1-3 2-1 3 0 3-1 1-2 4-1 2-1 1 1 5 1 3-1-1-3 2-2 1-1 3-4 0-2 11-10 0-3-2-1 0-3-2-3-1-3 2-1 1-3 5 1 3 5 3 2 11 3 6-3 1-4 2-2 3 1 2 2 4 2 0 3 3 3 1-2 2 0 1 3-1 2 2 2-1 1 2 4-1 5-1 1-6-3 2 4 0 3 3 7 1 3-2 3 2 1 1 4 1 5 3 4-1 3 2 3 0 2 2 3-1 2 2 3-1 3-2 2 2 1 0 2 1 3 3 5 2 2 1 4 3 4 3 1 1 2-1 3 3 5-3 2 1 2-2 7 0 4 4 4 1 4 4 4 0 2 0 4 1 2 4 1 1 2-1 2 2 3 0 4-1 3 1 3-4 2 2 4 0 3 1 5 3 4 1 8-4 0-2-2-6 0-3 3-3-1-3 5-1 4-2 0-1 3-1 3 2 2-1 2 4 1 4 0 7-3 0 4 2 3 0 8 0 1 1 6 5 6 3 5 2 1 1 2-1 3 1 3-2 4-2 2 0 2 1 2-1 2-4 3-1 2-2-1-3 2-1 2-2-1-1 2-2 1 1 2-1 0-2 4 1 12-8 3-3 0-2 3-3-1-1 1-3-2-6 0-4-4-2 1-2 1-5-2-5-1 0-2 2-3-2-3-4-3 1-2-7-4 3-2-2-3 1-1-5-3-3-4-1-4 1-4-3-3-3 0-3-2 0-6-3-3-2-4-1 0-4-1-5-1-1-2-4-2-3 1-1-1-5 1 0-2-6-1-3-3-2 0-1-2-3 0-3-1-7 3-1-2-2 0-2 2-2-1-2 3-3 1-1-1-3-1 0 2-5 0-1-1-1 3-4-1-3-2-3 1-2-2-5 1-2-2-4 1-3 0 0 2-6 3-3 0 0 1-4-1-2-1-2 0-5 3-1 1-4 2 0 2-1 0-3 2z"},{"c":"66","n":"Đắk Lắk","city":false,"cap":"Buôn Ma Thuột","capXY":[1116,2091],"r":3,"to":"tỉnh Đắk Lắk","k":"khoản 15","area":13085.0,"nb":["64","67","68","56","54"],"col":1,"lab":[1170,2092],"sz":189.9,"alt":["Đăk Lăk"],"note":"","d":"M1127 2183l1-1-4-4-2-4 0-1-3-5-3 0-2-4-3 0-1-3-2 2-1-2-5 1 0-2-3-1-2-4-2-1 0-4-1-3-1 0-2-4 3-1-1-4 1 1 3-3 4 1 3-2 2-4 1-1-1-4-2 0-1-2-6-4-3 0-3 0-4-3 1-2 0-2 7-4-1-3 0-2-1-1 0-5-3-1 2-1-2-3 1-4-3-3 2-3 1-3-8-1-2-2 0-4 1-3-2-2-5 1-1 3-2 1-5 1-8-1-1-1-7 0-5-2-4 1 0-2-6 1-1-1-3 1-4 0-2-1 0-3-4-4-1-2-2-1 0-2-2-1-2-4 1-4 0-4-2-1 1-5 3 0-1-2 0-2-1-2 0-3-1-3 19-45 2-5 4-2 3-2 1 0 0-2 4-2 1-1 5-3 2 0 2 1 4 1 0-1 3 0 6-3 0-2 3 0 4-1 2 2 5-1 2 2 3-1 3 2 4 1 1-3 1 1 5 0 0-2 3 1 1 1 3-1 2-3 2 1 2-2 2 0 1 2 7-3 3 1 3 0 1 2 2 0 3 3 6 1 0 2 5-1 1 1 3-1 4 2 1 2 5 1 4 1 1 0 2 4 3 3 0 6 3 2 3 0 3 3-1 4 1 4 3 4 5 3-1 1 2 3-3 2 7 4-1 2 4 3 2 3-2 3 0 2 5 1 5 2 2-1 2-1 4 4 6 0 3 2 1-1 3 1-2 1 1 2 2 0 1 2 2 1 0 5 3-3 5 2 2 4 2 1 0 3 2 2 1 3 1 1 4-1 1 1 5 3 0 3 3 4 5 0 3 1 4 0 2 1 4-2 1 0 1 3 0 2 2 1 0 5-1 2 2 7-1 2-1 3-3-1-4-2-4 3-3 1 2 3-1 3-2 3-4 0-2 2 0 3 5 4 0 5-2 1-1 3 0 4-3 2 3 3-2 5-5-2-1-1-4-3-2 1-1-4-3-1-4 2-1 3-2 0-4-1-3 2 0 2-5 7 2 2-1 2 2 3 0 4-2 3 1 5 0 1-4 3-7 2-5 2-1-2-2 1-6-3-3 4-4 0-3-5-1 0-3 4-1 0-3 2 0-1-1 4-5 2-4 1-3-3-3 0-3 2 0-1-1 4-2 2-4 2-4-1-1 1-2 1-2 5 1 0-3 3 0-3-4-2-3 3-3-1 0-2-3-1 0-1-2 1-7 3z"},{"c":"67","n":"Đắk Nông","city":false,"cap":"Gia Nghĩa","capXY":[1054,2222],"r":3,"to":"tỉnh Lâm Đồng","k":"khoản 14","area":6514.5,"nb":["68","66","70"],"col":3,"lab":[1059,2184],"sz":133.9,"alt":["Đăk Nông"],"note":"Created 2004 from Đắk Lắk — NQ 22/2003/QH11","d":"M997 2260l2-2-1-2 1-2 2-1-1-2 3-5 1-3-4-1-1-5-3-5-5-5-1-4-2-4-4-3-4-1 0-1-2 1-7-3 0-2-2 2 0-3-1-7 1-3 1-3-2 0-1-2 1-1 0-6-4-24 4 0 3-2 5-4 2 1 5-2 0 2 5-1 1-2 3 3 4 5 1 2 0 2 4 4 1 2 1-1 2 0 2-4-1-1 1-4 4-1 0-2 8-3 3-4 3 0 0-5 2-1-2-3 0-3 4-8 0-3 2-1 0-3-2-2-1-2 3-5 2-3-2-3 1-4 0-3-3-6 1-4 2-2-4-7 1-2-1-3 0-5 0-5 4 0 3-1 1 1 6-1 0 2 4-1 5 2 7 0 1 1 8 1 5-1 2-1 1-3 5-1 2 2-1 3 0 4 2 2 8 1-1 3-2 3 3 3-1 4 2 3-2 1 3 1 0 5 1 1 0 2 1 3-7 4 0 2-1 2 4 3 3 0 3 0 6 4 1 2 2 0 1 4-1 1-2 4-3 2-4-1-3 3-1-1 1 4-3 1 2 4 1 0 1 3 0 4 2 1 2 4 3 1 0 2 5-1 1 2 2-2 1 3 3 0 2 4 3 0 3 5 0 1 2 4 4 4-1 1 1 4-1 3-4 2-2 0-7 0-1-1-2 2-3 2-3 0-1 3 0 4-2 0-2 3 3 2 6 1-1 5 3 1 1 4 3 3 1 5-1 0 3 2 1-1 3 3 0 3 4 1 1 2-2 3-2 3-4 6-1-1-7 4-1 2-2 0-6 3-1-3-4-3-1 1-2 2-1 2-4-3-2-2 0-4 2-1-1-4-1-1-6 0-3 1-1-1-2 2-6 1-3 2-4-3-3-2-1-5 1 0-1-2-3-1-2 1-2-1-3 1 0 5-1 0-1 2-4 2-2 0-2 5-2 0-3 2-2 1-5 6-4-2-4 0-4 1-1 3-2 3-3 1-3-2-3 3-2-1z"},{"c":"68","n":"Lâm Đồng","city":false,"cap":"Đà Lạt","capXY":[1198,2231],"r":3,"to":"tỉnh Lâm Đồng","k":"khoản 14","area":9764.8,"nb":["67","60","66","58","75","70","56"],"col":0,"lab":[1175,2230],"sz":163.9,"alt":[],"note":"","d":"M1025 2334l-1 2-3-2-2-4-1 1-2-3-1 0 0-5-2-2-3 1-1 2-2 0 0-2-2 1 0-3 2-1 1-2 2-1 0-2 2-1-3-3 0-1-5-3-1 1-2-3-6 1 0-4-1-2-2 0 1-3-2-2 0 5-2 2-2-1 0-1-4 0-2-6 1-2-1-1 1-3-3-2-3-1 0-2-1-2 3-7 0-5 3-3 10-3 3-2 3-1 0 1 3 2 2 1 3-3 3 2 3-1 2-3 1-3 4-1 4 0 4 2 5-6 2-1 3-2 2 0 2-5 2 0 4-2 1-2 1 0 0-5 3-1 2 1 2-1 3 1 1 2-1 0 1 5 3 2 4 3 3-2 6-1 2-2 1 1 3-1 6 0 1 1 1 4-2 1 0 4 2 2 4 3 1-2 2-2 1-1 4 3 1 3 6-3 2 0 1-2 7-4 1 1 4-6 2-3 2-3-1-2-4-1 0-3-3-3-1 1-3-2 1 0-1-5-3-3-1-4-3-1 1-5-6-1-3-2 2-3 2 0 0-4 1-3 3 0 3-2 2-2 1 1 7 0 2 0 4-2 1-3-1-4 1 2 7-3 2-1 0 1 3 1 0 2 3 1 3-3 4 2 0 3 3-3-1 0 2-5 2-1 1-1 4 1 4-2 2-2 1-4 0 1 3-2 3 0 3 3 4-1 5-2 1-4 0 1 3-2 1 0 3-4 1 0 3 5 4 0 3-4 6 3 2-1 1 2 5-2 7-2 4-3 3 1 2 2-2 2 1 6-1 2 4 5-2 5 4 5-1 1-4 1-2 1 0 3-4 2 2 1 3 4 2 6-1 3-2 1-3 5 1 1 0 4-4 4 0 2 1 3-1 2 1 2-2 4-1 5 1 4-3 2-1 0-2 5 3 2 6 1 0 1-1 3 0 3 4 3 0 1 2 6-1 0-3 5-2 0-7 3-1 1-5 0-2 1-4 0-1 2-1 5 4 5 2 4-3 3-2 4-2 2-9-4-3 0-1 2-5 0-2 0-3-2-4 2-2-2-2 3-4 0 0-2-1-1-3 1 0-2-4 2-2 1-3 0-2 4 1 1-3 3 3 6 2-1 4 4 0 2-3 3-6 7-5 2-2 3-4 2-2 3-6 1-4 2-1 1-1-2-1 3-1 2-3 0-6 4 0 5-2 0 0-3 1-1-1-4 0-3-2-4-1-5-4-1-2-2-3 0-3-2-4 1 0-1-6-2-20-1-10 1-3 1-1 3-1 2-4 2-4-1-4-2-4 0-3-2-2-2-3-4-2 0z"},{"c":"70","n":"Bình Phước","city":false,"cap":"Đồng Xoài","capXY":[904,2305],"r":4,"to":"tỉnh Đồng Nai","k":"khoản 17","area":6857.3,"nb":["74","67","75","68","72"],"col":2,"lab":[919,2262],"sz":137.3,"alt":[],"note":"","d":"M916 2344l2-2 0-3-2-3-4-1-2 1-1 2-3 0-2 4 1 2-4-1 0-2 1-3-1-1 0-4-3-1-2-2-3 2-5-1 0-3-2 0 0-5 2-1 4-4 0-2-1-4-2-1-6 2-1 2 1 4-2 2-3 1-2 3-2 3-1-1-2 1-3-1 1 3-1 6-4-1-3 0-3-1-1-4-6 1-2 2-2-1-2-2 1-4-1-3 0-2 4-2 1-2-3-5-3 3-4-3-4-2-2-1-9 0-2 1 0-2 1-1 1-5 2-1 2 1 4-2 3-4-2-4 1-2-3-2-1-2 0-3-3-3 0-2 0-4-2-4-3-5-2-5 4-8 2-3-1-2 0-3 2-3 3 0-10-19 4 0 2-2 2-1 3 3 4 1 3-2 5 1-2 1 20-1 2 1 2 0-2-2 1-2 4 2 1 2 2 1 5-2 4-7 0-1 9-12 3 0 3 0 1 2 4 0 6 0 2 1 3 1 5-1 4-3 8-3-1-1 8-5 2-5 1 1 3-2-2-1 1-3 3 2 2-5 7-5 1-5 2-3 2 0 3-1 1-2 2-1 4 24 0 6-1 1 1 2 2 0-1 3-1 3 1 7 0 3 2-2 0 2 7 3 2-1 0 1 4 1 4 3 2 4 1 4 5 5 3 5 1 5 4 1-1 3-3 5 1 2-2 1-1 2 1 2-2 2 0-1-3 1-3 2-10 3-3 3 0 5-3 7 1 2 0 2 3 1 3 2-1 3 1 1-1 2 2 6 4 0 0 1-15 4-15 3-6 2-2 3-4 0-1 2-5 4 0 3 2 3-1 3-3 1 0 4-4 1 1 2-5 2 1 1-3 2-4 0 1 3-4 0 0 3z"},{"c":"72","n":"Tây Ninh","city":false,"cap":"Tây Ninh","capXY":[772,2331],"r":4,"to":"tỉnh Tây Ninh","k":"khoản 18","area":4029.6,"nb":["74","70","80","79"],"col":1,"lab":[771,2311],"sz":105.2,"alt":[],"note":"","d":"M828 2376l-1 4-2 4-1 0 0 5-1 1 0 4-2 1 0 3 1 1-5 2-3 0-3 1-5-4-5-2-2 0-3 3 3 3-3 2-6-1-3 2-5 1-1 1-4 1-1-4 3 2 5-1-2-3-1-10-3-5-3-5-2 0-4 3-3 3-1-3-2-3-2 1-4-5-6-3-1-3-1-6-4 0-2-1-2 0-5-2-3-3-3-5 1-3 0-3-6-1-2 1-1-1 2-3-1-2 1-2 2-6 0-2-2-1 1-3-1-2 2-2 2-2 1-1 0-4-2 0-3-2 1-2 1-2-1-5 1 0 0-4 0-2-4-4-2 1-4-1-2-2-1-2 0-4 0-2 3 0 1-1 1-4 3-3 6-2 2 2 6 3 4 1 5-5-1-3 3-3 1 0 3-6-1-3 1-4 5-1 1 1 3-1 5 3 3 3 4 0 4 1 2-2 2 1 2-1 1 2 4 2 2 0 7 2 0 2 6 5 0 1 3 0 3-2 0 1 6-3 6 1 3 2 3 2 3 0 0 2 3 3 0 3 1 2 3 2-1 2 2 4-3 4-4 2-2-1-2 1-1 5-1 1 0 2-3 6-7 2 0 3-1 3-1 5-1 1-1 4-2 1-1 3 3 3 0 1-2 5 2-1 2 3-1 4 3 0-3 2 2 2 2-1 1 5 2 1-1 3 1 2 4 0 0 2 3 0 2 3-2 1z"},{"c":"74","n":"Bình Dương","city":false,"cap":"Thủ Dầu Một","capXY":[867,2399],"r":4,"to":"Thành phố Hồ Chí Minh","k":"khoản 16","area":2695.5,"nb":["70","75","79","72"],"col":3,"lab":[872,2366],"sz":85.8,"alt":[],"note":"","d":"M898 2419l-2 1-3 4-6 1 0-2-2-3-1 2 0 3-2 1-1-3-2 0 0-2-3-1-1 1 2 3-4 1-2-2 1-4-2-4-3 0-2-1-1-10-4 1-2-2 1-3-4-2-1-3 2-1-2-1-2 1-2-3-1 2-3-1-3-2-2-3 2-2-2-1-1-2 1 0 1-3-2-2-2-2-5 0-2-1-1-2-2 0 1 3-1 1-4-3 2-1-2-3-3 0 0-2-4 0-1-2 1-3-2-1-1-5-2 1-2-2 3-2-3 0 1-4-2-3-2 1 2-5 0-1-3-3 1-3 2-1 1-4 1-1 1-5 1-3 0-3 7-2 3-6 2-1 9 0 2 1 4 2 4 3 3-3 3 5-1 2-4 2 0 2 1 3-1 4 2 2 2 1 2-2 6-1 1 4 3 1 3 0 4 1 1-6-1-3 3 1 2-1 1 1 2-3 2-3 3-1 2-2-1-4 1-2 6-2 2 1 1 4 0 2-4 4-2 1 0 5 2 0 0 3 5 1 3-2 2 2 3 1 0 4 1 1-1 3 0 2 4 1-1-2 2-4 3 0 1-2 2-1 4 1 2 3 0 3-2 2 0 3-3 5 1 4-3 1 1 3-3 2 1 3 5 1 2 3-1 1 3 1 0 2 2 1-2 1 0 2 2 4-4 4 1 2-1 3-2-1-4 4-1 4-2-1-5 1-1-2-4-1-2-5-5 1 2 4 0 2-5 2-1 2 1 3 2 2-4 3-2-1 0 2 6 6 3 1 1 2 3 0z"},{"c":"75","n":"Đồng Nai","city":false,"cap":"Biên Hòa","capXY":[909,2420],"r":4,"to":"tỉnh Đồng Nai","k":"khoản 17","area":5894.8,"nb":["77","60","74","70","79","68"],"col":1,"lab":[963,2366],"sz":127.0,"alt":[],"note":"","d":"M929 2488l-2-1-2 0-1-2 1-3-2-1 1-3-4-3-9-2-1-3-4-5-2 0-2 2-4 0-1 2-2 0-3-5-6-4-3-4 0-4 3-5 4-2 3-3 3 0 0 3 3-3 3 2 2-1-1-4 3-2-1-3-4-5-2-3 1-3-2-4-1-1-3 0-1-2-3-1-6-6 0-2 2 1 4-3-2-2-1-3 1-2 5-2 0-2-2-4 5-1 2 5 4 1 1 2 5-1 2 1 1-4 4-4 2 1 1-3-1-2 4-4-2-4 0-2 2-1-2-1 0-2-3-1 1-1-2-3-5-1-1-3 3-2-1-3 3-1-1-4 3-5 0-3 4 2 0-3 4 0-1-3 4 0 3-2-1-1 5-2-1-2 4-1 0-4 3-1 1-3-2-3 0-3 5-4 1-2 4 0 2-3 6-2 15-3 15-4 2 1 2-2 0-5 2 2-1 3 2 0 1 2 0 4 6-1 2 3 1-1 5 3 0 1 3 3-2 1 0 2-2 1-1 2-2 1 0 3 2-1 0 2 2 0 1-2 3-1 2 2 0 5 1 0 2 3 1-1 2 4 3 2 1-2-2 7-3 2 1 3-1 2 1 6-3 3-2 0 1 2-3 1-2 6-2 2-1 3 0 2-2 1-2 2 4 4-2 5-1-1-3 3 1 2-2 3-3-1 1 2 7 3 1 1 3 1 1 2 6-2 2 3 5 4 3 8 0 12 2 4 1 3-1 3-3 4-6 3-3 1-3 0-3-4-2 0-1-2-2 0-3 3-1 3-2-1-3 2-3 5-3 2 0 2-2 2 1 2 0 3-5 0-2 2-3-3 2-2-2-1 1-2-1-8-9 0-3-2-2 2-3-1 0-3-3 1-3 3-3 2-3 0 0 6-1 4-2 3-4 2 0 2-10-1-5 2 0 2-2-1-1 2 0 2 4 2 1 4-3 6 3 1 0 2z"},{"c":"77","n":"Bà Rịa - Vũng Tàu","city":false,"cap":"Bà Rịa","capXY":[958,2492],"r":4,"to":"Thành phố Hồ Chí Minh","k":"khoản 16","area":1982.2,"nb":["75","60","79"],"col":3,"lab":[966,2482],"sz":71.9,"alt":["Bà Rịa-Vũng Tàu"],"note":"Includes Côn Đảo island district","d":"M927 2496l-1-2 1-2 2-4 3-2 0-2-3-1 3-6-1-4-4-2 0-2 1-2 2 1 0-2 5-2 10 1 0-2 4-2 2-3 1-4 0-6 3 0 3-2 3-3 3-1 0 3 3 1 2-2 3 2 9 0 1 8-1 2 2 1-2 2 3 3 2-2 5 0 0-3-1-2 2-2 0-2 3-2 3-5 3-2 2 1 1-3 3-3 2 0 1 2 2 0 3 4 3 0 0 4 5 5 3 5-2 2 2 6 4 6 0 3-1 3 1 3-3 2-6 7-1 3-8 1-5 5-5 0-6 0-4 1-6 3-6 5-7 7-3 1-4-5-3 0-3 1-3-1-2 3-4 2-3 3-3 2-3 5-2-3 0-2-2-1-1-3 1-3 2 1 1-2 3 1 1-4-2-3-3-1-4-4-2-2 2-2-4 0-1 1-1-2zM856 2825l-1 1 2 6-6-1-3-6 1-3 1 1 1-3 2-1 1-2 1 0 2-2 2 0 0-2 7-3 2 2-3 1 2 1-1 2-3-1-1 4 3 3-1 1-3-2zM870 2827l-1 2-3-4 2 0 2 2 2-1 0-1 3 2-3 1zM845 2831l-1-3 3 0 1 2 3 1-3 2-1-2z"},{"c":"79","n":"Hồ Chí Minh","city":true,"cap":"","capXY":null,"r":4,"to":"Thành phố Hồ Chí Minh","k":"khoản 16","area":2095.2,"nb":["80","74","75","72","82","77"],"col":0,"lab":[862,2443],"sz":74.4,"alt":["TP. Hồ Chí Minh","TP HCM"],"note":"Official name: Thành phố Hồ Chí Minh","d":"M811 2402l3-1 3 0 5-2-1-1 0-3 2-1 0-4 1-1 0-5 1 0 2-4 1-4 1-1-1-3 2 0 1 2 2 1 5 0 2 2 2 2-1 3-1 0 1 2 2 1-2 2 2 3 3 2 3 1 1-2 2 3 2-1 2 1-2 1 1 3 4 2-1 3 2 2 4-1 1 10 2 1 3 0 2 4-1 4 2 2 4-1-2-3 1-1 3 1 0 2 2 0 1 3 2-1 0-3 1-2 2 3 0 2 6-1 3-4 2-1 2 4-1 3 2 3 4 5 1 3-3 2 1 4-2 1-3-2-3 3 0-3-3 0-3 3-4 2-3 5 0 4 3 4 6 4 3 5 2 0 1-2 4 0 2-2 2 0 4 5 1 3 9 2 4 3-1 3 2 1-1 3 1 2 2 0 2 1-2 4-1 2 1 2-2 1-1 3-1 5-1 4-7 3-6 3-4 0 1-2-2-4-1 0-1 3-3 5-5-5-2-3-4-4-4-4-5-8 3-5-1-6 0-4-3 0-2-5 3-4-1-2-3-2-2-1-2 1 0-1-4 3-2-1 0 2-5 1-1-4-3-2-1 2-3-1-1 1-2-1-2 1-1-1 1-2-1-3-3-1-1-4 0-1-1-1-2 1-2-2-2-1-5-5 8-5 2-1 3-15-1 0 1-5-14-8-8-5-7 0z"},{"c":"80","n":"Long An","city":false,"cap":"Tân An","capXY":[819,2487],"r":5,"to":"tỉnh Tây Ninh","k":"khoản 18","area":4491.2,"nb":["82","79","87","72"],"col":3,"lab":[746,2459],"sz":108.9,"alt":[],"note":"","d":"M737 2486l-6-1-9-11-5-7-5-3-4-1-34-31 3 0-5-11-12-6-3-6 1 1 6-1 2-1 4 0 17-5 4-2 3-3 5-2 9-1 4 10 11 14-3 7 9 3 6 1-1-3 5-5-2-4 0-2 4 4 9 8 10 7 5 1 12 0 4 4 0-9-5-9-4-5 2-5-1-3 0-4 3-1 1 4 4-1 1-1 5-1 3-2 6 1 3-2-3-3 3-3 2 0 5 2 5 4 3 4 7 0 8 5 14 8-1 5 1 0-3 15-2 1-8 5 5 5 2 1 2 2 2-1 1 1 0 1 1 4 3 1 1 3-1 2 1 1 2-1 2 1 1-1 3 1 1-2 3 2 1 4 5-1 0-2 2 1 4-3 0 1 2-1 2 1 3 2 1 2-3 4 2 5 3 0 0 4 1 6-3 5-4 4-4 5-2 2-2-1-1-1 0-5-3-1-3 5-5 3-2 0-1-5 0-2-4-5-2 3 3 1-1 3-2 1-1-4-3 1-1 2-3-1 2-2-2-1 0-3-1-2-3 1-2 0-1-4-3 0-3 2-1 3-4 2-3 3-3-2-1-6-3-2-1-2-4-5-2 0-4-3-15 1-1 0-18 1 0 9-19-2z"},{"c":"82","n":"Tiền Giang","city":false,"cap":"Mỹ Tho","capXY":[809,2518],"r":5,"to":"tỉnh Đồng Tháp","k":"khoản 21","area":2366.6,"nb":["80","83","87","86","79"],"col":1,"lab":[785,2502],"sz":83.6,"alt":[],"note":"","d":"M753 2529l-8-6-2 1-10 8-4 2-1-1-4-2-6-2-1-1-2-1 1-1-2-1 0-4 0-5 5 1 3-8 15-16 0-7 9 0 19 2 0-9 18-1 1 0 15-1 4 3 2 0 4 5 1 2 3 2 1 6 3 2 3-3 4-2 1-3 3-2 3 0 1 4 2 0 3-1 1 2 0 3 2 1-2 2 3 1 1-2 3-1 1 4 2-1 1-3-3-1 2-3 4 5 0 2 1 5 2 0 5-3 3-5 3 1 0 5 1 1 2 1 2-2 4-5 4-4 5 8 4 4 4 4 2 3-6 2 0 16-5 5 0 2 6 6 2 3-2 3-5 0-3-1-7-3-10-5-6-1-5-1-10-3-3-3-3-1-5-3-4 0-8-5-6-1-5 2-8 2-2-2-16 3-9 4-2 1-6 0-5 1z"},{"c":"83","n":"Bến Tre","city":false,"cap":"Bến Tre","capXY":[814,2541],"r":5,"to":"tỉnh Vĩnh Long","k":"khoản 20","area":2321.6,"nb":["82","84","86"],"col":2,"lab":[842,2567],"sz":79.9,"alt":[],"note":"","d":"M856 2622l-3-4-2-3-7-6-7-8-5-4-10-4-4-4-3-1-4-4-6-3-3-2-3-4-4-7-3-3-4-7-4-4-3-3-2 1-2-2-4-3-1-2-3-3-6-2-6-1-3-1-1-4-1-2 1-3 8 4 5-1 6 0 2-1 9-4 16-3 2 2 8-2 5-2 6 1 8 5 4 0 5 3 3 1 3 3 10 3 5 1 6 1 10 5 7 3 3 1 5 0 0 10-1 2 1 3-2 4-5 7-2 1-5 0-5 7-5 6-2 6 3 2 2 4 3 5-4 7-2 3-5 5z"},{"c":"84","n":"Trà Vinh","city":false,"cap":"Trà Vinh","capXY":[807,2588],"r":5,"to":"tỉnh Vĩnh Long","k":"khoản 20","area":2215.1,"nb":["86","94","83"],"col":3,"lab":[813,2626],"sz":79.7,"alt":[],"note":"","d":"M856 2622l-2 2-2 4-1 10 0 6-1 6-4 6-4 5-4 3-3 2-7 2-8 2 0-2-3 2-3 0-7-1-5-9-11-6-12-12-13-13-7-5-2-3-5-5-5-5-3-6-5-6 2 0 4 3 2-1 3-2 1-3 3 1 3-3 4 0 2-3 4 4 4-4 0-11 3 1 7-2 4 3 4-2 0-4-2 0 1-5 2-2 3 1 6 5 3 4 3 2 6 3 4 4 3 1 4 4 10 4 5 4 7 8 7 6 2 3z"},{"c":"86","n":"Vĩnh Long","city":false,"cap":"Vĩnh Long","capXY":[733,2536],"r":5,"to":"tỉnh Vĩnh Long","k":"khoản 20","area":1475.2,"nb":["84","87","83","92","82","94","93"],"col":0,"lab":[745,2571],"sz":64.3,"alt":[],"note":"","d":"M744 2605l-4-3-7-5-5-2-3-2-6-6-3-3-3-6-5-6-5-4-5-3-2-2-6-4 0-1 8-12 4 2 3 3 2-2 4 7 3 1 6 0 0-2 4 1 0-3 1-4 3 1 3-1 2-4-2-2-2-2 0-2-2 0-2-3 3-3 1 1 4-2 10-8 2-1 8 6-1 3 1 2 1 4 3 1 6 1 6 2 3 3 1 2 4 3 2 2 2-1 3 3 4 4 4 7 3 3 4 7-6-5-3-1-2 2-1 5 2 0 0 4-4 2-4-3-7 2-3-1 0 11-4 4-4-4-2 3-4 0-3 3-3-1-1 3-3 2-2 1-4-3-2 0z"},{"c":"87","n":"Đồng Tháp","city":false,"cap":"Cao Lãnh","capXY":[678,2502],"r":5,"to":"tỉnh Đồng Tháp","k":"khoản 21","area":3246.1,"nb":["89","80","86","82","92"],"col":2,"lab":[699,2491],"sz":96.0,"alt":[],"note":"","d":"M601 2417l2 0 3 2 4 2 5-1 3 1 10 6 2-2 3-5 2-1 1-3 4-3 4-7 1 0 3 3 3-2 6 2 3 6 12 6 5 11-3 0 34 31 4 1 5 3 5 7 9 11 6 1 0 7-15 16-3 8-5-1 0 5 0 4 2 1-1 1 2 1 1 1 6 2 4 2-3 3 2 3 2 0 0 2 2 2 2 2-2 4-3 1-3-1-1 4 0 3-4-1 0 2-6 0-3-1-4-7-2 2-3-3-4-2-8 12 0 1-5-3-1-2-5-4-1-4-2-5-10-9-7-5-3-3-1-1 2-4 4-2 1-2-1-4 2-2 4-1-2-1 2-3 3 1 1-2-1-7-3-6-3-4-5-2-4 1-2 1-6-3-5 0-3-3-6-2-4-11 0-7 1-7-4-1-4 1-3 0-2-2 0-2 4-2 0-2-5-1-3-3 1-4-6 0-2-6-2-4-3-3z"},{"c":"89","n":"An Giang","city":false,"cap":"Long Xuyên","capXY":[641,2513],"r":5,"to":"tỉnh An Giang","k":"khoản 23","area":3406.2,"nb":["87","91","92"],"col":3,"lab":[595,2493],"sz":98.1,"alt":[],"note":"","d":"M527 2489l16-1 6-4 6-13 4-4 8-5 17-10-1-6-3-5-1 0-2-5 1-2-5-9-1-4 3-2-1-2 3-1-1-2 3-2 2 0 0-3 7-1 0 4-3 3 2 1 8-1 6 2 0 7 3 3 2 4 2 6 6 0-1 4 3 3 5 1 0 2-4 2 0 2 2 2 3 0 4-1 4 1-1 7 0 7 4 11 6 2 3 3 5 0 6 3 2-1 4-1 5 2 3 4 3 6 1 7-1 2-3-1-2 3 2 1-4 1-2 2 1 4-1 2-4 2-2 4 1 1-3 3-9 2 2 6-7 3-11 3-5-7-2-1-2 3-4 4-1-1-5 7-1-1-4 5-14-12-20-12-3-1-24-6-7-9 0-1-4-7-1-4-4-3 1-3z"},{"c":"91","n":"Kiên Giang","city":false,"cap":"Rạch Giá","capXY":[588,2571],"r":5,"to":"tỉnh An Giang","k":"khoản 23","area":6268.2,"nb":["93","89","96","95","92"],"col":0,"lab":[587,2634],"sz":124.2,"alt":[],"note":"Includes Phú Quốc and Kiên Hải islands","d":"M527 2489l1 3-1 3 4 3 1 4 4 7 0 1 7 9 24 6 3 1 20 12 14 12 4-5 1 1-1 1 9 8 4 4 2 0 1-1 7 8 0 3 2 1 6 7 8 7 16 15 1 1-4 9 1 1-8 4-4 2-4 1 0 5-3 2-2 2 2 2-1 2-3 1-1 1-3 1-3 3-5 3 2 4 3 0 1 1 2 0 0 2 4 0 2 2-1 5-2-1-3 3 0 3-5 0 0-3-3 2-3-1-1-4-2-2-1 2 0 5 1 3 3 2-1 3 3-1 0 3 1 4-2 3-3 0-1 3-1 6 1 4-3 0-3 7-28-18-4-3-14-8-2 3-2 0-4-3-3 4-5-5-6 12-5-4-2-2-2 0 2-16 1-15 2-6 3-10 1-7 3-5 8 1 3-1 3-5 10-9 9-6 1-3-2-6-3-2-13-14-7 0-9 2-3 0-4-5-3-6-6-8-5-4-7-3-3 1-4 2-3 2-6 7-3 5-1-1-3-1-3 0 2-2-3-5-1-4 1-1-2-7-3-5-4-2-2 2-1-4 1-2-4-6-6-7-2 1-1 1-3 1 0-3 1-3-2-5 7-1 4 5 3-6 5-2 2-2 1-6 4-2 0-4 2-2 4 1 5 0 0-2 9 0 11 4zM397 2510l4 6 0 3-1 2 1 6-1 5 2 7-2 4-2 3-2 4-1 6-3 4 2 2-2 2-1 6 4 1-2 7 1 3-1 1-2-1-2 1-1-3-1-4-2 0-1-9-4-19-2-7-4-4-1-3-3-3-3 1-2-3-3 0-2-4-2-6-1 0 1-3 2 0 7 1 6 2 3-2 1-6 4-1 1-6 4-2 2 1 3 5 3 1zM250 2708l0 2-3 2-1 2-3 0 0-3-2 0 4-3zM505 2617l0 3-3 2-2-1-3 0 1-3 3-2zM452 2646l-2-1-1-4 2-1 0-3 1 3-1 0zM541 2589l-2 1-2 3-1-3 2-1zM488 2579l-2 2-1-3 2-1zM390 2590l2 4-1 1-2-2 0-3z"},{"c":"92","n":"Cần Thơ","city":true,"cap":"","capXY":null,"r":5,"to":"Thành phố Cần Thơ","k":"khoản 19","area":1390.0,"nb":["93","91","89","87","86"],"col":1,"lab":[656,2558],"sz":62.6,"alt":[],"note":"Centrally-run city since 2004 — NQ 22/2003/QH11","d":"M663 2599l-16-15-8-7-6-7-2-1 0-3-7-8-1 1-2 0-4-4-9-8 1-1 5-7 1 1 4-4 2-3 2 1 5 7 11-3 7-3-2-6 9-2 3-3 3 3 7 5 10 9 2 5 1 4 5 4 1 2 5 3 6 4 2 2 5 3 5 4 5 6 3 6 3 3-5 3-7 2-3 0-7-4-2 3-6 3-1 1-2-2 2-3-2 0-2-2-1 2-2 1-3 3-8-9-2 1-2 5 1 0-2 4z"},{"c":"93","n":"Hậu Giang","city":false,"cap":"Vị Thanh","capXY":[648,2627],"r":5,"to":"Thành phố Cần Thơ","k":"khoản 19","area":1608.0,"nb":["94","91","92","95","86"],"col":2,"lab":[684,2621],"sz":66.3,"alt":[],"note":"Created 2004 from Cần Thơ province — NQ 22/2003/QH11","d":"M665 2660l-1-2-3 0-2 2-3-1-1 1-2 0-1-2-2 1-2 0 0-1-4-1-2 1 0-1-3 0-1 2-2 1-2-2 0-3 3-3 2 1 1-5-2-2-4 0 0-2-2 0-1-1-3 0-2-4 5-3 3-3 3-1 1-1 3-1 1-2-2-2 2-2 3-2 0-5 4-1 4-2 8-4-1-1 4-9-1-1 2-4 2-4-1 0 2-5 2-1 8 9 3-3 2-1 1-2 2 2 2 0-2 3 2 2 1-1 6-3 2-3 7 4 3 0 7-2 5-3 6 6 3 2-2 2-2 4 0 1-2 9-1 2-1 6 1 0-2 8 0 3-12 7-15 9-5 5 0-2-3 2-1 1-3 2-4-1-2 3-3-2-2 2-3 2z"},{"c":"94","n":"Sóc Trăng","city":false,"cap":"Sóc Trăng","capXY":[746,2655],"r":5,"to":"Thành phố Cần Thơ","k":"khoản 19","area":3223.3,"nb":["95","93","84","86"],"col":1,"lab":[746,2664],"sz":94.6,"alt":[],"note":"Includes Cù Lao Dung island district","d":"M665 2660l1-2 3-2 2-2 3 2 2-3 4 1 3-2 1-1 3-2 0 2 5-5 15-9 12-7 0-3 2-8-1 0 1-6 1-2 2-9 0-1 2-4 2-2 5 2 7 5 4 3 3 6 5 5 5 5 2 3 7 5 13 13 12 12 11 6 5 9-5 2-4 0-6 5-7 2-1 5-5 5 0 2 2 1 0 6-4 5-6 3-1 1-4-1-9 3-25 7-11 5-5 2-2-5 2-1-3-11 7-3 2-2-3-7-3 2-1 0-1 2-1 2-3-1-3-3 1-2-2-2-5 1-1 2-4 1-1-1-1 3-4 0-2-2-3 1-1-2-2 0 0-2-3-1-1 1-5-3-2 3-6-8 0-3 2-18z"},{"c":"95","n":"Bạc Liêu","city":false,"cap":"Bạc Liêu","capXY":[704,2719],"r":5,"to":"tỉnh Cà Mau","k":"khoản 22","area":2525.7,"nb":["94","96","91","93"],"col":3,"lab":[652,2716],"sz":81.9,"alt":[],"note":"","d":"M642 2764l0-5-1-2-3-3-3 2-4-1 0-2-3 0-1 1-3-1-3-3-5 1-1-2-2 1-2-2 1-6 2-1 1-4 2 0 0-3-3 0-1-4-3 0-1-3 4-5 0-1 7-6-5-4-3-4 0-2 1-1 7-8-3-2-3 0 3-7 3 0-1-4 1-6 1-3 3 0 2-3-1-4 0-3-3 1 1-3-3-2-1-3 0-5 1-2 2 2 1 4 3 1 3-2 0 3 5 0 2 2 2-1 1-2 3 0 0 1 2-1 4 1 0 1 2 0 2-1 1 2 2 0 1-1 3 1 2-2 3 0 1 2 2 3-2 18 0 3 6 8 2-3 5 3 1-1 3 1 0 2 2 0 1 2 3-1 2 2 4 0 1-3 1 1 4-1 1-2 5-1 2 2-1 2 3 3 3 1 1-2 1-2 1 0 3-2 3 7-2 2-7 3 3 11-2 1 2 5-7 3-6 4-7 2-13 7-11 4-7 3-10 5-6 5-5 7z"},{"c":"96","n":"Cà Mau","city":false,"cap":"Cà Mau","capXY":[600,2734],"r":5,"to":"tỉnh Cà Mau","k":"khoản 22","area":5201.5,"nb":["95","91"],"col":1,"lab":[576,2776],"sz":119.2,"alt":[],"note":"","d":"M537 2670l2 0 2 2 5 4 6-12 5 5 3-4 4 3 2 0 2-3 14 8 4 3 28 18 3 0 3 2-7 8-1 1 0 2 3 4 5 4-7 6 0 1-4 5 1 3 3 0 1 4 3 0 0 3-2 0-1 4-2 1-1 6 2 2 2-1 1 2 5-1 3 3 3 1 1-1 3 0 0 2 4 1 3-2 3 3 1 2 0 5-4 4-1 6-3 6-2 8-4 7-4 4-1 2-8 8-5 2-6 0-5 3-1 2-4 5-4 6 0 2-4 4-6 2-3 0-8 4-5 0-3 2-22 5-2 0-17-4-4-2-1-3-1-4 0-2 2-1 3-1 3 1 5-1 4-1-2-2-2-4 1-4 5-5-2-6-3-6 0-5 3-11 1-7 0-7-1-8 0-7 1-15 0-7 1-5 1-13 1-18zM535 2870l3-4 1 2-1 3-3 1z"}],"insets":[{"code":"48","kind":"hs","frame":[1655,1242,323,312],"label":"Quần đảo Hoàng Sa","sub":"TP. Đà Nẵng","scaled":false},{"code":"56","kind":"ts","frame":[1352,2729,646,362],"label":"Quần đảo Trường Sa","sub":"tỉnh Khánh Hòa, inset at 40% scale","scaled":true}],"others":[{"id":"764","d":"M-98 3147l17 1 18 7 20 20 34 50 54 42-5 11-3 16-21 21-2 5-154 0 3-15-6-38-12-2-21 2-4-7 0-123 30 18zM133 2296l-10-8 2-10 5-4 6 3zM84 2191l11 13 9 20-9-4-14 1-5-26 1-6zM-159 792l34 6 10 6 2 12-4 30 5 22 10 24 0 21-21 68-21 34 0 6 16 23 1 28-6 20-37 85 9 8 27 12 11-4 45-41 49-33 10-12 5-15 8-6 11 4 13-7 15-17 12-8 9 2 36 30 20 12 16 3 9 7-1 11 4 7 8 3 10-14 16-10 17-6 16-2 12-8 7-21 10-16 9-7 11-3 3-5-5-7 0-6 7-7 36-2 25 7 29 12 20 5 9-5 18 19 49 76 19 22 20 17 21 12 15 16 14 31-10 42-3 36 1 45 13 33 23 24 14 19 4 15 18 12 33 11 13 9-6 9 0 9 5 12 11 9 29 15 3 8-4 32-8 14-11 9-4 20 0 24 8 16 3 20-13 75-24 21-31 15-18 21-7 0-5-6-7-20-34-12-66 11-33-5-44 7-44-3-25-9-72 17-30 15-22 21-7 15-26 40-19 23-14 11 4 6-4 8-37 4-4 4 2 47 6 17 18 33 7 64 23 18 23 27-9 31 5 31 36 70-4 1-5-13-17-21-5-23-30-35-10 17-35-26-15-26-6 11-35-37-26-11-10-9-20-9-50 13-64-10-24 10-11-6-5-12 5-19 2-40 7-28-3-21 6-24-20-8 0-1147z"},{"id":"418","d":"M60 277l47 50 8 13 17 11 14 44 6 3 8-4 6-6 5-17 3-1 5 13 13 5 6 6 0 21-11 26-7 33 46 72 19 10 45 12 31 16 15-4 13-18 17-10 31-15 8-1 17 6 28 18 42 34-1 9-8 8-23 14-7 8 45 13 7 9 4 20 4 3 20-2 7 3 7 6 7 17 0 12-15 14-5 8-3 13-10 16-28 26-8 1-51-14-41 2-3 5 9 32-7 11-24 16-1 7 5 7 34 13 110 75 50 14 28 15-11 29 0 9 13 21 31 28 22 7 24 33 7 28 11 18 57 61 48 37 28 41 13 9 5 14 3 43 9 9 11 21 7 6 8 1 17-14 3 2 8 23 6 8 26 14 26 26 33 18 2 8-4 9-5 6-31 15-4 7 20 34 51 43 17 25-18 37-11 7-2 7 7 21 0 31-10 7-9 19-7 2-15-7-33 32-14-1-17 18-22 2-14-13-32-22-11-14-9 12-17 11-24-4-5 17-5 2-34 6 5 15 17 25 4 15-10 23-29 0-13-10-17-20-37-13-25 9-8-1-19-17-7-11-4-16 29-13 14-10 10-11 4-11 4-47 5-17-3-20-8-16 0-24 4-20 11-9 8-14 4-32-3-8-29-15-11-9-5-12 0-9 6-9-13-9-33-11-18-12-4-15-14-19-23-24-13-33-1-45 3-36 10-42-14-31-15-16-21-12-20-17-19-22-49-76-18-19-9 5-20-5-29-12-25-7-36 2-7 7 0 6 5 7-3 5-11 3-9 7-10 16-7 21-12 8-16 2-17 6-16 10-10 14-8-3-4-7 1-11-9-7-16-3-20-12-36-30-9-2-12 8-15 17-13 7-11-4-8 6-5 15-10 12-49 33-45 41-11 4-27-12-9-8 37-85 6-20-1-28-16-23 0-6 21-34 21-68 0-21-10-24-5-22 4-30-2-12-10-6-34-6-21 6 0-336 41-27 11-19 10 9-4 22 6 5 3 7 0 23 5 5 6 3 29-9 17-1 15 10 15 7 4-1 13-12 1-4-15-15 4-56-2-43-24-32-7-25 0-8-7-18 18-15 9-26 12-6 4 1 15 20 18-11 14 1 12 5z"},{"id":"156","d":"M1615 802l-45 74-1 14-21 67-9 9-26 8-18 16-19 13 3 11-9 6-36 3-25 29-29 5-31-15-57-13-59-32-4-41-7-22 2-76 3-7 22-22 21-12 28-25 21-12 18-17-18-1 15-22 9-4 19 3 18-3 12-13 12-2 46 4 32-6 16-11 7-1 24 3 9 12 0-15 35 15 2-23 9-8 5 1 23 23 15 4 9 9 5 12 8 44-18 13zM1518 525l-4-4 9-10 13-3 7 6 18-4 3 8-6 14-15-8zM1928 395l15-7 0 14-22 3zM1968 376l14 4-11 11-2 18-4 4-10-22 9-7zM990 408l-14-20-17-1-21-15-7-8-3-11-6-6-8 1-36-16-12 4-1-51-4-9-15-10-2-11 2-20 6-15 9-2 13-10 13-28-43-25-47 10-5-2-12-17-6-3-27-1-7 8-21 2-28-21-25-8-10-21-10-11-16-14-14-7-15 12-59 29-6 7-6 37-19 17-29 3-28 20-13-2-16-19-12 2-16 10-11 32-4 7-5 2-6 1-52-48-9 9-9 24-5 5-25-33-10-2-29 34-1 10-23 17-13-3-19-23-19-12-45-20-12 8-5 12-26 35-19 17-7-6-12-5-14-1-18 11-15-20-10 0-6 5-9 26-18 15 7 18 0 8 7 25 24 32 2 43-4 56 15 15-1 4-17 13-30-17-17 1-29 9-6-3-5-5 0-23-3-7-6-5 4-22-10-9 2-3-4-30-9-4-41 19 0-595 2376 0 0 424-6 6-15-4-19-15-13-25-17-13-8-12-5-31 5-21-18 5-13 10 3 11-3 11-20 5 2 10 16 14 3 13 19 25-1 38 7 10-7 24-4-4-6 1-3 9-27 10-11 11-21 2-11-25-15 17-4 35-5 6-10 5-16-12-27 17-14 15-16-8-13-12 3-9-1-6-7-4-6 0 5 35-15 11-20-4-31-15-14-2-3 14-10 12-17-1-17 22-14 10-38 4-14 10-39 0-7-5-8 0-3 16-22 6-19 2-37 33-11 1-9-4-4-19-4-2-6 32-33 26-7 18 5 17 33 4 4 9-3 7-9 7-1 9 35 29 1 12-12 20-19 11-40 6-33-6-10-13 0-9 18 1-3-8-4-5-15-8-12-21 2-17-26-40 8-26-5-15 15-19 4-21 25-7 2-20-19-1-12-15-3 6-10 1-17-28-5-4-8-1 4 31-20 11-16 5-35 5-12-2 9-21-6-9-13-6-46-1-28-27-5-9 5-11-4-6-21 0 3 32 5 13-3 7-11 5-11-14-5-3-6 0-4 14-9 13-19-2-14 8-17 3-31-26-8-2-21 8-30 3-7-8zM2107 175l2 10-15-14-11-6-3-9 11 0z"},{"id":"116","d":"M247 2441l17 11-7 7-10-14zM208 2330l6-1 1 20-3 1-7-2zM993 1779l-7 45 3 11 45 101 2 16-24 75 2 18 11 42 2 31-3 20-6 12-20 19-12-11-21 3-9 5-42 37-29 5-12 13-51 6-3 48-11 1-43-13-17-1-14 19-14 3-3 14 4 13 0 36 7 9 48 38 1 5-6 16 5 23-11 0-29-16-15 4-18-23-10-1-53 8-17 19-27-9-20-3-5 5 7 28-2 6-12 7-24 23-6 3-45 1-18 17-7 2-30-24-58-8-7-11-5-2-6 14-32 13-14-8-9-10 1-11 10-10 15-7 8-24-12-31-22-16-12 12-10 19-10 10-36 2-9-30-2-25 5-46-20-23-2-22-9-12-3 12-36-70-5-31 9-31-23-27-23-18-7-64-18-33-6-17-2-47 4-4 37-4 4-8-4-6 14-11 19-23 26-40 7-15 22-21 30-15 42-9 20-7 10-1 40 11 29 1 44-7 33 5 66-11 34 12 3 14 9 12 7 0 20-23 4 16 7 11 19 17 8 1 25-9 37 13 17 20 13 10 29 0 10-23-4-15-17-25-5-15 34-6 5-2 5-17 24 4 17-11 9-12 11 14 32 22 14 13 22-2 17-18 14 1 33-32 15 7 7-2 9-19 10-7 2 10-15 37z"},{"id":"104","d":"M-180 398l41-19 9 4 4 30-13 22-41 27z"}],"outline":"M53 254l1 2 4 4-2 2 1 2 2 2 3 1-2 2-1 4 2 0 4 3 4 1 0 4 2 2-1 1 1 2 4 0 1 2 2 4 3 1 2-1 2 1 2 3 0 4 4 0 5 3 1 4 3 0 3 2 2 0 1 4 0 1 1 2-1 1 6 3 2 4 2 1 3 0 2 2-3 2-2 0-1 4 4 6 4 1 5 3 6 4 3 1 2 4-2 4 6 3 0 2 1 5 0 3 2 2 0 2-2 6 0 4 1 4 2 6 0 2 2 4 2-1 8-1 1 1 4-3 2-3 3-3 2 0 2-4 3-2-1-4 0-4-1-2 1-2-2-4 1-4 4-1 1 0 1 1 2 8-1 6 1 1-1 5 0 3 4 4 2-2 3-1 3-2 2 0 4-1 2-3 4 5 0 4-2 1 2 2-1 8 1 4-1 3 1 1 1 3-6 6 0 2-5 4-4 4 0 5-5 1 0 5-2 4 1 1 4-3 2 0 3-4 3 0-2 2-3 6 0 2-4 4 1 4-1 1-1 5 2 3-1 3-8 1-8 7 3 3 4 0 3-2 6 2 1 2 2 1-1 2 1 3-1 3 1 2-1 3 3 2 1-2 4 5-2 2 4 2 1 4-1 4 2 2 5 1 1-1 5 1 1 4 3 5 1 2 2 2 0 2 2 2 0 5 2 2 2 0 0 3 1 2 0 2 1 1 2-3 4 1 3-2 4 3 2-1 3 2 3 4-1 4 2 4 4 2 3-1 2-2 3 3 3 1 5 3 3-1 3 4 3 0 3-2 4 0 2-5 3-1 3 3 0 3 3 4 2 4 2 1 3-1 2 2 3-1 6 1 2 3 5 2 2 3 1 1 2 0 2 6 1 1 6-1 3 0 2-2-2-3 1-4-2-2 1-2 4 0 3 0 3-3-1-3 1-3-1-2-1-2 6-5-2-4 3-1-1-2 4-1 3 2 4-5 5-4 5 0 3 2 3-1 2-3 1 0 4 2 6 0 3-1 0-4 2-2-1-2 7-2 2-3 3 1 2 5 5-2 5 0 1 2 3 1 6 1-1 3 0 2 3 2 2-3 3-2 2 0 1 3 2 1 4 5 0 1-1 3 2 0 1 1 6 6 1-1 4 3 4 4 1-1 3 0 1 3 3 0 2 2 2 10 5 4 2-3 3-1 3 0 3 3 0 4 4 2 6 0 0 3-1 1-1 5-3 1-2 2-3 0-5 0-3 2-1 4-2 3 0 2-4 1-5 6-7 1-2 3-6 1 1 2-3 2 2 5 4 3-1 5 1 3 2 2 5-1 2 1 2 1 4-3 3 0 3-2 0-4 4 1 2-1 7 0 2-1 1-4-1-1 3-3 4-2 2 0 2 2-1 2 3 2 5 6 2 1-1 1-6-1 0 2-6 4-3 1-3 1 0 3 1 1-1 7 0 3-1 3 0 6 3 3 3-1 3 0 1 3 6 1 3 2 10 1 9 5 1 3 6 3 7-1 5-3 0 2-1 1 3 4 4 2 2 3 3 0-2 3-1 4-2 2-2 1-3 2-3 4 0 2-2 1 1 2-1 4-3 3-4 1-4 3-1 3 2 1-2 5 1 3-2 4 2 1-2 3 0 5 0 2-3 1-4-1-3 2-3 1 1 2-2 3-8-1 0 2-6 6-1 2-2 0 2 3-2 2 0 2-3 2 1 3-1 2-3 1-3-3-6 2-1 2-3 0-2-1-3 1-4-2-1-4-2-1-5 0-2-1-1-3-3 0-1-1 0-3-2-2-2 2-2-1-7 2-2 2-3 3-1-5-3-1-3 0-4-2-5 0-5 1-2 2-7-1-1 5-3 2-5-1-4-1-2-2-1 3-2 2 2 3-2 3 1 2 4 6 3 1 1 1 0 7-1 2 4 4-2 2-4-1-1 5-4 3 2 1 0 6-4 0-1-2-3 2-1 0-2 3-3-1-6 3-2 6-4 3-2 1-2 1 0 1-3 0-3 2 0 2 2 1 3-1 3 1 1 3 8 7 4 2 2 1 12-3 5 4 1 3 2-2 3 4 4 1 5 0 4 7 4 1-2 5 3 3 4 0 4-2 5 2 1 4 7 4 4 0 2 2 4 1 0 3 3 4 0 3 5 4 5-1 2-3 2 0 4 4 2 0 3 2 1 4 2 2 4 8 8 2 0 2 2 2 3 1 3 2 0 2 4 1 3 0 2 3 3 1 0 3 4 1 4-1 2 3 3 0 6 0 3 2 2-2 7-1 2 1 3 3-1 2 2 3 3 0 7 1 4-3 0 3 3 2 2-1 2 1-2 3 4 1 2-1 4 1 2-2 3 0 2 2-2 3 3 2 3 4 3 0 3 3-2 3 1 4-1 0-1 0-4-2-5 4 0 4 1 2-2 1 0 1-2 2 0 4-1 3 0 2-1 3 0 4 0 2 1 2 1 1 1 2 3 0 0 2 2 4 4-1 2 1-1 3 2 5-1 4 5 2 1 2 5 1 3 6-1 2 5-1 3 1 0 4 2-6 3 0 1 3-2 4 1 4-1 1 3 2 0 2 3 0 2 4 2 0 1-2 2 2 3 1 2-5 3 0 2-3-1-1 3 0 3 1 3 0-1 2 0 2 2-2 2 7-1 2 0 3 3 0 3 3 0 5 4 0 1-1 2 5 1 3-1 3 1 3 3 2 2-2 4 4 2 0 0 6-2 0-2 4 0 3-1 3-1 2-1 4 3 0 3 3 4 1 4 4 0 3-1 3 0 2 2 1 2 5 5 3 0 4 3 0 1 10 6-1 4 4 1-1 4 2 2 4 3 0 41 50 4 2 4 3 2 5 3 1 7 6 6 4 5-1 3-1 0-3 0-3 5 0 0 4 0 3 2 2-2 1 5 1-2 4-3-1 0 2 4 2-1 1 3 4 3 2-2 2 4 4 1 3 3 2 5 4-3 5 4 4 1 5 3 2 3-1 2 3 4 1 4 2 3-2 1-3 2-1 0 1 0 13-5 0-1 2 1 3-1 1 3 2 1 2 2 2 0 32 2 5 1 0 0 4 4 4-1 3 1 1 4-1 3 1 0 4 1-2 3 0 1 2 2-1-1 3 2 2-2 1-2 3-1 3 3 3 0 6 2 0 0 3 2 0 2 2-1 1 5 2 3-1 1 5 1-2 3-1 2-1 1-5-1-1 4-2 1 2 1-3 3-4 1-4-1-1 2-4 5 2 5 3 0 6-2 1 2 7-3 2 0 2 3 1 2-1-1 3 1 4 3 2 1 2 8 2 0 4-1 6 2 0 6-2 3 2 1-1 3 3 1-2 4 0 2-2 11 8 2 3-1 4 1 1-2 2 1 5 2 5 6 4 5 0 4-1 2 3 1-1 1 4 3 0 4 7 4 3 1 2 2-2 4 0 2-2 2 2 2 0 1-3 1-1 3 1 4-2 2 3-3 4 0 3 4 2-2 4-1 3-3 5-1 5-2 4-4 5-2 1-3-2-4 0-5 2-1 3-2 0-6 3-2 0-2 2-2-1-2 2-1 2 2 4 0 3-2 2-1 3 0 4 7-1 1 1 0 3 2 0 0 2 2 1-1 5-1 3 1 1 1 5 2 1 5 0 4 1 1 1 2 5-2 2 2 2 2-1 0 5 2 3 1 7 6-1 3 1 0-2 4 0 2 1 3 2 0 2 2 0 3 1 2 3 1 3-2 4 2 2 3 0 3 2 2-1 3-2 3-2 3 1-2 4-3 2 3 3-1 3 1 3 4 3-2 2 0 3-1 1 1 5 0 3 1 3-1 3-4 2-1-2-1 2 2 3 3 6 2 1-1 3-2 1 2 4-4 3 4 7-3 1-2-1-1 4-2 0-4-2-3-1-4 1 0 2-4 2-4 0-1 2 2 3-2 1 3 3-1 3 2 2 2 0 1 3 4 0 2 4 4 1 2 2 2 0 1 3 0 2-3 2-2 3-4 2 0 1-3 1 0 2-3 2 0 2 4 2 3 4-1 2-3 2 0 2 4 0 1 2 0 3-2 0 3 1 0 1-1 1 0 4-2 6 1 3-4 2-1 2 1 4 2 1-1 4-2 5-2 0 1 2-1 3-1 3 1 1 0 1-1 2-2 3 0 4-5 0-1-2-1-1-3 2-1-1-2 6 2 1-3 4-1 2-3 4 0 2 3 3 1 7-2 2 1 3-3 5-2 5-1 0-3 2 1 1-4 6-1 6 5 3 4 1 0 2-3 1 0 6-2 2 5 5 0 1 11-2 2 3-1 10 2 2 2 0 0 5-3 4 4 3-4 6 1 1-2 5 4 3 3 0 8 5 3 10 3 5 1 8 8 17 1 12 2 19-5 10-2 5-19 45 1 3 0 3 1 2 0 2 1 2-3 0-1 5 2 1 0 4-1 4 2 4 2 1 0 2 2 1 1 2 4 4 0 3 2 1 0 5 0 5 1 3-1 2 4 7-2 2-1 4 3 6 0 3-1 4 2 3-2 3-3 5 1 2 2 2 0 3-2 1 0 3-4 8 0 3 2 3-2 1 0 5-3 0-3 4-8 3 0 2-4 1-1 4 1 1-2 4-2 0-1 1-1-2-4-4 0-2-1-2-4-5-3-3-1 2-5 1 0-2-5 2-2-1-5 4-3 2-4 0-2 1-1 2-3 1-2 0-2 3-1 5-7 5-2 5-3-1 0-1 0 1-1 2 2 1-3 2-1-1-2 5-8 5 1 1-8 3-4 3-5 1-3-1-2-1-6 0-4 0-1-2-3 0-3 0-9 12 0 1-4 7-5 2-2-1-1-2-4-2-1 2 2 2-2 0-2-1-20 1 2-1-5-1-3 2-4-1-3-3-2 1-2 2-4 0 10 19-3 0-2 3 0 3 1 2-2 3-4 8 2 5 3 5 2 4 0 3 0 1-3 0-3-2-3-2-6-1-5 3-1 0 0-1-3 2-3 0 0-1-6-5 0-2-7-2-2 0-4-2-1-2-2 1-2-1-2 2-4-1-4 0-3-3-5-3-3 1-1-1-5 1-1 4 1 3-3 6-1 0-3 3 1 3-5 5-4-1-6-3-2-2-6 2-3 3-1 4-1 1-3 0 0 2 0 4 1 2 2 2 4 1 2-1 4 4 0 2 0 4-1 0 1 5-1 2-1 2 3 2 2 0 0 4-1 1-2 2-2 2 1 2-1 3 2 1 0 2-2 6-1 2 1 2-2 3 1 1 2-1 6 1 0 3-1 3 3 5 3 3 5 2 2 0 2 1 4 0 1 6 1 3 6 3 4 5 2-1 2 3 1 3 3-3 4-3 2 0 3 5 3 5 1 10 2 3-5 1-3-2-3 1 0 4 1 3-2 5 4 5 5 9 0 8-4-3-12 0-5-1-10-7-9-8-4-4 0 2 2 4-5 5 1 3-6-1-9-3 3-7-11-14-4-10-9 1-5 2-3 3-4 2-17 5-4 0-2 1-6 1-1-1-6-2-3 2-3-3-1 0-4 7-4 3-1 3-2 1-3 5-2 2-10-6-3-1-5 1-4-2-3-2-2 0-6-2-8 1-2-1 3-3 0-4-7 1 0 3-2 0-3 2 1 2-3 1 1 2-3 2 1 4 5 9-1 2 2 5 1 0 3 5 1 6-17 10-8 5-4 4-6 13-6 4-16 1-4 0-11-4-9 0 0 2-5 0-4-1-2 2 0 4-4 2-1 6-2 2-5 2-3 6-4-5-7 1 2 5-1 3 0 3 3-1 1-1 2-1 6 7 4 6-1 2 1 4 2-2 4 2 3 5 2 7-1 1 1 4 3 5-2 2 3 0 3 1 1 1 3-5 6-7 3-2 4-2 3-1 7 3 5 4 6 8 3 6 4 5 3 0 9-2 7 0 13 14 3 2 2 6-1 3-9 6-10 9-3 5-3 1-8-1-3 5-1 7-3 10-2 6-1 15-2 16-2 28-1 18-1 13-1 5 0 7-1 15 0 7 1 8 0 7-1 7-3 11 0 5 3 6 2 6-5 5-1 4 2 4 2 2-4 1-5 1-3-1-3 1-2 1 0 2 1 4 1 3 4 2 17 4 2 0 22-5 3-2 5 0 8-4 3 0 6-2 4-4 0-2 4-6 4-5 1-2 5-3 6 0 5-2 8-8 1-2 4-4 4-7 2-8 3-6 1-6 4-4 2-2 5-7 6-5 10-5 7-3 11-4 13-7 7-2 6-4 7-3 5-2 11-5 25-7 9-3 4 1 1-1 6-3 4-5 0-6-2-1 0-2 5-5 1-5 7-2 6-5 4 0 5-2 7 1 3 0 3-2 0 2 8-2 7-2 3-2 4-3 4-5 4-6 1-6 0-6 1-10 2-4 2-2 4-1 5-5 2-3 4-7-3-5-2-4-3-2 2-6 5-6 5-7 5 0 2-1 5-7 2-4-1-3 1-2 0-10 2-3-2-3-6-6 0-2 5-5 0-16 6-2 5 5 3-5 1-3 1 0 2 4-1 2 4 0 6-3 7-3 1-4 1-5 1-3 2-1 3 0 1 2 1-1 4 0-2 2 2 2 4 4 3 1 2 3-1 4-3-1-1 2-2-1-1 3 1 3 2 1 0 2 2 3 3-5 3-2 3-3 4-2 2-3 3 1 3-1 3 0 4 5 3-1 7-7 6-5 6-3 4-1 6 0 5 0 5-5 8-1 1-3 6-7 3-2 7-4 1 0 4-1 5-3 2-2 5-2 4 0 6-2 3-2 6-7 4-2 2 0 3-2 4-1 5 0 5 1 4 2 6 1 4-7 2-11 2-7 3-5 4-8 2-2 3 0 6-3 3 1 6-2 5-3 2 0 8 2 2 1 1 5 2-6 2-3 2 0 3 2 1-7 1-4 2-3 3-1 6 0 1 1 2-3 3-1 3 1 2-1 1-5 3-7 4-6 3-2 5-1 3-3 2-1 4 0 1 1 2-2 6-1 6 2 2 1 0 3 1-2 3-2 1-6 2-3 2-8 1-1 3-1 1-4 2-1 4-1 4 0 2-3 3 1 4-1 4 3 1 2 3 0 5-1 5-4 1-2 4-1 1-3-2-1-1-4 0-3 1-2-1-3 2-5-1-6 1-5 2-1 1-3-1-2-1 0 1-3 1-2 3 0 3 1 5-1 5 3 3-2 2-6 3-1 2-11 2-1 0-1 2-3 0-3 0-1 0 1 1 2 3-1 2-1 0-4-4-2 0-3-4-2-1-4 2-1-2-1 0-3-1 0 0-4 3-3 3-2 4 0 3 3 4 1 2-4-4-4 0-4 2-2 1-3-1-1 0-2-2-2-2 0-4-6-5-9-1-4 0-6 3-1 2-6-4-2 1-2 0-3 2-1 0-3-3-3-1-4 2-7 5-1 2-2-6-4-2-4 0-9-5-2-2 1 0-3-2-2 2-1 3-4 3 3 2 0 3 4 4 3 1 2 3 3-1 2 3 1 3 2 1-1 0-5 2-2 3 3 0-2 3-2-1-2-2 0-2-2-1 1-4-2-1-3 1-3 2-3-3-3-1 1-5-4-2 0-2-6 2-6 1-1 0-2-2-1-2 3-4 2 0-3 1-6-3-3 3-3 2-1-1-3 3-5 2-1 3 0 3-4 3-3 3-4 3-1 2-5 3-1 1 2 0 4 1 4 3 6-1 4-3 0-2 4 0 1-3 0 2 2 3-1 1 1 2-1 0-3 4 1 0-3 2 2 1 5-1 3-3 0 2 5 3 0 0 5 2 0 1 3 1-2-2-5 2-9 3-1 0-3-2 1-1-2-2 1-5-6-4-7-3-9-1-6 2-3 2 0 2-1 3-3-1-2 7-2 0 2-3 4 1 0 2-2 3-1-1-3 2-3-2-1 1-2-2-1-3-4 1-1-5-5-5-6-6-11-2-4-5-7-2-5 0-3 2-4-2-6 2-1 0-5 2 0-2-4-3-6-1-3 1-2 2 0-1-2 0-4-4 0-2 2-2-2-2-5-3 1 2-5-2 0 0-1 3-1-2-1-1-3 1-3 1-2-1-1 3-2 1 2 3 0 2 3 3 2-3 3-2 0-1 2 2 2 3 0 2 2 0-2 2 0 0-4 2-1-1-2 2-3-1-1-1 2-3-1-2-4 0-3 2-3-4-2 0-2 3-5-2 0-3-1-3-5-4-7 1-2 0-3 0-2-3-6 1-4-1-2 0-2 4-3 2 1 2 2 4-1 1 1 1-5-2-4 3-4 0-3-1-6 0-2-3-1-3-3-3-7 0-2 3-1-2-4 1-1-2-4 2-1-6-10-3-8 1-3 2 0 0-2-5-7-1-4-1-5 3-2-1-2-2-4 0-2-6-9-4-6-1-4 1-3-2-5 1-4-4-8-4-9-2-4 1-4 2 0-2-4 0-6-1-4 0-2 3 0-2-5 1-2-5-8-8-13-7-15-2-5-5-14-2-7-3-10 1-2-1-5 0-2-1-9 2-3 3 0-1-2 2 1 1-2 2-3 0-2-3-1-1 1-3-1-3-3-3-7 2-4-3-1 0-2-4-3-3-4 1-4-1 0-1-4-2 2-2-2-1 1 2 2-2 3-5 1-2-1-3-2-7-7 0-4-1-4-2 0-2-2 2-3-2-1 0 2-4 1-5-3-8-9-9-12-5-7-7-13-5-8-4-8-1-6 0-3-5-4-6-4-5-5-5-6-4-7-3-9-1-4 2-4 2 0 5-2 3 2 0-3 5-2-3-3-2-1 0 3-2 1-3-3-2 1-3-4-1 0-4 1 0 2-3 3 5 2-1 2-5 2 1 1-2 2-4 0-6-4-4-5 1-3 2-1 0-3 3 0 0-5 4-3 3 1 0-2-2-1-2 1-4-2-6 1-5-3-9-14 0-2-1-3-2-3-1 2 2 2-3 2-5 0-3-2-2-4-3 0-7-4-6-5-11-11-5-4-11-9-9-6-7-3-1 1-2-3-5-3-15-11-7-6-13-10-7-6-10-7-12-12-5-5-4-5-7-7-4-7-1-4 0-3 0-1 1 0-1-8-3-3-4-1-5-4-9-6-10-8-16-13-10-8-8-7-12-12-7-9-3-6-6-8-5-8-4-8-3-3-4-7-2-5-1 0-5-12-3-10 0-7 1-2 3-6 0-1 4-4 1 0 4-3-2-3 1-1-3-1-4-6-3-4-3-6-2-5-1-3 0-2 2-4-4 1-1 3-3 1-6-3-6-5-7-8-6-6-3 0-2-2-7-5-4-3-7 0-4-2-4-3-6-7-7-8-8-11-4-6 1-2-4 4-1-3-6-8-5-8-3-5-5-9-2-8-2-10-2-8-3 0-5-6-3-6 1-2-5-5-1-2-4-2-1-1-5-2-2-9-1-6 1-9 1-4 4-6 4-4 4 3 3-3 5-1-1-2-1-7 1-7 1-6 2-2 1 1 3-2 1-5 1-3 4 0 0-2 1-3 2-2 1 1 0-6-3 1-2-1-2-4-1-8 2 0 0-4 2-1 1 1 0-6-1-13 1-7 2-5 2-11 2-8 4-6 3-2 3 1 0-2 3-6 3-3 1-4-1-1 0-3 1-4 2-5 3-4-3 0 1-6 3-3 4-3 6-1 7 8 3 0 3-1 1 0-2 6 1 0 2-1 6-7 2-3 4-5 2-4 2-1 8-11 14-16 3-3 4-4 9-6 6-1 7-1 0 2-1 2 3 1 7-1 4-1 4-2 1-2 2-4 2-4 3-14 0-4 0-3-4-4 0-2 3-5 2-2-4-3 0-4-1-4-2-3 0-1 1-7 3-6 5-3 3-2 6-3 3-7 0-2 7-6 4-1 2 2 1 0 1 2 4 3-3-2-1-3 2-4-2 0-1-5-5-6 3-5 14 1 2 2 3-1 2 0 3-2-5-4-1-1 0-4-3-3 3-1 0-1 2-4 4-2 6 0-2-6-4-2 2 0 1-2 3 2 7 0 2-1 8 2 5-3 3 3 3-1 3 2 3 1 2-1 3 0 0-1 5-1 1 0 2-3 4-1 1-3-2 0 9-3 7 1 4 1 4-1 3-3 0-4 3-2 5-1 4-3-1 0 5-4 1 0 8-7-1-2 3-2 0-1 4-2 0 3 4-3 6-6 2-3 1-2-3-1-2 3-5 1-2 2-5-3 3 1 0-2-3-4-1-1-6-6 1-5 2-1 6 1 10 2 4-2 3-4 0-2 4-5 1-2 3-2 2-2-1-2 3 1 2-1 2 1 1-2 6-1 2-4 1-3 2-2 2-2 0-3 5-2 4 1 3-5 1 3 4 3 1-2-1-2 3-3 5 5-6 4-2 5 4 2 3 5 2 0 3 0 1-3-1-2-3-1-2-2 5 3 1-3 2-1 0 2 2 0 2-3 3-3 6-3 4 0 3 0 2 0-5-2-3 0-2 1-3-1 5-3-5 0-1-2 3 1 2 0-1-2-4-2 5 1 2 1-1-3-4-1-8 0-2 2-3-1-1-5-4-4-4 0-2-2 0-5-2-2-1-3-3-1-4 2-1-2-4-1-3 1-2 1-5 1-6 4-7 3-2-1-2 1-11 0-2-2-5 1-2 4-3 1-3-2-3 0-1-1 2-2-1-2 1-2-2-1-2-4-2-1-9 5-2 3-2 1 1 2-3 2-4 0-1-6 1-1-1-7-2-1 0-2-4-6-4-5-7 3-2 2 0 2-7-3-3-2-2-3-8-3-1-2-2-1-2-3-4-1-1-2-1 0-9-2-1-1 3-6-3-1 3-3 3-1 1-2 0-2 1-2-1-3-4 0-3-3-4 0-1-2-3 5-3 2-1-3-5 0-2-8-2 1-4-2-7 0-2-1 0 2-5 0-1-3-2-1-1-2-3-1-5 0-3 7-3 0 0 1-4-2 0-5 4-3 0-3-1-3 2-3-1-1 1-5 0-1-3-1 0-6 2-5-2 1-3-2-1-3 2-4 3 0 1-4-2-3-2-5 1 0 1-2-2-2-2 0-1-4-3-6-2 0-3 1-6-2-1 1-4-2 2-2 0-2 2-1 0-4-1 0-3-5 1-2-1-3 1-3 3-2 0-9 2-3 0-3 1 0 1-2 0-5 1-3 4 0 1 2 2 3 3 0 3 1 3-2 2 1 4-3-1-6 1-6 2-3 2-1 1-2-1-1 5-4-2-1-1-5 4-2 2-4 1 1 3-2 0-2 2 0 1-3-3-3-2-1-3 2-3-1-2 1 1-3-3-1-2-2-6-4 2-2-2-3-3-1-5 1 0 3-3 1-2-1 0-3-4-2-2-5-2-2-5 3-2-1-5-4-3 0-1 3-1-1 0 5-2 1-2-1-3 3-2-2-1 3-2 0-2-1-2 1 0 2-5-1-2 0-1 3-4 2-4-4-2 3-3-2-1 1-2-2 0-3-1-3-4-4 0-2-2-2-2-1-5-7-4 2-6-3-5 2-2 0-2-2-3 0-3 1-2-1-5 1-3 0-1 3 2 1-2 2 0 4-1 0-3-2-4 0 0 2-3-1-3-2-4 2-3 4-2 0 0-2-2-1 1-2-2-2-1-3-2-1-2-3-4 0-2-1-2-4-6-2-1 0-2-1 0-3 0-2-8 0-2 0-5-3-3 0-3 2-2-1-2 0-2 1-3-2 0-2 1-3-1-3 4-5-1-3-2 0-2-3-2-3-1 0-4 0-4-2-2-4 0-4-2-1 1-2-3 0-3-4-2-5-2 0-3 3-4-6-3 0-4-6 0-4-4-5-3 2-2 0-2 0 2 2-2 3-1 3-4 0-2 2 2 3-2 2-1 4-1 0-2 3-2 1-1 0-2-3-2 1-3-2-3 4-8 4-1-1-1-3-2-1-10 8-1 2-3 0-2 3-2-1-5 1 0 5-2 2-5-3-4 1-3 3 0 4-1 2-3 2-1-2-3 1-1-1-6 1 0 1 1 8 2 1 0 3 1 1 0 5 2 3 0 4 1 1-1 2 2 2 3 5-3 3-1 2-2-1-3 1-3 3-3 0-2 4-2 5-4 0-1 2 2 4-2 2-4-2-6 2-3-3-4 0-2-3-1 3 2 1-2 2-3 0 1-2-1-3-4-2-6 3-3 5-1 3-9 8-9 4-2 2-2 5-2-1-2 2-4 0-2-3-1-3-2-1-5 0-4-2-1 0-1-3-2-2 0-2 3-12-2-1-3 0-4 3-5 0-3 1-2 0-6 3-1-1-2 0-4 4-1 4-4 3-5 6 0 1-3 11 2 4-2 3 1 3-2 6-2 1 2 2-1 1 1 2-2 2 1 3-1 2-3-1-2 3-3 0-3-4-2 0-1-3-2 1 0-2-4-4-4 0-2-4-3-2-1-2-3-2-1-4-4-5-2-1-3-4-3 0-2-2 0-2-6-7-4-1-1-3-2-1-1-3-3-2-5 3 1 1-2 2-3 6-4 3-2 4 1 4 2 3-1 4-4 1-1 5-3 3-4-1 1-2-4-1-2-4-4-4 1-4-5-5-1-6 2-1-1-3-3-2-1-2-4-1-3-3-7-2-3-2 1 7-1 0-3 6-2 2 0 6-1 2 0 3-4 2-2 0-3 3-1 2-3 0-3-1-2 2 0 2-1 0-4 7 1 3 4 4-5 4-3 0-4 4-6 2-2 4 0 2 1 2 0 3-2 1-1-1-5 2-3-2-1-1-3-1-1-3-5 0-6-1-1-5-2 0-1-3-3-2 1-2-3-3 1-2-2-1 1-2-1-2-4-3-2-1-3-2-1 1-5-1-1-2 1-1-4-1-3-4-3 0-2-2-2-1 0-2-4-2-6 3-1-2-4-2-4-5-1 0-2 2-1 3-3 1-1-5-3-3-7-6-4-1-1 2-3 1-2 4 1 2-2 2-2 5-5 3-2-1-2 2 4 7 1 0 1 2-2 0-3 3-1 2-2 3-4 0-1 2 2 3-6 2 0 1-4 4-2 5-2 0-2 5-1 3-2 0 3 8-1 2-5-3-2 0-3 0-3-2-6 2 0 2zM1341 2103l3 2 2 0 2 1 0 2 5 3 1 2 2 0 2 3 2 0 1-1-2-3 0-4-3-2 0-4-3-1-4 1-5-3-2 2zM1348 1917l2 3 2 0-2-2-1-3zM1346 1982l3-1-2-1zM1329 2174l1 3 3 3 2 1 2 2 2 1 0-3 2-2 0 2 4 2 2-2-1-1 1-3-3-2-2 3-2-3-3 0-2-1-1 4zM1339 2128l3 0 2-3-4 1zM1341 2084l1 2 1-2zM1327 2247l2 2 3-1 0-3-1 0-1 2-2-2zM1327 2146l2 1 1-1-1-2zM1304 1590l1 2 4 1 3-2 1-2-6 0zM1273 2484l2 6 3 2 3-1-1-3-2-5-3 0zM1194 1481l2 2 2 0 1 3 3 2 1 2 1-3 0-4-4-1-3-3zM1143 1435l1 1 1-2-1-1zM1076 455l4-1 5 0-4 2 2 1-2 1-1-2-1 3 1 1 6-3 8-1 3 1 4-5 7-3-2 0-7 0-9 3-3-1-4 1zM1098 480l1 1 4 0-1-4zM1082 449l4-2 2 2 2 0 1-3-5-1zM1072 526l1 3 2 0 0-2 4-5 3-2-1-3-2 1-1-1-3 3-1 3zM1054 468l4-2 1 1 2 0 1-2 4-2 4-2 5-4-1-1-3 1-6 4-5 2zM1065 517l0 2 3-1-1-1zM1059 525l0 2 5 3 0 2-2 1 2 1 4-3-1-2-3 0 0-3 4 1-4-4-4-1zM1062 471l5-2-2-1zM1061 454l2 2 0-2zM1056 693l3 1 2-4zM1047 473l6-5-5 1 0 2zM1045 497l0 2 2-1 0-4 2-8 1-2-2 1-2 4zM1034 479l2 0 1 2 5-4 1-2zM1028 531l3-2 1-3 1-5 1-1 1-4 2-3 1-5 3-6-3 3-3 4-2 3-1 6-1 2-2 5 2 2-2 2zM1026 474l7 1-3-3-4 1zM1022 509l2 2 0 2 5-3 3-6-1-2-3 2-2-1-1 4zM1027 501l2 2 2-2 0-2zM1012 561l2-1 2-5 0-4 4-2 2-5 6-6-2-2 1-5-2 4-4 7-2 5-1 0-5 1 2 2zM1026 514l1 2 0-4zM998 545l0 2 3-2 6-3 2 1 1 1 4-2 5-1 2-3 3-9 2-3-1-1 0-4-1-3-3 3-3 1-4 9 2-1-1 3-3 3-10 7zM1018 500l1 2 5-4zM1016 518l4-1 1-2 2 0 1-2-2-2 0 2zM1013 546l5 0 2-4zM1012 571l1 1 2-2zM1007 538l1 0 4-4 2-2-2-2-3 4 0 2zM1007 580l2 0 3-3 0-1zM990 544l3 0 7-2 2-1 5-5 2-4-1-1-5 5-2 4-3 2zM1002 546l2 2 4-3-1-1zM999 564l0 4 3 1 1-4-3-3zM986 549l2 1 0-3 2 5 4 1 2-2-1-2 3 0 0-1-4-2-4 1-1 0-2-1zM983 538l7 2 3-2 3-3 0-3-3 3-4 3-1-2zM987 554l2 9 5 0 2 2-1-6-1 1-5-4zM983 540l3 1 4 1-1-1-4-2zM987 1257l2 2 1-1-2-2zM980 543l1 3 4 4-2-4zM982 545l2 3 0-3-1-3zM976 558l2-1 2-2-2 0zM961 549l1 1 3 0-3-3zM950 573l1 3 2-2 0-4zM948 567l2 2 1-2 0-3-1 1 0-2-2 1zM914 565l4 0 3 3 1 4-1 0 5 4 1 2-1-4 3 1 1-2 1 2 3 1-4 1 3 2 0-2 3 2-1 2 3-1 0-4-1-2 3 2 0-2-5-2 2-2-1-1 2 0 2-2-4-6 2 0 1 2 2 5 3 0 0-2 3 0 0-2-4-3-2-2-2 3-2-4-2 1 0-3-2-4-2 1-3-1 1 2-3-2-2 1-5 1 0-5-2 3 1 1 0 3-1 5zM943 557l1-2 1 3 1-2-3-2zM923 550l3 1 0-2-2-1zM922 538l1 2 0 2 2 0 1-4-1-1zM920 552l2 0 1-2zM914 534l0 3 3 1 1-1zM914 556l0 1 3 1 0-3zM912 561l1 3 1 0 1-4-1-1zM911 559l0 1 3-2-2-2zM905 554l2 2 2-1 0-2-2-3zM866 2825l3 4 1-2 2 1 3-1-3-2 0 1-2 1-2-2zM848 2825l3 6 6 1-2-6 1-1 5-4 3 2 1-1-3-3 1-4 3 1 1-2-2-1 3-1-2-2-7 3 0 2-2 0-2 2-1 0-1 2-2 1-1 3-1-1zM844 2828l1 3 2 0 1 2 3-2-3-1-1-2zM731 838l2 2 2-1 1-2-2-2zM536 2590l1 3 2-3 2-1-3 0zM535 2872l3-1 1-3-1-2-3 4zM497 2621l3 0 2 1 3-2 0-3-4-1-3 2zM485 2578l1 3 2-2-1-2zM449 2641l1 4 2 1-1-6 1 0-1-3 0 3zM357 2518l1 0 2 6 2 4 3 0 2 3 3-1 3 3 1 3 4 4 2 7 4 19 1 9 2 0 1 4 1 3 2-1 2 1 1-1-1-3 2-7-4-1 1-6 2-2-2-2 3-4 1-6 2-4 2-3 2-4-2-7 1-5-1-6 1-2 0-3-4-6-3-2-3-1-3-5-2-1-4 2-1 6-4 1-1 6-3 2-6-2-7-1-2 0zM389 2593l2 2 1-1-2-4-1 0zM241 2711l2 0 0 3 3 0 1-2 3-2 0-2-5 0z","deco":{"countries":[{"t":"TRUNG QUỐC","at":[1269,88]},{"t":"LÀO","at":[243,909]},{"t":"CAM-PU-CHIA","at":[549,2088]},{"t":"THÁI LAN","at":[99,1866]},{"t":"Đ. Hải Nam","at":[1422,880],"small":true}],"water":[{"t":"Biển Đông","at":[1827,2107],"big":true},{"t":"Vịnh Bắc Bộ","at":[1134,727]},{"t":"Vịnh Thái Lan","at":[162,2703]}],"grid":{"lon":[104,106,108,110,112],"lat":[8,10,12,14,16,18,20,22],"tropic":23.4367}}}</script>
+<script>
+'use strict';
+/* =====================================================================
+   Vietnam 63 — learn the 63 provinces in force until 30 June 2025.
+   Plain JavaScript, no libraries. Sections:
+   1 data · 2 storage · 3 map drawing · 4 camera & gestures · 5 painting
+   6 answers · 7 spaced repetition · 8 UI helpers · 9 Learn / Progress
+   10 practice sessions · 11 rebuild · 12 sprint · 13 start-up
+   ===================================================================== */
+
+/* ---------- 1. Data ---------- */
+const D = JSON.parse(document.getElementById('vn-data').textContent);
+const PROJ = D.meta.proj;
+const PROV = D.provinces;
+const BY = {};
+PROV.forEach(p => { BY[p.c] = p; if (p.c === '79') { p.alt = [...(p.alt || []), p.n]; p.n = 'TP. Hồ Chí Minh'; } });
+const REGIONS = D.regions;
+const ALL = PROV.map(p => p.c);
+
+// Decode the compact path format "Mx yldx dy ...z" into rings of points.
+function parseRings(d) {
+  const rings = [];
+  const re = /M(-?\d+) (-?\d+)l([^z]*)z/g;
+  let m;
+  while ((m = re.exec(d))) {
+    let x = +m[1], y = +m[2];
+    const ring = [[x, y]];
+    const nums = m[3].match(/-?\d+/g) || [];
+    for (let i = 0; i + 1 < nums.length; i += 2) { x += +nums[i]; y += +nums[i + 1]; ring.push([x, y]); }
+    rings.push(ring);
+  }
+  return rings;
+}
+const ringArea = r => { let a = 0; for (let i = 0, j = r.length - 1; i < r.length; j = i++) a += (r[j][0] + r[i][0]) * (r[j][1] - r[i][1]); return Math.abs(a / 2); };
+function bboxOf(r) {
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const [x, y] of r) { if (x < x0) x0 = x; if (y < y0) y0 = y; if (x > x1) x1 = x; if (y > y1) y1 = y; }
+  return [x0, y0, x1 - x0, y1 - y0];
+}
+PROV.forEach(p => {
+  p.rings = parseRings(p.d);
+  p.main = p.rings.reduce((a, b) => (ringArea(b) > ringArea(a) ? b : a));
+  p.box = bboxOf(p.main);
+});
+
+// Typed answers: ignore case, tone marks and the words "tỉnh"/"thành phố".
+function norm(s) {
+  return String(s).toLowerCase().replace(/đ/g, 'd').normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim()
+    .replace(/^(tinh|thanh pho|tp) /, '');
+}
+const EXTRA = { '79': ['ho chi minh', 'hcm', 'tp hcm', 'tphcm'], '46': ['thua thien hue', 'thua thien'],
+  '77': ['brvt', 'ba ria vung tau'], '66': ['daklak', 'dac lac'], '67': ['daknong'], '62': ['kontum'] };
+PROV.forEach(p => {
+  const names = [p.n, ...(p.alt || []), ...(EXTRA[p.c] || [])].map(norm);
+  p.keys = new Set(names.flatMap(k => [k, k.replace(/ /g, '')]));
+});
+function lev(a, b) {
+  const m = a.length, n = b.length; if (Math.abs(m - n) > 1) return 2;
+  const dp = Array.from({ length: m + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= n; j++) dp[0][j] = j;
+  for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++)
+    dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return dp[m][n];
+}
+// Returns {p, near} — near=true when accepted with one typo that can't be another province.
+function matchName(text) {
+  const t = norm(text), t2 = t.replace(/ /g, '');
+  if (!t2) return null;
+  for (const p of PROV) if (p.keys.has(t) || p.keys.has(t2)) return { p, near: false };
+  if (t2.length < 6) return null;
+  const close = PROV.filter(p => [...p.keys].some(k => k.length >= 6 && !k.includes(' ') && lev(t2, k) <= 1));
+  return close.length === 1 ? { p: close[0], near: true } : null;
+}
+
+/* ---------- 2. Storage (this device only; wrapped so the app still runs without it) ---------- */
+const KEY = 'vn63.v1';
+const DEFAULT_SET = { typing: false, noBorders: false, names: true, caps: true, scope: 'all' };
+let store = { v: 1, srs: {}, best: {}, days: {}, intro: [], set: { ...DEFAULT_SET } };
+let canStore = true;
+try {
+  const raw = localStorage.getItem(KEY);
+  if (raw) { const s = JSON.parse(raw); store = { ...store, ...s, set: { ...DEFAULT_SET, ...(s.set || {}) } }; }
+} catch (e) { canStore = false; }
+function save() {
+  if (!canStore) return;
+  try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { canStore = false; }
+}
+
+/* ---------- 3. Map drawing ---------- */
+const NS = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('map');
+const world = document.getElementById('world');
+function mk(tag, attrs, parent) {
+  const el = document.createElementNS(NS, tag);
+  for (const k in attrs) el.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(el);
+  return el;
+}
+const merc = lat => 180 / Math.PI * Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360));
+const projX = lon => (lon - PROJ.lon0) * PROJ.s;
+const projY = lat => (PROJ.mtop - merc(lat)) * PROJ.s;
+const latOfY = y => { const m = PROJ.mtop - y / PROJ.s; return (2 * Math.atan(Math.exp(m * Math.PI / 180)) - Math.PI / 2) * 180 / Math.PI; };
+const kmPerUnit = y => 111.32 * Math.cos(latOfY(y) * Math.PI / 180) / PROJ.s;
+
+function drawGrid(g) {
+  const W = D.meta.w, H = D.meta.h;
+  D.deco.grid.lon.forEach(lon => mk('line', { x1: projX(lon), y1: 0, x2: projX(lon), y2: H }, g));
+  D.deco.grid.lat.forEach(lat => mk('line', { x1: 0, y1: projY(lat), x2: W, y2: projY(lat) }, g));
+  mk('line', { x1: 0, y1: projY(D.deco.grid.tropic), x2: W, y2: projY(D.deco.grid.tropic), class: 'tropic' }, g);
+}
+const gridUnder = mk('g', { class: 'grid', id: 'gridUnder' }, world);
+drawGrid(gridUnder);
+const others = mk('g', {}, world);
+D.others.forEach(o => mk('path', { d: o.d, class: 'other' }, others));
+const deco = mk('g', { class: 'deco' }, world);
+const DECO = [];
+D.deco.water.forEach(w => { const t = mk('text', { x: w.at[0], y: w.at[1], class: 'wtr', 'text-anchor': 'middle' }, deco); t.textContent = w.t; DECO.push([t, w.big ? 17 : 12.5, w.big ? 3 : 0.5]); });
+D.deco.countries.forEach(c => { const t = mk('text', { x: c.at[0], y: c.at[1], class: 'ctry', 'text-anchor': 'middle' }, deco); t.textContent = c.t; DECO.push([t, c.small ? 11 : 12, c.small ? 0.5 : 1.6]); });
+{ const t = mk('text', { x: 14, y: projY(D.deco.grid.tropic) - 8, class: 'wtr' }, deco); t.textContent = 'Chí tuyến Bắc'; DECO.push([t, 11, 0]); }
+
+const provG = mk('g', {}, world);
+const PATH = {};
+PROV.forEach(p => { PATH[p.c] = mk('path', { d: p.d, class: 'p', 'data-c': p.c }, provG); });
+mk('path', { d: D.outline, id: 'outline' }, world);
+const insetG = mk('g', {}, world);
+D.insets.forEach(i => {
+  const [x, y, w, h] = i.frame;
+  mk('rect', { x, y, width: w, height: h, class: 'frame' }, insetG);
+  const t = mk('text', { x, y: y - 10, class: 'wtr frame-t' }, insetG); t.textContent = i.label; DECO.push([t, 11.5, 0, [x, y, -5]]);
+  const s = mk('text', { x, y: y + h, class: 'wtr frame-t' }, insetG); s.textContent = i.sub; DECO.push([t === s ? t : s, 10, 0, [x, y + h, 13]]);
+});
+const gridOver = mk('g', { class: 'grid', id: 'gridOver' }, world);
+drawGrid(gridOver);
+const capG = mk('g', { id: 'caps' }, world);
+const CAPDOT = {}, CAPLBL = {};
+PROV.forEach(p => {
+  if (!p.capXY) return;
+  CAPDOT[p.c] = mk('circle', { cx: p.capXY[0], cy: p.capXY[1], r: 3, class: 'cap' }, capG);
+  const t = mk('text', { x: p.capXY[0] + 6, y: p.capXY[1] - 5, class: 'capl' }, capG);
+  t.textContent = p.cap; CAPLBL[p.c] = t;
+});
+const lblG = mk('g', {}, world);
+const LBL = {};
+PROV.forEach(p => { const t = mk('text', { x: p.lab[0], y: p.lab[1], class: 'lbl' }, lblG); t.textContent = p.n; LBL[p.c] = t; });
+const markG = mk('g', {}, world);
+
+/* ---------- 4. Camera & gestures ---------- */
+const cam = { k: 1, x: 0, y: 0 };
+let kFit = 1;
+function applyCam() { world.setAttribute('transform', `translate(${cam.x.toFixed(2)},${cam.y.toFixed(2)}) scale(${cam.k.toFixed(5)})`); }
+// The part of the screen not covered by the slip, chips and tab bar.
+function freeRect() {
+  const W = innerWidth, H = innerHeight;
+  const slip = document.getElementById('slip');
+  let top = 8, bottom = H - 8;
+  if (!slip.hidden) top = Math.max(top, slip.getBoundingClientRect().bottom + 8);
+  const chips = document.getElementById('chips');
+  const tabs = document.querySelector('nav.tabs').getBoundingClientRect().top;
+  bottom = Math.min(bottom, (chips.childElementCount ? chips.getBoundingClientRect().top : tabs) - 8);
+  if (W < 900 && sheet.classList.contains('open') && sheet.classList.contains('dock')) bottom = Math.min(bottom, sheet.offsetTop - 8); // layout position, ignores the slide-in animation
+  if (W >= 900 && !slip.hidden) { const sr = slip.getBoundingClientRect(); return { x: sr.right + 16, y: 8, w: W - sr.right - 16 - 60, h: bottom - 8 }; }
+  return { x: 8, y: top, w: W - 16 - 52, h: Math.max(80, bottom - top) };
+}
+function camFor(box, pad = 1.06) {
+  const r = freeRect();
+  const k = Math.min(r.w / (box[2] * pad), r.h / (box[3] * pad));
+  return { k, x: r.x + (r.w - box[2] * k) / 2 - box[0] * k, y: r.y + (r.h - box[3] * k) / 2 - box[1] * k };
+}
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let anim = 0;
+function flyTo(box, pad) {
+  const to = camFor(box, pad), from = { ...cam };
+  cancelAnimationFrame(anim);
+  if (reduced) { Object.assign(cam, to); applyCam(); onZoomEnd(); return; }
+  const t0 = performance.now(), dur = 380;
+  const step = t => {
+    const u = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - u, 3);
+    cam.k = from.k * Math.pow(to.k / from.k, e); cam.x = from.x + (to.x - from.x) * e; cam.y = from.y + (to.y - from.y) * e;
+    applyCam();
+    if (u < 1) anim = requestAnimationFrame(step); else onZoomEnd();
+  };
+  anim = requestAnimationFrame(step);
+}
+function zoomAt(sx, sy, f) {
+  const k = Math.max(kFit * 0.5, Math.min(kFit * 40, cam.k * f));
+  const r = k / cam.k;
+  cam.x = sx - (sx - cam.x) * r; cam.y = sy - (sy - cam.y) * r; cam.k = k;
+  applyCam();
+}
+const toWorld = (sx, sy) => [(sx - cam.x) / cam.k, (sy - cam.y) / cam.k];
+let zoomTimer = 0;
+function scheduleZoomEnd() { clearTimeout(zoomTimer); zoomTimer = setTimeout(onZoomEnd, 90); }
+// Keep text and dots a constant size on screen; show a name only when its province is big enough.
+function onZoomEnd() {
+  const k = cam.k;
+  const fs = 12.5 / k, sw = 3 / k;
+  for (const p of PROV) {
+    const t = LBL[p.c];
+    t.setAttribute('font-size', (p.sz * k > 140 ? 14 : 12.5) / k);
+    t.setAttribute('stroke-width', sw);
+    const show = labelWanted(p) && (p.sz * k > 26 || forcedLabel.has(p.c));
+    t.classList.toggle('off', !show);
+    if (CAPDOT[p.c]) {
+      CAPDOT[p.c].setAttribute('r', 3.2 / k); CAPDOT[p.c].setAttribute('stroke-width', 1.2 / k);
+      CAPLBL[p.c].setAttribute('font-size', 11 / k); CAPLBL[p.c].setAttribute('stroke-width', sw);
+      CAPLBL[p.c].setAttribute('x', p.capXY[0] + 5 / k); CAPLBL[p.c].setAttribute('y', p.capXY[1] - 4 / k);
+      CAPLBL[p.c].style.display = p.sz * k > 70 ? '' : 'none';
+    }
+  }
+  markG.querySelectorAll('circle').forEach(c => { c.setAttribute('r', 7 / k); c.setAttribute('stroke-width', 2.5 / k); });
+  for (const [t, px, ls, pos] of DECO) {
+    t.setAttribute('font-size', px / k); t.setAttribute('letter-spacing', ls / k);
+    if (pos) t.setAttribute('y', pos[1] + pos[2] / k);
+  }
+  void fs;
+}
+function fullBox() {
+  let [x, y, w, h] = D.meta.country_bbox, x1 = x + w, y1 = y + h;
+  D.insets.forEach(i => { x1 = Math.max(x1, i.frame[0] + i.frame[2]); y1 = Math.max(y1, i.frame[1] + i.frame[3] + 20); });
+  return [x, y, x1 - x, y1 - y];
+}
+const homeBox = () => { const r = freeRect(); return r.w / r.h > 0.62 ? fullBox() : D.meta.country_bbox; };
+function fitCountry() { flyTo(homeBox(), 1.04); }
+function fitScope(codes) {
+  if (!codes || codes.length === ALL.length) return fitCountry();
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  codes.forEach(c => { const b = BY[c].box; x0 = Math.min(x0, b[0]); y0 = Math.min(y0, b[1]); x1 = Math.max(x1, b[0] + b[2]); y1 = Math.max(y1, b[1] + b[3]); });
+  flyTo([x0, y0, x1 - x0, y1 - y0], 1.1);
+}
+function ensureVisible(c, minPx = 46) {
+  const b = BY[c].box, r = freeRect(), size = Math.max(b[2], b[3], 1);
+  const sx = cam.x + (b[0] + b[2] / 2) * cam.k, sy = cam.y + (b[1] + b[3] / 2) * cam.k;
+  const inView = sx > r.x + 10 && sx < r.x + r.w - 10 && sy > r.y + 10 && sy < r.y + r.h - 10;
+  if (size * cam.k >= minPx && inView) return;
+  const k = Math.min(Math.max(cam.k, minPx * 2.4 / size), kFit * 14);
+  const w = r.w / k, h = r.h / k, cx = b[0] + b[2] / 2, cy = b[1] + b[3] / 2;
+  flyTo([cx - w / 2, cy - h / 2, w, h], 1);
+}
+function panIntoView(c) {
+  const b = BY[c].box, r = freeRect();
+  const sx = cam.x + (b[0] + b[2] / 2) * cam.k, sy = cam.y + (b[1] + b[3] / 2) * cam.k;
+  if (sx > r.x + 20 && sx < r.x + r.w - 20 && sy > r.y + 20 && sy < r.y + r.h - 20) return;
+  const w = r.w / cam.k, h = r.h / cam.k;
+  flyTo([b[0] + b[2] / 2 - w / 2, b[1] + b[3] / 2 - h / 2, w, h], 1);
+}
+function resetFit() { kFit = camFor(homeBox(), 1.04).k; }
+
+// Pointer handling: one finger pans, two fingers pinch, a short still touch is a tap.
+const pts = new Map();
+let tap = null, pinch = null;
+svg.addEventListener('pointerdown', e => {
+  svg.setPointerCapture(e.pointerId);
+  pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  cancelAnimationFrame(anim);
+  if (pts.size === 1) tap = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), moved: false };
+  else { tap = null; pinch = null; }
+});
+svg.addEventListener('pointermove', e => {
+  const prev = pts.get(e.pointerId);
+  if (!prev) return;
+  const cur = { x: e.clientX, y: e.clientY };
+  if (pts.size === 1) {
+    if (tap && Math.hypot(cur.x - tap.x, cur.y - tap.y) > 9) tap.moved = true;
+    if (!tap || tap.moved) { cam.x += cur.x - prev.x; cam.y += cur.y - prev.y; applyCam(); }
+  } else if (pts.size === 2) {
+    const [a, b] = [...pts.values()];
+    const other = a === prev ? b : a;
+    const d0 = Math.hypot(prev.x - other.x, prev.y - other.y), d1 = Math.hypot(cur.x - other.x, cur.y - other.y);
+    const mx0 = (prev.x + other.x) / 2, my0 = (prev.y + other.y) / 2, mx1 = (cur.x + other.x) / 2, my1 = (cur.y + other.y) / 2;
+    if (d0 > 0) zoomAt(mx0, my0, d1 / d0);
+    cam.x += mx1 - mx0; cam.y += my1 - my0; applyCam();
+  }
+  pts.set(e.pointerId, cur);
+});
+function endPointer(e) {
+  if (!pts.has(e.pointerId)) return;
+  pts.delete(e.pointerId);
+  if (tap && tap.id === e.pointerId && !tap.moved && performance.now() - tap.t < 600 && e.type === 'pointerup') handleMapTap(e.clientX, e.clientY);
+  if (pts.size === 0) tap = null;
+  scheduleZoomEnd();
+}
+svg.addEventListener('pointerup', endPointer);
+svg.addEventListener('pointercancel', endPointer);
+svg.addEventListener('wheel', e => { e.preventDefault(); zoomAt(e.clientX, e.clientY, Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0018))); scheduleZoomEnd(); }, { passive: false });
+document.getElementById('zin').onclick = () => { zoomAt(innerWidth / 2, innerHeight / 2, 1.6); onZoomEnd(); };
+document.getElementById('zout').onclick = () => { zoomAt(innerWidth / 2, innerHeight / 2, 1 / 1.6); onZoomEnd(); };
+document.getElementById('zfit').onclick = () => (session ? fitScope(session.scope) : view === 'learn' && learnRegion != null ? fitScope(regionCodes(learnRegion)) : fitCountry());
+function provinceAt(sx, sy) {
+  const el = document.elementFromPoint(sx, sy);
+  const p = el && el.closest && el.closest('[data-c]');
+  return p ? p.getAttribute('data-c') : null;
+}
+function handleMapTap(sx, sy) {
+  const code = provinceAt(sx, sy), w = toWorld(sx, sy);
+  if (session) session.tap(code, w);
+  else if (view === 'learn') learnTap(code);
+  else if (view === 'progress') progressTap(code);
+}
+// Distance from a world point to the nearest edge of a province, in km.
+function kmToProvince(c, w) {
+  let best = Infinity;
+  for (const ring of BY[c].rings) for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [x1, y1] = ring[j], [x2, y2] = ring[i], dx = x2 - x1, dy = y2 - y1;
+    const t = Math.max(0, Math.min(1, ((w[0] - x1) * dx + (w[1] - y1) * dy) / (dx * dx + dy * dy || 1)));
+    best = Math.min(best, Math.hypot(w[0] - (x1 + t * dx), w[1] - (y1 + t * dy)));
+  }
+  return best * kmPerUnit(w[1]);
+}
+
+/* ---------- 5. Painting ---------- */
+const ATLAS = { light: ['#f6e98f', '#f3b9d6', '#bfe3b4', '#f7c98b', '#d8c4ee'], dark: ['#7a7240', '#7d4d63', '#4d6d4a', '#7e5e3a', '#5f5277'] };
+const darkMQ = matchMedia('(prefers-color-scheme: dark)');
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+let V = {};
+function readVars() { V = { paper: cssv('--paper'), hl: cssv('--hl'), okf: cssv('--okf'), badf: cssv('--badf'), other: cssv('--other'), dim: cssv('--dim') }; }
+readVars();
+function hex2rgb(h) { h = h.replace('#', ''); if (h.length === 3) h = h.replace(/./g, '$&$&'); const n = parseInt(h, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+function mix(a, b, t) { const A = hex2rgb(a), B = hex2rgb(b); return `rgb(${A.map((v, i) => Math.round(v + (B[i] - v) * t)).join(',')})`; }
+const atlasOf = p => ATLAS[darkMQ.matches ? 'dark' : 'light'][p.col % 5];
+// fillMode decides the base look: 'atlas' (Learn), 'mastery' (Progress), 'paper' (practice).
+let fillMode = 'atlas';
+const mark = { target: new Set(), done: new Set(), dim: new Set(), ok: new Set(), miss: new Set() };
+const forcedLabel = new Set();
+let labelWanted = () => true;
+function baseFill(p) {
+  const paper = V.paper;
+  if (mark.target.has(p.c)) return V.hl;
+  if (mark.ok.has(p.c)) return V.okf;
+  if (mark.miss.has(p.c)) return V.badf;
+  if (mark.done.has(p.c)) return atlasOf(p);
+  if (mark.dim.has(p.c)) return V.dim;
+  if (fillMode === 'atlas') return atlasOf(p);
+  if (fillMode === 'mastery') return mix(paper, atlasOf(p), mastery(p.c) / 5);
+  return paper;
+}
+function paint(c) {
+  const p = BY[c], el = PATH[c];
+  el.style.fill = baseFill(p);
+  el.classList.toggle('target', mark.target.has(c));
+  if (mark.target.has(c) || mark.ok.has(c) || mark.miss.has(c)) provG.appendChild(el);
+  const t = LBL[c];
+  t.classList.toggle('good', mark.ok.has(c));
+  t.classList.toggle('miss', mark.miss.has(c));
+  t.classList.toggle('onhl', mark.target.has(c));
+}
+function paintAll() { ALL.forEach(paint); onZoomEnd(); }
+function clearMarks() { Object.values(mark).forEach(s => s.clear()); forcedLabel.clear(); markG.innerHTML = ''; ALL.forEach(c => PATH[c].classList.remove('reveal')); }
+function flash(c, kind) {
+  if (!c) return;
+  const el = PATH[c]; const cls = kind === 'ok' ? 'flash-ok' : 'flash-bad';
+  el.classList.remove(cls); void el.getBoundingClientRect(); el.classList.add(cls);
+  setTimeout(() => el.classList.remove(cls), 950);
+}
+function tapMark(w) { markG.innerHTML = ''; mk('circle', { cx: w[0], cy: w[1], r: 7 / cam.k, 'stroke-width': 2.5 / cam.k, class: 'mark' }, markG); }
+darkMQ.addEventListener && darkMQ.addEventListener('change', () => { readVars(); paintAll(); });
+
+/* ---------- 6–7. Spaced repetition ----------
+   Each province has three skills: find (locate it), name (recall its name), nb (its neighbours).
+   Boxes 0–5; a right answer moves up a box and waits longer; a wrong one drops two boxes and is due now. */
+const DAYS = [0, 1, 2, 4, 9, 21];
+const ymd = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const DAY = 864e5;
+function rec(c, skill) { store.srs[c] = store.srs[c] || {}; return (store.srs[c][skill] = store.srs[c][skill] || { b: 0, n: 0, due: 0 }); }
+function record(c, skill, ok) {
+  const s = rec(c, skill), now = Date.now();
+  s.n++; s.last = now;
+  if (ok) { s.b = Math.min(5, s.b + 1); s.due = now + DAYS[s.b] * DAY * (0.9 + Math.random() * 0.2); }
+  else { s.b = Math.max(0, s.b - 2); s.due = now; }
+  if (!store.intro.includes(c)) store.intro.push(c);
+  const day = ymd(new Date());
+  store.days[day] = (store.days[day] || 0) + 1;
+  save();
+}
+const box = (c, skill) => (store.srs[c] && store.srs[c][skill] ? store.srs[c][skill].b : 0);
+const mastery = c => (box(c, 'find') + box(c, 'name')) / 2;
+function streak() {
+  const d = new Date();
+  if (!store.days[ymd(d)]) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (store.days[ymd(d)]) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+// Weakest first, ties shuffled — so practice hits what you know least.
+function byWeakness(codes, skill) { return shuffle(codes.slice()).sort((a, b) => box(a, skill) - box(b, skill)); }
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+// New provinces are introduced anchors first (the six cities), then region by region, big to small.
+const ANCHORS = ['01', '79', '48', '31', '92', '46'];
+const LEARN_ORDER = [...ANCHORS, ...PROV.filter(p => !ANCHORS.includes(p.c)).sort((a, b) => a.r - b.r || b.area - a.area).map(p => p.c)];
+function dueTests() {
+  const now = Date.now(), out = [];
+  for (const c of store.intro) for (const skill of ['find', 'name']) { const s = store.srs[c] && store.srs[c][skill]; if (s && s.due <= now) out.push({ type: skill, c, due: s.due }); }
+  return out.sort((a, b) => a.due - b.due);
+}
+function nextDue() {
+  let t = Infinity;
+  for (const c of store.intro) for (const skill of ['find', 'name']) { const s = store.srs[c] && store.srs[c][skill]; if (s) t = Math.min(t, s.due); }
+  return t;
+}
+
+/* ---------- 8. UI helpers ---------- */
+const $ = id => document.getElementById(id);
+const slip = $('slip'), sheet = $('sheet'), scrim = $('scrim'), chipsEl = $('chips');
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+let toastT = 0;
+function toast(msg, ms = 2200) { const t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), ms); }
+function setSlip(html) {
+  if (html == null) { slip.hidden = true; slip.innerHTML = ''; } else { slip.hidden = false; slip.innerHTML = html; }
+  document.documentElement.style.setProperty('--slip-b', (slip.hidden ? 0 : slip.getBoundingClientRect().bottom) + 'px');
+}
+let sheetModal = false;
+function openSheet(html, modal = true) {
+  sheet.innerHTML = html; sheet.classList.add('open'); sheet.classList.toggle('dock', !modal); sheet.scrollTop = 0; sheetModal = modal;
+  scrim.classList.toggle('on', modal);
+  sheet.setAttribute('aria-modal', modal ? 'true' : 'false');
+  if (modal) setTimeout(() => { const f = sheet.querySelector('button, input'); if (f) f.focus({ preventScroll: true }); }, 60);
+}
+function closeSheet() { sheet.classList.remove('open'); scrim.classList.remove('on'); sheetModal = false; }
+scrim.addEventListener('click', () => { if (!session || !session.locked) closeSheet(); });
+const fmtTime = ms => { const s = Math.round(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+const regionCodes = r => PROV.filter(p => p.r === r).map(p => p.c);
+const scopeCodes = s => (s === 'all' ? ALL.slice() : regionCodes(+s));
+const scopeName = s => (s === 'all' ? 'All 63' : REGIONS[+s].en);
+function regionChips(active, onPick) {
+  chipsEl.innerHTML = '';
+  [['all', 'All 63'], ...REGIONS.map((r, i) => [String(i), r.en])].forEach(([v, label]) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.textContent = label;
+    b.setAttribute('aria-pressed', String(v === active));
+    b.onclick = () => { [...chipsEl.children].forEach(x => x.setAttribute('aria-pressed', 'false')); b.setAttribute('aria-pressed', 'true'); onPick(v); };
+    chipsEl.appendChild(b);
+  });
+}
+const typeLabel = p => (p.city ? 'Centrally-run city' : 'Province');
+function mergeLine(p) {
+  const partners = PROV.filter(q => q.to === p.to && q.c !== p.c).map(q => esc(q.n));
+  if (!partners.length) return 'Unchanged in the merger';
+  return `Merged with ${partners.join(' and ')} into ${esc(p.to)}`;
+}
+function factsHTML(p) {
+  const nbs = p.nb.map(c => `<button type="button" class="chip" data-go="${c}">${esc(BY[c].n)}</button>`).join('');
+  const skills = store.srs[p.c] ? `<dt>Your level</dt><dd>Find ${box(p.c, 'find')}/5, name ${box(p.c, 'name')}/5, neighbours ${box(p.c, 'nb')}/5</dd>` : '';
+  return `<dl class="facts">
+    <dt>Type</dt><dd>${typeLabel(p)}</dd>
+    <dt>Region</dt><dd>${esc(REGIONS[p.r].vi)}</dd>
+    ${p.cap ? `<dt>Capital</dt><dd>${esc(p.cap)}</dd>` : ''}
+    <dt>1 July 2025</dt><dd>${mergeLine(p)}</dd>
+    ${skills}
+  </dl>
+  ${p.note ? `<p class="small">${esc(p.note)}</p>` : ''}
+  <h3>Neighbours (${p.nb.length})</h3><div class="nbs">${nbs || '<span class="small">None on land</span>'}</div>`;
+}
+
+/* ---------- 9. Learn and Progress ---------- */
+let view = 'learn', learnRegion = null, session = null, selected = null;
+function setTab(t) {
+  ['learn', 'practice', 'progress'].forEach(x => $('tab-' + x).setAttribute('aria-selected', String(x === t)));
+}
+$('tab-learn').onclick = () => { endSession(true); showLearn(); };
+$('tab-practice').onclick = () => { if (!session) showPracticePicker(); else toast('Finish or close the round first'); };
+$('tab-progress').onclick = () => { endSession(true); showProgress(); };
+
+function learnSlip() {
+  setSlip(`<div class="row"><div class="grow kicker">Learn</div>
+      <label class="sw"><input type="checkbox" id="tgNames" ${store.set.names ? 'checked' : ''}> Names</label>
+      <label class="sw" style="margin-left:10px"><input type="checkbox" id="tgCaps" ${store.set.caps ? 'checked' : ''}> Capitals</label></div>`);
+  $('tgNames').onchange = e => { store.set.names = e.target.checked; save(); onZoomEnd(); if (!store.set.names) toast('Names hidden. Tap a province to check yourself.'); };
+  $('tgCaps').onchange = e => { store.set.caps = e.target.checked; save(); svg.classList.toggle('hide-caps', !store.set.caps); };
+}
+function showLearn() {
+  view = 'learn'; setTab('learn'); closeSheet(); clearMarks(); selected = null;
+  fillMode = 'atlas'; svg.classList.remove('noborders');
+  svg.classList.toggle('hide-caps', !store.set.caps);
+  labelWanted = p => store.set.names || p.c === selected;
+  learnSlip();
+  regionChips(learnRegion == null ? 'all' : String(learnRegion), v => { learnRegion = v === 'all' ? null : +v; v === 'all' ? fitCountry() : fitScope(regionCodes(+v)); });
+  paintAll();
+}
+function learnTap(c) {
+  if (!c) { if (selected) { const old = selected; selected = null; forcedLabel.clear(); mark.target.delete(old); paint(old); onZoomEnd(); closeSheet(); } return; }
+  if (selected) { mark.target.delete(selected); paint(selected); }
+  forcedLabel.clear(); forcedLabel.add(c);
+  selected = c; mark.target.add(c); paint(c); onZoomEnd();
+  const p = BY[c];
+  openSheet(`<div class="row"><div class="grow"><h2>${esc(p.n)}</h2></div><button type="button" class="x" aria-label="Close" data-close>×</button></div>${factsHTML(p)}`, false);
+  sheet.querySelector('[data-close]').onclick = () => learnTap(null);
+  requestAnimationFrame(() => panIntoView(c));
+  sheet.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { learnTap(b.dataset.go); ensureVisible(b.dataset.go); });
+}
+
+function showProgress() {
+  view = 'progress'; setTab('progress'); closeSheet(); clearMarks(); selected = null;
+  fillMode = 'mastery'; svg.classList.remove('noborders'); svg.classList.add('hide-caps');
+  labelWanted = p => mastery(p.c) >= 4;
+  chipsEl.innerHTML = '';
+  const mastered = ALL.filter(c => mastery(c) >= 4).length;
+  const grad = [0, 1, 2, 3, 4, 5].map(l => mix(V.paper, ATLAS[darkMQ.matches ? 'dark' : 'light'][0], l / 5)).join(',');
+  setSlip(`<div class="row"><div class="grow"><div class="kicker">Progress</div><div class="big" style="font-size:22px">${mastered} of 63 mastered</div>
+      <div class="small">${store.intro.length} started, ${dueTests().length} due, ${streak()}-day streak</div></div>
+      <button type="button" class="btn" id="details">Details</button></div>
+    <div class="legend" style="background:linear-gradient(90deg,${grad})"></div>
+    <div class="row small" style="justify-content:space-between"><span>New</span><span>Mastered</span></div>`);
+  $('details').onclick = progressDetails;
+  paintAll(); fitCountry();
+}
+function progressDetails() {
+  const regionRows = REGIONS.map((r, i) => {
+    const cs = regionCodes(i), m = cs.filter(c => mastery(c) >= 4).length;
+    return `<div class="stat"><span class="grow">${esc(r.en)}<div class="bar"><i style="width:${(100 * m / cs.length).toFixed(0)}%"></i></div></span><span class="meta">${m} of ${cs.length}</span></div>`;
+  }).join('');
+  const bestR = store.best['rebuild:all'], bestS = store.best['sprint:all'];
+  openSheet(`<div class="row"><div class="grow"><h2>Your progress</h2></div><button type="button" class="x" aria-label="Close" data-close>×</button></div>
+    <p class="small">A province fills with its atlas colour as your Find it and Name it scores rise, and its name is printed once it's mastered.</p>
+    <h3>By region</h3>${regionRows}
+    <h3>Personal bests</h3>
+    <div class="stat"><span>Rebuild, all 63</span><span class="meta">${bestR ? `${fmtTime(bestR.ms)}, ${bestR.err} wrong` : 'Not yet'}</span></div>
+    <div class="stat"><span>Sprint, all 63</span><span class="meta">${bestS ? `${bestS.score} in 60 s` : 'Not yet'}</span></div>
+    <div class="btnrow"><button type="button" class="btn" id="bkp">Back up progress</button><button type="button" class="btn" id="rst">Restore</button><button type="button" class="btn" id="src">Sources</button><button type="button" class="btn" id="wipe">Reset</button></div>
+    <p class="small">Progress is saved on this device only. To move it to another device, back it up here and restore it there.</p>
+    ${canStore ? '' : '<p class="small">This browser is blocking storage, so progress lasts only until you close the app.</p>'}`, true);
+  sheet.querySelector('[data-close]').onclick = closeSheet;
+  $('bkp').onclick = backup; $('rst').onclick = restore; $('src').onclick = showSources;
+  $('wipe').onclick = () => { if (confirmInline('wipe', 'Tap Reset again to erase all progress')) { store = { v: 1, srs: {}, best: {}, days: {}, intro: [], set: store.set }; save(); closeSheet(); showProgress(); toast('Progress erased'); } };
+}
+function progressTap(c) {
+  if (!c) return;
+  const p = BY[c];
+  toast(`${p.n}: find ${box(c, 'find')}/5, name ${box(c, 'name')}/5`);
+}
+const armed = {};
+function confirmInline(id, msg) { if (armed[id] && Date.now() - armed[id] < 4000) { armed[id] = 0; return true; } armed[id] = Date.now(); toast(msg, 3500); return false; }
+function backup() {
+  const blob = new Blob([JSON.stringify(store)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `vietnam63-progress-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+function restore() {
+  const i = document.createElement('input'); i.type = 'file'; i.accept = 'application/json,.json';
+  i.onchange = () => { const f = i.files[0]; if (!f) return; f.text().then(t => { const s = JSON.parse(t); if (!s || !s.srs) throw 0; store = { ...store, ...s, set: { ...DEFAULT_SET, ...(s.set || {}) } }; save(); closeSheet(); showProgress(); toast('Progress restored'); }).catch(() => toast('That file is not a Vietnam 63 backup')); };
+  i.click();
+}
+function showSources() {
+  openSheet(`<div class="row"><div class="grow"><h2>Sources</h2></div><button type="button" class="x" aria-label="Close" data-close>×</button></div>
+  <p>The map shows the 63 provincial-level units in force on 30 June 2025, the day before they were merged into 34 (Nghị quyết 202/2025/QH15).</p>
+  <p><b>Boundaries:</b> district boundaries from OCHA ROAP and the Government of Viet Nam (2020), licensed CC BY 3.0 IGO, via geoBoundaries (William &amp; Mary geoLab). Districts were merged into provinces and simplified to about 0.7 km.</p>
+  <p><b>Names and codes:</b> Quyết định 124/2004/QĐ-TTg. <b>Regions:</b> Nghị quyết 81/2023/QH15. <b>Changes:</b> NQ 22/2003/QH11, NQ 15/2008/QH12, NQ 175/2024/QH15, NQ 202/2025/QH15. <b>Capitals:</b> Atlat Địa lí Việt Nam.</p>
+  <p><b>Neighbouring countries:</b> Natural Earth (public domain). <b>Typeface:</b> Be Vietnam Pro, SIL Open Font License.</p>
+  <p class="small">Trường Sa is drawn in an inset at 40% scale. Hoàng Sa is at its true position.</p>`, true);
+  sheet.querySelector('[data-close]').onclick = progressDetails;
+}
+
+/* ---------- 10. Practice sessions ---------- */
+const MODES = [
+  { id: 'review', name: 'Daily review', desc: 'What’s due today, plus up to 6 new provinces.' },
+  { id: 'find', name: 'Find it', desc: 'A name appears. Tap that province.' },
+  { id: 'name', name: 'Name it', desc: 'A province lights up. Name it.' },
+  { id: 'nb', name: 'Neighbours', desc: 'Tap every province that borders it.' },
+  { id: 'rebuild', name: 'Rebuild', desc: 'Fill the blank map from memory, against the clock.' },
+  { id: 'sprint', name: 'Sprint', desc: '60 seconds. As many as you can.' },
+];
+function showPracticePicker() {
+  endSession(true);
+  view = 'practice'; setTab('practice'); clearMarks(); fillMode = 'paper'; labelWanted = () => false;
+  svg.classList.add('hide-caps'); svg.classList.remove('noborders');
+  setSlip(null); chipsEl.innerHTML = ''; paintAll(); fitCountry();
+  const due = dueTests().length;
+  const scopeBtns = [['all', 'All 63'], ...REGIONS.map((r, i) => [String(i), r.en])].map(([v, l]) =>
+    `<button type="button" class="chip" data-scope="${v}" aria-pressed="${store.set.scope === v}">${esc(l)}</button>`).join('');
+  const modeBtns = MODES.map(m => `<button type="button" class="mode${m.id === 'review' ? ' rec' : ''}" data-mode="${m.id}">
+      <span class="grow"><b>${m.id === 'review' ? `<span>${m.name}</span>` : m.name}</b><small>${m.id === 'review' ? (due ? `${due} due now. ` : store.intro.length ? 'Nothing due — new provinces only. ' : 'Start here. ') : ''}${m.desc}</small></span><span class="go">Start</span></button>`).join('');
+  openSheet(`<div class="row"><div class="grow"><h2>Practice</h2></div></div>
+    <h3 style="margin-top:12px">Area</h3><div class="scope">${scopeBtns}</div>
+    <div class="modes">${modeBtns}</div>
+    <p class="small">Daily review always covers all 63.</p>
+    <h3>Options</h3>
+    <div class="toggles">
+      <label class="sw"><input type="checkbox" id="optType" ${store.set.typing ? 'checked' : ''}> Answer by typing</label>
+      <label class="sw"><input type="checkbox" id="optNoB" ${store.set.noBorders ? 'checked' : ''}> Hide borders in Find it and Rebuild</label>
+    </div>`, true);
+  sheet.querySelectorAll('[data-scope]').forEach(b => b.onclick = () => {
+    store.set.scope = b.dataset.scope; save();
+    sheet.querySelectorAll('[data-scope]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    fitScope(scopeCodes(store.set.scope));
+  });
+  $('optType').onchange = e => { store.set.typing = e.target.checked; save(); };
+  $('optNoB').onchange = e => { store.set.noBorders = e.target.checked; save(); };
+  sheet.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => startMode(b.dataset.mode));
+}
+function startMode(id) {
+  closeSheet();
+  const scopeKey = id === 'review' ? 'all' : store.set.scope;
+  const scope = scopeCodes(scopeKey);
+  if (id === 'rebuild') return startRebuild(scope, scopeKey);
+  if (id === 'sprint') return startSprint(scope, scopeKey);
+  let items;
+  if (id === 'review') items = buildReview();
+  else if (id === 'find') items = byWeakness(scope, 'find').map(c => ({ type: 'find', c }));
+  else if (id === 'name') items = byWeakness(scope, 'name').map(c => ({ type: 'name', c }));
+  else items = byWeakness(scope.filter(c => BY[c].nb.length), 'nb').map(c => ({ type: 'nb', c }));
+  if (!items.length) {
+    const t = nextDue();
+    toast(t < Infinity ? `All caught up. Next review ${t - Date.now() < DAY ? 'later today' : 'in ' + Math.ceil((t - Date.now()) / DAY) + ' days'}.` : 'All 63 started and nothing is due. Try Rebuild.', 3500);
+    return showPracticePicker();
+  }
+  runSession({ mode: id, scope, scopeKey, items });
+}
+function buildReview() {
+  const due = shuffle(dueTests().slice(0, 20).map(({ type, c }) => ({ type, c })));
+  const room = Math.max(0, Math.min(6, Math.ceil((24 - due.length) / 3)));
+  const fresh = LEARN_ORDER.filter(c => !store.intro.includes(c)).slice(0, room);
+  const q = due.slice();
+  fresh.forEach((c, i) => {
+    const at = Math.min(q.length, i * 3);
+    q.splice(at, 0, { type: 'meet', c });
+    q.splice(Math.min(q.length, at + 4), 0, { type: 'find', c });
+    q.splice(Math.min(q.length, at + 8), 0, { type: 'name', c });
+  });
+  return q;
+}
+
+// One engine runs Daily review, Find it, Name it and Neighbours.
+function runSession(cfg) {
+  view = 'practice'; setTab('practice');
+  clearMarks(); fillMode = 'paper'; svg.classList.add('hide-caps');
+  chipsEl.innerHTML = '';
+  const s = session = {
+    ...cfg, queue: cfg.items.slice(), total: cfg.items.filter(i => i.type !== 'meet').length,
+    done: 0, firstTry: 0, tried: new Set(), misses: new Set(), t0: Date.now(), cur: null, waiting: false,
+    tap: () => {}, key: () => {},
+  };
+  const outside = new Set(ALL.filter(c => !cfg.scope.includes(c)));
+  outside.forEach(c => mark.dim.add(c));
+  labelWanted = p => forcedLabel.has(p.c);
+  setSlip(`${header('Get ready')}<div class="big">&nbsp;</div>`);
+  paintAll(); fitScope(cfg.scope);
+  setTimeout(() => nextItem(), 60);
+}
+function header(kind) {
+  const s = session;
+  return `<div class="row"><div class="grow kicker">${esc(kind)}</div><span class="meta">${Math.min(s.done + 1, s.total)} of ${s.total}</span><button type="button" class="x" aria-label="End round" id="endBtn">×</button></div>`;
+}
+function wireEnd() { const b = $('endBtn'); if (b) b.onclick = () => finishSession(true); }
+function resetItemMarks() {
+  ['target', 'ok', 'miss'].forEach(k => mark[k].clear()); forcedLabel.clear(); markG.innerHTML = '';
+  ALL.forEach(c => PATH[c].classList.remove('reveal'));
+  svg.classList.toggle('noborders', false);
+}
+function nextItem() {
+  const s = session; if (!s) return;
+  resetItemMarks();
+  s.waiting = false;
+  const it = s.cur = s.queue.shift();
+  if (!it) return finishSession(false);
+  ({ meet: itemMeet, find: itemFind, name: itemName, nb: itemNb })[it.type](it);
+  paintAll();
+  wireEnd();
+}
+// Count only the first attempt at each item for scoring and for spaced repetition.
+function score(it, ok, skill) {
+  const s = session, key = it.type + it.c;
+  if (!s.tried.has(key)) {
+    s.tried.add(key);
+    if (ok) s.firstTry++; else s.misses.add(it.c);
+    record(it.c, skill, ok);
+  }
+  if (ok) s.done++;
+  else s.queue.splice(Math.min(3, s.queue.length), 0, { ...it });
+}
+function continueBtn(label = 'Next') {
+  return `<div class="btnrow"><button type="button" class="btn primary" id="nextBtn">${label}</button></div>`;
+}
+function wireNext() { const b = $('nextBtn'); if (b) { b.onclick = () => nextItem(); b.focus({ preventScroll: true }); } }
+
+function itemMeet(it) {
+  const p = BY[it.c];
+  mark.target.add(it.c); forcedLabel.add(it.c);
+  setSlip(`<div class="row"><div class="grow kicker">New province</div><button type="button" class="x" aria-label="End round" id="endBtn">×</button></div>
+    <div class="big"><span class="hlw">${esc(p.n)}</span></div>
+    <div class="small">${esc(REGIONS[p.r].vi)}${p.cap ? `. Capital ${esc(p.cap)}` : ''}. Borders ${p.nb.map(c => esc(BY[c].n)).join(', ') || 'no land neighbours'}.</div>
+    ${continueBtn('Got it')}`);
+  wireNext(); ensureVisible(it.c);
+  session.tap = () => {}; session.key = e => { if (e.key === 'Enter') nextItem(); };
+}
+
+function itemFind(it) {
+  const p = BY[it.c], hidden = store.set.noBorders;
+  svg.classList.toggle('noborders', hidden);
+  setSlip(`${header(hidden ? 'Find it — borders hidden' : 'Find it')}<div class="big">${esc(p.n)}</div><div id="fb"></div>`);
+  session.key = e => { if (session.waiting && e.key === 'Enter') nextItem(); };
+  session.tap = (code, w) => {
+    if (session.waiting) return;
+    if (hidden) tapMark(w);
+    if (code === it.c) {
+      score(it, true, 'find'); mark.ok.add(it.c); forcedLabel.add(it.c); paint(it.c); flash(it.c, 'ok'); onZoomEnd();
+      $('fb').innerHTML = '<div class="fb ok">Correct</div>';
+      session.waiting = true; setTimeout(() => { if (session && session.cur === it) nextItem(); }, 650);
+      return;
+    }
+    score(it, false, 'find');
+    session.waiting = true;
+    mark.target.add(it.c); forcedLabel.add(it.c); PATH[it.c].classList.add('reveal');
+    let msg;
+    if (hidden) msg = `${Math.max(1, Math.round(kmToProvince(it.c, w)))} km off. ${esc(p.n)} is highlighted.`;
+    else if (code) { forcedLabel.add(code); mark.miss.add(code); paint(code); msg = `That’s ${esc(BY[code].n)}. ${esc(p.n)} is highlighted.`; }
+    else msg = `That’s the sea. ${esc(p.n)} is highlighted.`;
+    paint(it.c); onZoomEnd(); flash(code, 'bad');
+    $('fb').innerHTML = `<div class="fb bad">${msg}</div>${continueBtn()}`;
+    wireNext(); ensureVisible(it.c);
+  };
+}
+
+function itemName(it) {
+  const p = BY[it.c];
+  mark.target.add(it.c); paint(it.c);
+  ensureVisible(it.c);
+  const typing = store.set.typing && !session.sprint;
+  let body;
+  if (typing) {
+    body = `<form class="answer" id="ansForm" autocomplete="off"><input id="ans" type="text" inputmode="text" autocapitalize="words" autocorrect="off" spellcheck="false" placeholder="Type the name" aria-label="Province name"><button class="btn primary" type="submit">Check</button></form>`;
+  } else {
+    // Decoys come from the neighbours, then the neighbours' neighbours: look-alikes, not giveaways.
+    const pool = shuffle(p.nb.slice()).slice(0, 3);
+    const hop2 = shuffle([...new Set(p.nb.flatMap(c => BY[c].nb))].filter(c => c !== p.c && !pool.includes(c)));
+    while (pool.length < 3 && hop2.length) pool.push(hop2.shift());
+    if (pool.length < 3) shuffle(PROV.filter(q => q.r === p.r && q.c !== p.c && !pool.includes(q.c)).map(q => q.c)).slice(0, 3 - pool.length).forEach(c => pool.push(c));
+    if (pool.length < 3) shuffle(ALL.filter(c => c !== p.c && !pool.includes(c))).slice(0, 3 - pool.length).forEach(c => pool.push(c));
+    body = `<div class="choices">${shuffle([it.c, ...pool]).map((c, i) => `<button type="button" class="btn" data-pick="${c}"><span class="small">${i + 1}</span> ${esc(BY[c].n)}</button>`).join('')}</div>`;
+  }
+  setSlip(`${session.sprint ? sprintHead() : header('Name the highlighted province')}${body}<div id="fb"></div>`);
+  const answer = (code, typed) => {
+    if (session.waiting) return;
+    const ok = code === it.c;
+    if (!session.sprint) score(it, ok, 'name'); else sprintScore(it, ok);
+    forcedLabel.add(it.c);
+    if (ok) {
+      mark.target.delete(it.c); mark.ok.add(it.c); paint(it.c); flash(it.c, 'ok'); onZoomEnd();
+      $('fb').innerHTML = `<div class="fb ok">${typed && typed.near ? `Correct. Spelling: ${esc(p.n)}` : 'Correct'}</div>`;
+      sheetMarkChoice(code, true);
+      session.waiting = true; setTimeout(() => { if (session && session.cur === it) nextItem(); }, typed && typed.near ? 1300 : 650);
+      return;
+    }
+    session.waiting = true; sheetMarkChoice(code, false); sheetMarkChoice(it.c, true);
+    let msg = `It’s ${esc(p.n)}.`;
+    if (code) { mark.miss.add(code); forcedLabel.add(code); paint(code); flash(code, 'bad'); msg = `${esc(BY[code].n)} is the one in red. This is ${esc(p.n)}.`; }
+    else if (typed && typed.raw) msg = `“${esc(typed.raw)}” isn’t a province name. This is ${esc(p.n)}.`;
+    onZoomEnd();
+    if (session.sprint) { $('fb').innerHTML = `<div class="fb bad">${msg}</div>`; setTimeout(() => { if (session && session.cur === it) nextItem(); }, 900); return; }
+    $('fb').innerHTML = `<div class="fb bad">${msg}</div>${continueBtn()}`; wireNext();
+  };
+  if (typing) {
+    const inp = $('ans'); setTimeout(() => inp.focus({ preventScroll: true }), 50);
+    $('ansForm').onsubmit = e => { e.preventDefault(); if (session.waiting) return nextItem(); const raw = inp.value.trim(); if (!raw) return; const m = matchName(raw); answer(m ? m.p.c : null, { near: m && m.near, raw }); };
+  } else {
+    slip.querySelectorAll('[data-pick]').forEach(b => b.onclick = () => answer(b.dataset.pick));
+  }
+  session.tap = (code) => { if (!session.waiting && code) toast('Answer in the box at the top'); };
+  session.key = e => {
+    if (session.waiting && e.key === 'Enter' && !typing) return nextItem();
+    if (!typing && !session.waiting && /^[1-4]$/.test(e.key)) { const b = slip.querySelectorAll('[data-pick]')[+e.key - 1]; if (b) b.click(); }
+  };
+}
+function sheetMarkChoice(code, right) {
+  const b = slip.querySelector(`[data-pick="${code}"]`);
+  if (b) b.classList.add(right ? 'right' : 'wrong');
+}
+
+function itemNb(it) {
+  const p = BY[it.c], need = new Set(p.nb), found = new Set();
+  let errors = 0, revealed = false;
+  mark.target.add(it.c); forcedLabel.add(it.c); paint(it.c);
+  { const b = p.box, m = Math.max(b[2], b[3]) * 1.6; flyTo([b[0] - m, b[1] - m, b[2] + 2 * m, b[3] + 2 * m], 1); }
+  const render = (extra = '') => {
+    setSlip(`${header('Tap every neighbour of')}<div class="big">${esc(p.n)}</div>
+      <div class="meta" style="margin-top:4px">${found.size} of ${need.size} found${errors ? `, ${errors} wrong` : ''}</div>
+      <div id="fb">${extra}</div>`);
+    wireEnd();
+  };
+  const finish = (ok, msg) => {
+    session.waiting = true; score(it, ok, 'nb');
+    render(`<div class="fb ${ok ? 'ok' : 'bad'}">${msg}</div>${continueBtn()}`); wireNext();
+  };
+  render(`<div class="btnrow"><button type="button" class="btn" id="giveUp">Show the rest</button></div>`);
+  const wireGive = () => { const g = $('giveUp'); if (g) g.onclick = () => {
+    revealed = true;
+    need.forEach(c => { if (!found.has(c)) { mark.miss.add(c); forcedLabel.add(c); PATH[c].classList.add('reveal'); paint(c); } });
+    onZoomEnd(); finish(false, `Missed ${[...need].filter(c => !found.has(c)).map(c => esc(BY[c].n)).join(', ')}.`);
+  }; };
+  wireGive();
+  session.key = e => { if (session.waiting && e.key === 'Enter') nextItem(); };
+  session.tap = code => {
+    if (session.waiting || !code || code === it.c || found.has(code)) return;
+    if (need.has(code)) {
+      found.add(code); mark.ok.add(code); forcedLabel.add(code); paint(code); flash(code, 'ok'); onZoomEnd();
+      if (found.size === need.size) return finish(errors === 0 && !revealed, errors ? `All ${need.size} found, with ${errors} wrong.` : `All ${need.size} found.`);
+      render(`<div class="btnrow"><button type="button" class="btn" id="giveUp">Show the rest</button></div>`); wireGive();
+    } else {
+      errors++; flash(code, 'bad'); toast(`${BY[code].n} doesn’t border ${p.n}`);
+      render(`<div class="btnrow"><button type="button" class="btn" id="giveUp">Show the rest</button></div>`); wireGive();
+    }
+  };
+}
+
+function finishSession(aborted) {
+  const s = session; if (!s) return;
+  clearInterval(s.timer); session = null;
+  const progressed = s.mode === 'rebuild' ? s.filled.size > 0 : s.mode === 'sprint' ? s.points + s.wrong > 0 : s.tried.size > 0;
+  if (aborted && !progressed) { resetItemMarks(); return showPracticePicker(); }
+  const secs = Date.now() - s.t0;
+  let title, lines = '';
+  if (s.mode === 'rebuild') {
+    const n = s.filled.size, all = s.scope.length;
+    title = n === all ? 'Map rebuilt' : `${n} of ${all} placed`;
+    let best = '';
+    if (n === all && !s.gaveUp) {
+      const k = 'rebuild:' + s.scopeKey, b = store.best[k];
+      if (!b || secs < b.ms || (secs === b.ms && s.errors < b.err)) { store.best[k] = { ms: secs, err: s.errors }; save(); best = 'New personal best.'; }
+      else best = `Best: ${fmtTime(b.ms)}.`;
+    }
+    lines = `<p class="big" style="margin-top:6px">${fmtTime(secs)}</p><p>${s.errors} wrong ${s.errors === 1 ? 'guess' : 'guesses'}${s.gaveUp ? ', some revealed' : ''}. ${best}</p>`;
+  } else if (s.mode === 'sprint') {
+    title = 'Time’s up';
+    const k = 'sprint:' + s.scopeKey, b = store.best[k];
+    let best = '';
+    if (!b || s.points > b.score) { store.best[k] = { score: s.points }; save(); best = s.points ? 'New personal best.' : ''; }
+    else best = `Best: ${b.score}.`;
+    lines = `<p class="big" style="margin-top:6px">${s.points} right</p><p>${s.wrong} wrong in 60 seconds. ${best}</p>`;
+  } else {
+    title = aborted ? 'Round ended' : 'Round complete';
+    const asked = s.tried.size;
+    lines = `<p class="big" style="margin-top:6px">${s.firstTry} of ${asked}</p><p>right first time, in ${fmtTime(secs)}.</p>`;
+  }
+  const missChips = [...s.misses].map(c => `<button type="button" class="chip" data-go="${c}">${esc(BY[c].n)}</button>`).join('');
+  resetItemMarks(); setSlip(null);
+  s.misses.forEach(c => { mark.miss.add(c); forcedLabel.add(c); });
+  paintAll();
+  openSheet(`<h2>${title}</h2>${lines}
+    ${missChips ? `<h3>To work on</h3><div class="misses">${missChips}</div>` : ''}
+    <div class="btnrow"><button type="button" class="btn primary" id="again">Practise again</button><button type="button" class="btn" id="done">Done</button></div>`, true);
+  sheet.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { closeSheet(); ensureVisible(b.dataset.go); toast(BY[b.dataset.go].n); });
+  $('again').onclick = () => startMode(s.mode);
+  $('done').onclick = () => showPracticePicker();
+}
+function endSession(silent) {
+  if (!session) return;
+  clearInterval(session.timer); session = null;
+  if (!silent) showPracticePicker();
+}
+
+/* ---------- 11. Rebuild: the blank map, filled from memory ---------- */
+function startRebuild(scope, scopeKey) {
+  view = 'practice'; setTab('practice'); clearMarks(); chipsEl.innerHTML = '';
+  fillMode = 'paper'; svg.classList.add('hide-caps');
+  const outside = ALL.filter(c => !scope.includes(c)); outside.forEach(c => mark.dim.add(c));
+  const s = session = { mode: 'rebuild', scope, scopeKey, filled: new Set(), errors: 0, t0: Date.now(), active: null, tried: new Set(), misses: new Set(), done: 0, gaveUp: false, locked: false, key: () => {} };
+  labelWanted = p => s.filled.has(p.c) || forcedLabel.has(p.c);
+  const noB = store.set.noBorders;
+  svg.classList.toggle('noborders', noB);
+  const head = () => `<div class="row"><div class="grow kicker">Rebuild${noB ? ' — borders hidden' : ''}</div><span class="meta" id="clock">${fmtTime(Date.now() - s.t0)}</span><span class="meta">${s.filled.size} of ${scope.length}</span><button type="button" class="x" aria-label="End round" id="endBtn">×</button></div>`;
+  const idle = () => {
+    s.active = null;
+    setSlip(`${head()}<div class="big" style="font-size:20px">${noB ? 'Tap a spot, then name the province there' : 'Tap any province and name it'}</div>${s.errors ? `<div class="meta">${s.errors} wrong</div>` : ''}<div class="btnrow"><button type="button" class="btn" id="reveal">Reveal the rest</button></div>`);
+    wireEnd(); $('reveal').onclick = () => { if (confirmInline('reveal', 'Tap again to reveal every remaining name')) giveUp(); };
+  };
+  const giveUp = () => {
+    s.gaveUp = true;
+    scope.forEach(c => { if (!s.filled.has(c)) { s.misses.add(c); mark.miss.add(c); forcedLabel.add(c); } });
+    paintAll(); finishSession(false);
+  };
+  const ask = code => {
+    s.active = code;
+    ALL.forEach(c => mark.target.delete(c)); mark.target.add(code); paintAll();
+    const typing = store.set.typing;
+    const remaining = scope.filter(c => !s.filled.has(c)).sort((a, b) => norm(BY[a].n).localeCompare(norm(BY[b].n)));
+    const body = typing
+      ? `<form class="answer" id="ansForm" autocomplete="off"><input id="ans" type="text" autocapitalize="words" autocorrect="off" spellcheck="false" placeholder="Name this province" aria-label="Province name"><button class="btn primary" type="submit">Check</button></form>`
+      : `<div class="namelist">${remaining.map(c => `<button type="button" class="chip" data-pick="${c}">${esc(BY[c].n)}</button>`).join('')}</div>`;
+    setSlip(`${head()}${body}<div id="fb"></div><div class="btnrow"><button type="button" class="btn" id="cancel">Not this one</button></div>`);
+    wireEnd(); requestAnimationFrame(() => panIntoView(code));
+    $('cancel').onclick = () => { mark.target.delete(code); paint(code); idle(); };
+    const check = (pick, raw, near) => {
+      const key = 'rb' + code;
+      if (pick === code) {
+        if (!s.tried.has(key)) { s.tried.add(key); record(code, 'name', true); }
+        s.filled.add(code); mark.target.delete(code); mark.done.add(code); markG.innerHTML = ''; paint(code); flash(code, 'ok'); onZoomEnd();
+        if (near) toast(`Spelling: ${BY[code].n}`);
+        if (s.filled.size === scope.length) return finishSession(false);
+        return idle();
+      }
+      s.errors++;
+      if (!s.tried.has(key)) { s.tried.add(key); s.misses.add(code); record(code, 'name', false); }
+      flash(code, 'bad');
+      const msg = pick ? `Not ${esc(BY[pick].n)}. Try again, or pick another province.` : raw ? `“${esc(raw)}” isn’t a province name. Try again.` : 'Try again.';
+      $('fb').innerHTML = `<div class="fb bad">${msg}</div>`;
+      const b = pick && slip.querySelector(`[data-pick="${pick}"]`); if (b) b.classList.add('wrong');
+    };
+    if (typing) {
+      const inp = $('ans'); setTimeout(() => inp.focus({ preventScroll: true }), 50);
+      $('ansForm').onsubmit = e => { e.preventDefault(); const raw = inp.value.trim(); if (!raw) return; const m = matchName(raw); check(m ? m.p.c : null, raw, m && m.near); inp.select(); };
+    } else slip.querySelectorAll('[data-pick]').forEach(b => b.onclick = () => check(b.dataset.pick));
+  };
+  s.tap = (code, w) => {
+    if (!code) return;
+    if (!scope.includes(code)) return toast('That province is outside this area');
+    if (s.filled.has(code)) return toast(`${BY[code].n} is already placed`);
+    if (noB) tapMark(w);
+    ask(code);
+  };
+  s.timer = setInterval(() => { const c = $('clock'); if (c) c.textContent = fmtTime(Date.now() - s.t0); }, 1000);
+  paintAll(); fitScope(scope); setTimeout(idle, 30);
+}
+
+/* ---------- 12. Sprint: 60 seconds, mixed find and name ---------- */
+function startSprint(scope, scopeKey) {
+  view = 'practice'; setTab('practice'); clearMarks(); chipsEl.innerHTML = '';
+  fillMode = 'paper'; svg.classList.add('hide-caps'); svg.classList.remove('noborders');
+  ALL.filter(c => !scope.includes(c)).forEach(c => mark.dim.add(c));
+  const s = session = { mode: 'sprint', sprint: true, scope, scopeKey, points: 0, wrong: 0, t0: Date.now(), end: Date.now() + 60000,
+    tried: new Set(), misses: new Set(), done: 0, firstTry: 0, queue: [], total: 0, cur: null, tap: () => {}, key: () => {} };
+  labelWanted = p => forcedLabel.has(p.c);
+  let last = null;
+  s.queue = { shift: () => { let c; do { c = scope[Math.floor(Math.random() * scope.length)]; } while (scope.length > 1 && c === last); last = c; return { type: Math.random() < 0.5 ? 'find' : 'name', c }; }, splice() {} };
+  s.timer = setInterval(() => {
+    const left = s.end - Date.now(), bar = $('tbar'), sec = $('tsec');
+    if (bar) bar.style.transform = `scaleX(${Math.max(0, left / 60000)})`;
+    if (sec) sec.textContent = Math.max(0, Math.ceil(left / 1000));
+    if (left <= 0) finishSession(false);
+  }, 200);
+  paintAll(); fitScope(scope);
+  setTimeout(() => nextSprint(), 60);
+}
+function sprintHead() {
+  const s = session;
+  return `<div class="row"><div class="grow kicker">Sprint</div><span class="meta">${s.points} right</span><span class="meta"><span id="tsec">${Math.ceil((s.end - Date.now()) / 1000)}</span> s</span><button type="button" class="x" aria-label="End round" id="endBtn">×</button></div><div class="timer" id="tbar" style="transform:scaleX(${(s.end - Date.now()) / 60000})"></div>`;
+}
+function sprintScore(it, ok) {
+  const s = session; const key = it.type + it.c;
+  if (ok) s.points++; else { s.wrong++; s.misses.add(it.c); }
+  if (!s.tried.has(key)) { s.tried.add(key); record(it.c, it.type === 'find' ? 'find' : 'name', ok); }
+}
+function nextSprint() {
+  const s = session; if (!s || !s.sprint) return;
+  resetItemMarks(); s.waiting = false;
+  const it = s.cur = s.queue.shift();
+  if (it.type === 'name') { itemName(it); paintAll(); wireEnd(); return; }
+  const p = BY[it.c];
+  setSlip(`${sprintHead()}<div class="kicker" style="margin-top:6px">Find</div><div class="big">${esc(p.n)}</div><div id="fb"></div>`);
+  wireEnd();
+  s.tap = code => {
+    if (s.waiting) return;
+    const ok = code === it.c; sprintScore(it, ok); s.waiting = true;
+    forcedLabel.add(it.c);
+    if (ok) { mark.ok.add(it.c); flash(it.c, 'ok'); } else { mark.target.add(it.c); if (code) { mark.miss.add(code); flash(code, 'bad'); } }
+    paintAll();
+    setTimeout(() => { if (session === s) nextSprint(); }, ok ? 350 : 900);
+  };
+  paintAll();
+}
+// In a sprint, itemName's auto-advance calls nextItem(); route it back to the sprint.
+const _nextItem = nextItem;
+nextItem = function () { if (session && session.sprint) return nextSprint(); return _nextItem(); };
+
+/* ---------- 13. Start-up ---------- */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { if (sheet.classList.contains('open') && !session) closeSheet(); return; }
+  if (e.target.tagName === 'BUTTON' && (e.key === 'Enter' || e.key === ' ')) return;
+  if (session && session.key && !(e.target.tagName === 'INPUT' && e.key !== 'Enter')) session.key(e);
+});
+const setTabsH = () => document.documentElement.style.setProperty('--tabs-h', document.querySelector('nav.tabs').offsetHeight + 'px');
+setTabsH();
+let lastW = innerWidth, lastH = innerHeight;
+addEventListener('resize', () => {
+  const cx = (lastW / 2 - cam.x) / cam.k, cy = (lastH / 2 - cam.y) / cam.k, kRel = cam.k / kFit;
+  setTabsH(); resetFit(); cam.k = kFit * kRel; cam.x = innerWidth / 2 - cx * cam.k; cam.y = innerHeight / 2 - cy * cam.k;
+  lastW = innerWidth; lastH = innerHeight; applyCam(); onZoomEnd();
+});
+showLearn();
+resetFit();
+Object.assign(cam, camFor(homeBox(), 1.04)); applyCam(); onZoomEnd();
+if (!store.intro.length) setTimeout(() => toast('Pinch or scroll to zoom. Tap any province.', 3200), 600);
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  try { navigator.serviceWorker.register('sw.js').catch(() => {}); } catch (e) { /* preview frames can't register workers */ }
+}
+</script>
+</body>
+</html>

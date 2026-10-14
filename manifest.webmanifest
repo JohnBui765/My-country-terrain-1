@@ -1,0 +1,30 @@
+{
+  "name": "Vietnam 63",
+  "short_name": "VN 63",
+  "description": "Learn and practise Vietnam's 63 provinces (before the July 2025 merger) on a blank map.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#cfe6f0",
+  "theme_color": "#cfe6f0",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
