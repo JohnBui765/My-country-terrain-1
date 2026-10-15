@@ -1,7 +1,8 @@
 {
+  "id": "./",
   "name": "Vietnam 63",
-  "short_name": "VN 63",
-  "description": "Learn and practise Vietnam's 63 provinces (before the July 2025 merger) on a blank map.",
+  "short_name": "Vietnam 63",
+  "description": "Learn Vietnam's 63 provinces on a map made for your fingers, grouped and numbered as in the Atlat Địa lí Việt Nam.",
   "lang": "en",
   "start_url": "./",
   "scope": "./",

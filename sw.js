@@ -1,5 +1,5 @@
 // Vietnam 63 offline cache. Change VERSION after editing any file so phones pick up the new copy.
-const VERSION = 'vn63-v1';
+const VERSION = 'vn63-v2';
 const ASSETS = [
   "./",
   "./index.html",
@@ -8,6 +8,7 @@ const ASSETS = [
   "./icons/icon-512.png",
   "./icons/maskable-512.png",
   "./icons/apple-touch-icon.png",
+  "./icons/favicon-32.png",
   "./fonts/be-vietnam-pro-vietnamese-400-normal.woff2",
   "./fonts/be-vietnam-pro-latin-400-normal.woff2",
   "./fonts/be-vietnam-pro-vietnamese-600-normal.woff2",
