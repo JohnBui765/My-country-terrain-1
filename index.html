@@ -927,7 +927,8 @@ function freeRect() {
   const tabs = document.querySelector('nav.tabs').getBoundingClientRect().top;
   bottom = Math.min(bottom, (chipsEl.childElementCount ? chipsEl.getBoundingClientRect().top : tabs) - 8);
   if (W < 900 && sheet.classList.contains('open') && sheet.classList.contains('dock')) bottom = Math.min(bottom, sheet.offsetTop - 8);
-  if (W >= 900 && sheet.classList.contains('open') && sheet.classList.contains('dock')) { const sr = sheet.getBoundingClientRect(); return { x: sr.right + 16, y: 8, w: W - sr.right - 16 - 66, h: bottom - 8 }; }
+  // The docked card's resting position (offset*, not getBoundingClientRect, which sees it mid-slide).
+  if (W >= 900 && sheet.classList.contains('open') && sheet.classList.contains('dock')) { const right = sheet.offsetLeft + sheet.offsetWidth; return { x: right + 16, y: 8, w: W - right - 16 - 66, h: bottom - 8 }; }
   if (W >= 900 && !slip.hidden) { const sr = slip.getBoundingClientRect(); return { x: sr.right + 16, y: 8, w: W - sr.right - 16 - 66, h: bottom - 8 }; }
   return { x: 8, y: top, w: W - 16 - 58, h: Math.max(80, bottom - top) };
 }
