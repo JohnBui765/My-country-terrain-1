@@ -942,19 +942,23 @@ const mainlandBox = () => { const [x, y, , h] = D.meta.country_bbox; return [x, 
 const homeBox = () => { const r = freeRect(); return r.w / r.h > 0.95 ? D.meta.territory_bbox : mainlandBox(); };
 function limits() {
   kFit = camFor(homeBox(), 1.04).k;
-  kMin = Math.max(vw / EXT[2], vh / EXT[3]);
+  // Normally the drawn window must cover the screen, but never so strictly that the fitted
+  // view is out of reach (landscape phones have little height to spare).
+  kMin = Math.min(Math.max(vw / EXT[2], vh / EXT[3]), kFit * 0.85);
   kMax = Math.max(16, kFit * 40);
 }
-const xRange = k => [vw - k * (EXT[0] + EXT[2]), -k * EXT[0]];
-const yRange = k => [vh - k * (EXT[1] + EXT[3]), -k * EXT[1]];
-function hardClamp(c) {
+// Allowed camera offsets at a zoom: the drawn window covers the screen or, when it is
+// smaller than the screen, stays wholly on it (beyond it there is only solid fog anyway).
+const span = (a, b) => (a < b ? [a, b] : [b, a]);
+const xRange = k => span(vw - k * (EXT[0] + EXT[2]), -k * EXT[0]);
+const yRange = k => span(vh - k * (EXT[1] + EXT[3]), -k * EXT[1]);
+// Clamp a camera into the limits, scaling about (ax, ay) when the zoom has to change.
+function hardClamp(c, ax = vw / 2, ay = vh / 2) {
   const k = Math.min(kMax, Math.max(kMin, c.k));
   let x = c.x, y = c.y;
-  if (k !== c.k) { x = vw / 2 - (vw / 2 - c.x) * k / c.k; y = vh / 2 - (vh / 2 - c.y) * k / c.k; }
-  const [ax, bx] = xRange(k), [ay, by] = yRange(k);
-  x = ax <= bx ? Math.min(bx, Math.max(ax, x)) : (ax + bx) / 2;
-  y = ay <= by ? Math.min(by, Math.max(ay, y)) : (ay + by) / 2;
-  return { k, x, y };
+  if (k !== c.k) { x = ax - (ax - c.x) * k / c.k; y = ay - (ay - c.y) * k / c.k; }
+  const [lx, hx] = xRange(k), [ly, hy] = yRange(k);
+  return { k, x: Math.min(hx, Math.max(lx, x)), y: Math.min(hy, Math.max(ly, y)) };
 }
 // iOS-style resistance past the edges: the further you pull, the less it follows.
 const rubber = (over, dim) => (1 - 1 / (over * 0.55 / dim + 1)) * dim;
@@ -966,14 +970,24 @@ function displayFromRaw(raw, ax, ay) {
   const wx = (ax - raw.x) / raw.k, wy = (ay - raw.y) / raw.k;
   let x = ax - wx * k, y = ay - wy * k;
   const [lx, hx] = xRange(k), [ly, hy] = yRange(k);
-  x = lx <= hx ? soften(x, lx, hx, vw) : (lx + hx) / 2;
-  y = ly <= hy ? soften(y, ly, hy, vh) : (ly + hy) / 2;
-  return { k, x, y };
+  return { k, x: soften(x, lx, hx, vw), y: soften(y, ly, hy, vh) };
+}
+// The inverse: the raw camera that displays exactly as c when anchored at (ax, ay). Gestures
+// restart from it whenever fingers are added or lifted, so the rubber band never applies twice.
+const unrubber = (r, dim) => (dim / 0.55) * (1 / (1 - Math.min(r / dim, 0.999)) - 1);
+const unsoften = (v, lo, hi, dim) => (v < lo ? lo - unrubber(lo - v, dim) : v > hi ? hi + unrubber(v - hi, dim) : v);
+function rawFromDisplay(c, ax, ay) {
+  let k = c.k;
+  if (k > kMax) k = kMax * Math.exp(unrubber(Math.log(k / kMax), 0.25));
+  else if (k < kMin) k = kMin / Math.exp(unrubber(Math.log(kMin / k), 0.25));
+  const [lx, hx] = xRange(c.k), [ly, hy] = yRange(c.k);
+  const x0 = unsoften(c.x, lx, hx, vw), y0 = unsoften(c.y, ly, hy, vh);
+  return { k, x: ax - (ax - x0) * k / c.k, y: ay - (ay - y0) * k / c.k };
 }
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-let anim = 0, animating = false;
+let anim = 0, animating = false, coasting = false;
 const moving = () => animating || pts.size > 0;
-function stopAnim() { cancelAnimationFrame(anim); anim = 0; animating = false; }
+function stopAnim() { cancelAnimationFrame(anim); anim = 0; animating = false; coasting = false; }
 const easeOut = u => 1 - Math.pow(1 - u, 3);
 // Animate to a camera, keeping the world point under (ax, ay) on a straight path.
 function animateTo(to, dur = 420, ax = vw / 2, ay = vh / 2) {
@@ -989,7 +1003,7 @@ function animateTo(to, dur = 420, ax = vw / 2, ay = vh / 2) {
     cam.k = k; cam.x = ax - (w0[0] + (w1[0] - w0[0]) * e) * k; cam.y = ay - (w0[1] + (w1[1] - w0[1]) * e) * k;
     applyCam();
     if (u < 1) anim = requestAnimationFrame(step);
-    else { anim = 0; animating = false; Object.assign(cam, to); applyCam(); commit(); }
+    else { anim = 0; animating = false; coasting = false; Object.assign(cam, to); applyCam(); commit(); }
   };
   anim = requestAnimationFrame(step);
 }
@@ -1026,18 +1040,28 @@ function panIntoView(c) {
 const pts = new Map();
 const SLOP = 9;
 let raw = null, tapCand = null, twoTap = null, lastTap = null, gRaf = 0, idleT = 0, samples = [], anchor = [0, 0], ignoreRest = false;
+let pivot = [0, 0];   // where the last drawn frame was anchored: the bounce-back turns about it
 function baseline() { for (const p of pts.values()) { p.bx = p.x; p.by = p.y; } }
+// Restart the gesture from what is on screen: anchor at the finger(s), raw camera inverted.
+function resync() {
+  const list = [...pts.values()];
+  if (!list.length) return;
+  anchor = list.length === 1 ? [list[0].x, list[0].y] : [(list[0].x + list[1].x) / 2, (list[0].y + list[1].y) / 2];
+  raw = rawFromDisplay(cam, anchor[0], anchor[1]);
+  baseline();
+}
 stage.addEventListener('pointerdown', e => {
   if (e.pointerType === 'mouse' && e.button !== 0) return;
   try { stage.setPointerCapture(e.pointerId); } catch (err) { /* already released */ }
   // iOS can swallow the end of a touch (an abandoned edge swipe); a new first finger starts clean.
   if (e.isPrimary && pts.size) pts.clear();
-  if (!pts.size) { stopAnim(); raw = { ...cam }; samples = []; ignoreRest = false; }
+  const stopper = !pts.size && coasting;   // a touch that only stops a glide is not a tap
+  if (!pts.size) { stopAnim(); samples = []; ignoreRest = false; }
   const now = performance.now();
   pts.set(e.pointerId, { x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY, bx: e.clientX, by: e.clientY });
-  if (pts.size === 1) { tapCand = { id: e.pointerId, x: e.clientX, y: e.clientY, t: now, moved: false }; twoTap = null; }
+  if (pts.size === 1) { tapCand = { id: e.pointerId, x: e.clientX, y: e.clientY, t: now, moved: false, stopper }; twoTap = null; }
   else { if (tapCand) tapCand.moved = true; twoTap = pts.size === 2 ? { t: now, moved: false } : null; }
-  baseline();
+  resync();
   stage.classList.add('dragging');
 });
 stage.addEventListener('pointermove', e => {
@@ -1069,12 +1093,25 @@ function stepGesture() {
   } else return;
   Object.assign(cam, displayFromRaw(raw, anchor[0], anchor[1]));
   applyCam();
+  pivot = anchor.slice();
   const now = performance.now();
+  keepSharp(now);
   samples.push({ t: now, x: cam.x, y: cam.y, k: cam.k });
   while (samples.length && now - samples[0].t > 100) samples.shift();
   // A finger resting still gets a sharp map under it.
   clearTimeout(idleT);
   idleT = setTimeout(() => { if (pts.size && !gRaf) commit(); }, 220);
+}
+// On a long pan, glide or pinch, redraw the sharp canvas before its edge comes into view or it
+// is stretched too far — at most every 180 ms — rather than showing the soft backdrop.
+let lastSharp = 0;
+function keepSharp(now) {
+  if (now - lastSharp < 180) return;
+  const s = cam.k / com.k, tx = cam.x - com.x * s, ty = cam.y - com.y * s, mx = .35 * s * pad.x, my = .35 * s * pad.y;
+  if (s < .75 || s > 1.4 || tx - s * pad.x > -mx || ty - s * pad.y > -my || tx + s * (vw + pad.x) < vw + mx || ty + s * (vh + pad.y) < vh + my) {
+    lastSharp = now;
+    commit();
+  }
 }
 function endPointer(e) {
   const p = pts.get(e.pointerId);
@@ -1082,8 +1119,9 @@ function endPointer(e) {
   pts.delete(e.pointerId);
   const now = performance.now(), up = e.type === 'pointerup';
   if (up && tapCand && tapCand.id === e.pointerId && !tapCand.moved && pts.size === 0 && now - tapCand.t < 500) {
+    const stopper = tapCand.stopper;
     tapCand = null; stage.classList.remove('dragging'); clearTimeout(idleT);
-    onTap(e.clientX, e.clientY, now);
+    if (!stopper) onTap(e.clientX, e.clientY, now);
     if (!animating) settle();
     return;
   }
@@ -1093,8 +1131,7 @@ function endPointer(e) {
     zoomBy((p.x + o.x) / 2, (p.y + o.y) / 2, 0.5);
     return;
   }
-  baseline();
-  if (pts.size) return;
+  if (pts.size) { resync(); return; }
   stage.classList.remove('dragging'); clearTimeout(idleT);
   if (ignoreRest) { ignoreRest = false; return; }
   release();
@@ -1119,33 +1156,40 @@ function release() {
   settle();
 }
 function glide(vx, vy) {
-  raw = { ...cam };
+  raw = rawFromDisplay(cam, vw / 2, vh / 2);
   let last = performance.now();
-  animating = true;
+  animating = coasting = true;
   const step = now => {
     const dt = Math.min(34, now - last); last = now;
     const c = hardClamp(cam), out = Math.abs(c.x - cam.x) > .5 || Math.abs(c.y - cam.y) > .5;
     const decay = Math.exp(-dt / (out ? 60 : 325));
     raw.x += vx * dt; raw.y += vy * dt; vx *= decay; vy *= decay;
-    Object.assign(cam, displayFromRaw(raw, vw / 2, vh / 2)); applyCam();
+    Object.assign(cam, displayFromRaw(raw, vw / 2, vh / 2)); applyCam(); keepSharp(now);
     if (Math.hypot(vx, vy) > 0.02) anim = requestAnimationFrame(step);
-    else { anim = 0; animating = false; settle(); }
+    else { anim = 0; animating = coasting = false; settle(); }
   };
   anim = requestAnimationFrame(step);
 }
 function settle() {
-  const to = hardClamp(cam);
-  if (Math.abs(to.k - cam.k) / cam.k > 1e-3 || Math.abs(to.x - cam.x) > .5 || Math.abs(to.y - cam.y) > .5) animateTo(to, 340, anchor[0], anchor[1]);
+  const to = hardClamp(cam, pivot[0], pivot[1]);
+  if (Math.abs(to.k - cam.k) / cam.k > 1e-3 || Math.abs(to.x - cam.x) > .5 || Math.abs(to.y - cam.y) > .5) { animateTo(to, 340, pivot[0], pivot[1]); coasting = animating; }
   else if (cam.k !== com.k || cam.x !== com.x || cam.y !== com.y) commit();
 }
+let pendingTap = 0;
 function onTap(sx, sy, now) {
-  if (lastTap && now - lastTap.t < 320 && Math.hypot(sx - lastTap.x, sy - lastTap.y) < 30 && !tapIsAnswer()) {
+  const answer = tapIsAnswer();
+  clearTimeout(pendingTap); pendingTap = 0;
+  if (!answer && lastTap && now - lastTap.t < 320 && Math.hypot(sx - lastTap.x, sy - lastTap.y) < 30) {
     lastTap = null;
     zoomBy(sx, sy, 2);
     return;
   }
   lastTap = { t: now, x: sx, y: sy };
-  handleMapTap(sx, sy);
+  const w = toWorld(sx, sy);
+  if (answer) return handleMapTap(w);
+  // Learn, Table and Progress: wait out the double-tap window so a double-tap only zooms.
+  const v0 = view, s0 = session;
+  pendingTap = setTimeout(() => { pendingTap = 0; if (view === v0 && session === s0) handleMapTap(w); }, 260);
 }
 // Safari's own page zoom must never take over from the map.
 ['gesturestart', 'gesturechange', 'gestureend'].forEach(t => document.addEventListener(t, e => e.preventDefault(), { passive: false }));
@@ -1194,8 +1238,8 @@ function tapIsAnswer() {
   if (!session) return false;
   return !(session.cur && (session.cur.type === 'meet' || session.cur.type === 'name'));
 }
-function handleMapTap(sx, sy) {
-  const w = toWorld(sx, sy);
+function handleMapTap(w) {
+  const sx = cam.x + cam.k * w[0], sy = cam.y + cam.k * w[1];
   let code = provinceAt(w);
   const picks = !session || tapIsAnswer();
   if (picks) {
@@ -1942,6 +1986,7 @@ addEventListener('resize', () => {
     const cx = (lastW / 2 - cam.x) / cam.k, cy = (lastH / 2 - cam.y) / cam.k, kRel = cam.k / kFit;
     stopAnim(); setTabsH(); setChipsH(); sizeLive(); limits();
     Object.assign(cam, hardClamp({ k: kFit * kRel, x: innerWidth / 2 - cx * kFit * kRel, y: innerHeight / 2 - cy * kFit * kRel }));
+    if (pts.size) resync();
     lastW = innerWidth; lastH = innerHeight; commit();
   });
 });
