@@ -20,7 +20,7 @@ The app is in English; province names are in Vietnamese.
 ## Put it online (GitHub Pages)
 
 1. Create a new public repository, for example `vietnam63`.
-2. Upload everything in this folder, keeping the `fonts`, `icons` and `tools` folders.
+2. Upload every file in this folder. All files sit at the top level, so there are no folders to keep.
 3. In the repository, open Settings, then Pages. Under "Build and deployment", choose
    "Deploy from a branch", branch `main`, folder `/ (root)`, and save.
 4. After a minute the app is at `https://<your-username>.github.io/vietnam63/`.
@@ -41,22 +41,22 @@ previous version is kept.
 
 ## After editing any file
 
-Change `VERSION` at the top of `sw.js` (for example to `vn63-v3`). Otherwise installed
+Change `VERSION` at the top of `sw.js` (for example to `vn63-v6`). Otherwise installed
 copies keep showing the cached version.
 
 ## Rebuilding the map data
 
-The map data is embedded in `index.html`. `tools/build_data.py` rebuilds it from
-`tools/vietnam63-base.json` (the provinces) and Natural Earth (the neighbours):
+The map data is embedded in `index.html`. `build_data.py` rebuilds it from
+`vietnam63-base.json` (the provinces) and Natural Earth (the neighbours):
 
 ```sh
 pip install shapely
 npm pack world-atlas@2.0.2 && tar xzf world-atlas-2.0.2.tgz
-python3 tools/build_data.py package
+python3 build_data.py package
 ```
 
 The Atlat table (regions, numbers, area, population) is written out in the script and checked
-against the table's region totals. `tools/make_splash.py icons/icon-1024.png` remakes the
+against the table's region totals. `make_splash.py icon-1024.png` remakes the
 iPhone launch screens.
 
 ## Sources and licences
@@ -74,4 +74,4 @@ iPhone launch screens.
 - Neighbouring countries: Natural Earth 1:50m (public domain), via world-atlas. Biển Đông is
   labelled East Sea, the name Vietnam uses in English; it is also known internationally as
   the South China Sea.
-- Typeface: Be Vietnam Pro, SIL Open Font License 1.1 (see `fonts/OFL.txt`).
+- Typeface: Be Vietnam Pro, SIL Open Font License 1.1 (see `OFL.txt`).

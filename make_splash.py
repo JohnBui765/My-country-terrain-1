@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Make the iPhone launch screens (apple-touch-startup-image) and link them from index.html.
 
-Usage: python3 tools/make_splash.py icons/icon-1024.png
-Needs Pillow. Writes icons/splash/*.png and replaces the block between
+Usage: python3 make_splash.py icon-1024.png
+Needs Pillow. Writes splash-*.png and replaces the block between
 <!--STARTUP--> and <!--/STARTUP--> in index.html.
 
 Each screen is the app's sea colour with the icon in the middle, as iOS shows it while the
@@ -13,8 +13,8 @@ import sys
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter
 
-ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / 'icons' / 'splash'
+ROOT = Path(__file__).resolve().parent
+OUT = ROOT
 # Portrait screens of iPhones that run iOS 26–27: CSS width, height, pixel ratio.
 SCREENS = [
     (375, 667, 2), (414, 896, 2), (375, 812, 3), (414, 896, 3), (390, 844, 3), (428, 926, 3),
@@ -69,13 +69,13 @@ def main(icon_path):
             img.save(OUT / name, optimize=True)
             media = f'(device-width: {w}px) and (device-height: {h}px) and (-webkit-device-pixel-ratio: {d}) and (orientation: portrait)'
             if theme == 'dark': media += ' and (prefers-color-scheme: dark)'
-            links.append(f'<link rel="apple-touch-startup-image" media="screen and {media}" href="icons/splash/{name}">')
+            links.append(f'<link rel="apple-touch-startup-image" media="screen and {media}" href="{name}">')
     html = (ROOT / 'index.html').read_text(encoding='utf-8')
     start, end = html.index('<!--STARTUP-->'), html.find('<!--/STARTUP-->')
     end = start + len('<!--STARTUP-->') if end < 0 else end + len('<!--/STARTUP-->')
     html = html[:start] + '<!--STARTUP-->\n' + '\n'.join(links) + '\n<!--/STARTUP-->' + html[end:]
     (ROOT / 'index.html').write_text(html, encoding='utf-8')
-    total = sum(f.stat().st_size for f in OUT.glob('*.png'))
+    total = sum(f.stat().st_size for f in OUT.glob('splash-*.png'))
     print(f'{len(links)} launch screens, {total / 1024:.0f} KB')
 
 

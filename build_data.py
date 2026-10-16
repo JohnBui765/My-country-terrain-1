@@ -2,7 +2,7 @@
 """Build the map data embedded in index.html (<script id="vn-data">).
 
 Inputs
-  tools/vietnam63-base.json  Vietnam's 63 provinces as first built from geoBoundaries (OCHA ROAP /
+  vietnam63-base.json  Vietnam's 63 provinces as first built from geoBoundaries (OCHA ROAP /
                              Government of Viet Nam district boundaries, 2020, CC BY 3.0 IGO), in the
                              app's Mercator units, with Trường Sa drawn in a 40% inset.
   <world-atlas>/countries-50m.json
@@ -11,7 +11,7 @@ Inputs
 Requires Python 3.10+ and shapely 2 (pip install shapely).
 
 Usage
-  python3 tools/build_data.py path/to/world-atlas/package
+  python3 build_data.py path/to/world-atlas/package
 
 What it does
   1. Regions and provinces follow the statistics table of the Atlat Địa lí Việt Nam ("Hành chính"
@@ -28,8 +28,8 @@ from pathlib import Path
 from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon, box
 from shapely.ops import unary_union
 
-ROOT = Path(__file__).resolve().parent.parent
-BASE = ROOT / 'tools' / 'vietnam63-base.json'
+ROOT = Path(__file__).resolve().parent
+BASE = ROOT / 'vietnam63-base.json'
 INDEX = ROOT / 'index.html'
 
 # ---------------------------------------------------------------- projection (same as the app)
