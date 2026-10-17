@@ -181,6 +181,7 @@ button { cursor: pointer; touch-action: manipulation; -webkit-user-select: none;
 .choices .btn.right { background: var(--okf); box-shadow: inset 0 0 0 2px var(--ok); }
 .choices .btn.wrong { background: var(--badf); box-shadow: inset 0 0 0 2px var(--bad); }
 .answer { display: flex; gap: 8px; margin-top: 10px; }
+.answer input:disabled, .answer button:disabled { opacity: .5; }
 .answer input { flex: 1; min-width: 0; font-size: 17px; padding: 10px 12px; border: 0; border-radius: 12px; background: var(--fill); min-height: 44px; }
 .toggles { display: flex; gap: 6px 18px; flex-wrap: wrap; }
 .sw { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 14px; min-height: 44px; -webkit-user-select: none; user-select: none; }
@@ -618,7 +619,7 @@ function mix(a, b, t) { const A = hex2rgb(a), B = hex2rgb(b); return `rgb(${A.ma
 const atlasOf = p => ATLAS[darkMQ.matches ? 'dark' : 'light'][p.col % 5];
 // fillMode decides the base look: 'atlas' (Learn, Table), 'mastery' (Progress), 'paper' (practice).
 let fillMode = 'atlas';
-const mark = { target: new Set(), done: new Set(), dim: new Set(), ok: new Set(), miss: new Set(), reveal: new Set() };
+const mark = { target: new Set(), done: new Set(), dim: new Set(), ok: new Set(), miss: new Set(), reveal: new Set(), half: new Set(), pend: new Set() };
 const mapOpt = { noBorders: false, caps: true };
 const forcedLabel = new Set();
 let labelWanted = () => true;
@@ -627,6 +628,7 @@ function baseFill(p) {
   if (mark.target.has(p.c)) return V.hl;
   if (mark.ok.has(p.c)) return V.okf;
   if (mark.miss.has(p.c)) return V.badf;
+  if (mark.half.has(p.c)) return mix(V.paper, V.okf, .5);
   if (mark.done.has(p.c)) return atlasOf(p);
   if (mark.dim.has(p.c)) return V.dim;
   if (fillMode === 'atlas') return atlasOf(p);
@@ -656,8 +658,8 @@ function drawWorld(ctx, u, view) {
   ctx.lineJoin = 'round';
   ctx.lineWidth = 1.5 * u; ctx.strokeStyle = V.ink; drawLayer(ctx, OUTL, lod, view);
   for (const p of PROV) {
-    const w = mark.target.has(p.c) ? 2.2 : mark.reveal.has(p.c) ? 1.6 : 0;
-    if (w && meets(fb(p), view)) { ctx.lineWidth = w * u; ctx.strokeStyle = V.ink; ctx.stroke(p.path); }
+    const w = mark.target.has(p.c) ? 2.2 : mark.pend.has(p.c) ? 2.6 : mark.reveal.has(p.c) ? 1.6 : 0;
+    if (w && meets(fb(p), view)) { ctx.lineWidth = w * u; ctx.strokeStyle = mark.pend.has(p.c) ? V.ok : V.ink; ctx.stroke(p.path); }
   }
 }
 function renderBack() {
@@ -1141,6 +1143,9 @@ function endPointer(e) {
   release();
 }
 stage.addEventListener('pointerup', endPointer);
+// While an answer box has focus, the mouse events that follow a touch must not take the focus
+// (and the iPhone keyboard) away from it.
+stage.addEventListener('mousedown', e => { if (document.activeElement && document.activeElement.id === 'ans') e.preventDefault(); });
 stage.addEventListener('pointercancel', endPointer);
 stage.addEventListener('lostpointercapture', endPointer);
 // Leaving the app mid-gesture: drop the fingers and let the map settle.
@@ -1592,7 +1597,8 @@ function showPracticePicker() {
     <div class="toggles">
       <label class="sw"><input type="checkbox" switch id="optType" ${store.set.typing ? 'checked' : ''}> Answer by typing</label>
       <label class="sw"><input type="checkbox" switch id="optNoB" ${store.set.noBorders ? 'checked' : ''}> Hide borders in Find it and Rebuild</label>
-    </div>`, true);
+    </div>
+    <p class="small">Typing applies to Name it, Rebuild and Neighbours (tap each neighbour, then type its name).</p>`, true);
   sheetBody.querySelectorAll('[data-scope]').forEach(b => b.onclick = () => {
     store.set.scope = b.dataset.scope; save();
     sheetBody.querySelectorAll('[data-scope]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
@@ -1656,7 +1662,7 @@ function header(kind) {
 }
 function wireEnd() { const b = $('endBtn'); if (b) b.onclick = () => finishSession(true); }
 function resetItemMarks() {
-  ['target', 'ok', 'miss', 'reveal'].forEach(k => mark[k].clear()); forcedLabel.clear(); clearFx();
+  ['target', 'ok', 'miss', 'reveal', 'half', 'pend'].forEach(k => mark[k].clear()); forcedLabel.clear(); clearFx();
   mapOpt.noBorders = false; invalidate();
 }
 function nextItem() {
@@ -1779,6 +1785,7 @@ function sheetMarkChoice(code, right) {
 }
 
 function itemNb(it) {
+  if (store.set.typing) return itemNbTyped(it);
   const p = BY[it.c], need = new Set(p.nb), found = new Set();
   let errors = 0, revealed = false;
   mark.target.add(it.c); forcedLabel.add(it.c); paint(it.c);
@@ -1810,6 +1817,82 @@ function itemNb(it) {
     } else {
       errors++; flash(code, 'bad'); toast(`${BY[code].n} doesn’t border ${p.n}`);
       render(`<div class="btnrow"><button type="button" class="btn" id="giveUp">Show the rest</button></div>`); wireGive();
+    }
+  };
+}
+
+// Neighbours with "Answer by typing": tapping a neighbour only locates it (pale green);
+// typing its name completes it. A wrong name gets one more try, then the name is shown.
+function itemNbTyped(it) {
+  const p = BY[it.c], need = new Set(p.nb), done = new Set(), tries = new Map(), shown = [];
+  let errors = 0, pending = null;
+  mark.target.add(it.c); forcedLabel.add(it.c); paint(it.c);
+  { const b = p.box, m = Math.max(b[2], b[3]) * 1.6; flyTo([b[0] - m, b[1] - m, b[2] + 2 * m, b[3] + 2 * m], 1); }
+  // Drawn once; later only the count, the box state and the feedback change.
+  setSlip(`${header('Tap each neighbour, then name it')}<div class="big">${esc(p.n)}</div>
+    <div class="meta" id="nbCount" style="margin-top:4px"></div>
+    <form class="answer" id="ansForm" autocomplete="off"><input id="ans" type="text" inputmode="text" autocapitalize="words" autocorrect="off" spellcheck="false" aria-label="Name of the outlined province"><button class="btn primary" id="ansBtn" type="submit">Check</button></form>
+    <div id="fb"></div>`);
+  wireEnd();
+  const inp = $('ans'), btn = $('ansBtn');
+  const countText = () => `${done.size} of ${need.size} named${mark.half.size ? `, ${mark.half.size} to name` : ''}${errors ? `, ${errors} wrong` : ''}`;
+  const setBox = () => {
+    const on = !!pending && !session.waiting;
+    inp.disabled = btn.disabled = !on;
+    inp.placeholder = on ? 'Name the outlined province' : 'Tap a neighbour on the map';
+  };
+  const finish = (ok, msg) => {
+    session.waiting = true; score(it, ok, 'nb');
+    pending = null; mark.pend.clear(); paint();
+    $('nbCount').textContent = countText(); setBox(); inp.blur();
+    $('fb').innerHTML = `<div class="fb ${ok ? 'ok' : 'bad'}">${msg}</div>${continueBtn()}`; wireNext();
+  };
+  const update = (msg = '') => {
+    $('nbCount').textContent = countText();
+    $('fb').innerHTML = `${msg}<div class="btnrow"><button type="button" class="btn" id="giveUp">Show the rest</button></div>`;
+    $('giveUp').onclick = () => {
+      if (session.waiting) return;
+      const left = [...need].filter(c => !done.has(c));
+      left.forEach(c => { mark.half.delete(c); mark.miss.add(c); forcedLabel.add(c); mark.reveal.add(c); });
+      onZoomEnd(); finish(false, `Missed ${left.map(c => esc(BY[c].n)).join(', ')}.`);
+    };
+    setBox();
+  };
+  // A located neighbour gets its name, typed (good) or shown after two misses.
+  const complete = (c, good, msg) => {
+    done.add(c); mark.half.delete(c); mark.pend.clear(); pending = null;
+    (good ? mark.ok : mark.miss).add(c); forcedLabel.add(c); paint(c); flash(c, good ? 'ok' : 'bad'); onZoomEnd();
+    inp.value = ''; inp.blur();   // closes the iPhone keyboard so the map can be tapped again
+    if (done.size < need.size) return update(msg);
+    const names = shown.length ? ` Shown: ${shown.map(x => esc(BY[x].n)).join(', ')}.` : '';
+    finish(errors === 0, errors ? `All ${need.size} found, with ${errors} wrong.${names}` : `All ${need.size} found and named.`);
+  };
+  update();
+  $('ansForm').onsubmit = e => {
+    e.preventDefault();
+    if (session.waiting) return nextItem();
+    if (!pending) return;
+    const raw = inp.value.trim(); if (!raw) return;
+    inp.value = '';
+    const m = matchName(raw), c = pending;
+    // A slip of the keyboard costs nothing; any real province other than this one is wrong.
+    if (!m) return update(`<div class="fb bad">“${esc(raw)}” isn’t a province name. Try again.</div>`);
+    if (m.p.c === c) return complete(c, true, `<div class="fb ok">${m.near ? `Correct. Spelling: ${esc(BY[c].n)}` : 'Correct.'}</div>`);
+    errors++; tries.set(c, (tries.get(c) || 0) + 1);
+    if (tries.get(c) < 2) return update(`<div class="fb bad">Not quite. One more try.</div>`);
+    shown.push(c); complete(c, false, `<div class="fb bad">It’s ${esc(BY[c].n)}.</div>`);
+  };
+  session.key = e => { if (session.waiting && e.key === 'Enter' && e.target !== inp) nextItem(); };
+  session.tap = code => {
+    if (session.waiting || !code || code === it.c || done.has(code)) return;
+    if (need.has(code)) {
+      if (!mark.half.has(code)) flash(code, 'ok');
+      mark.half.add(code); mark.pend.clear(); mark.pend.add(code); pending = code; paint(code); onZoomEnd();
+      update(`<div class="fb ok">Right place. Now type its name.</div>`);
+      inp.value = ''; inp.focus({ preventScroll: true });   // still inside the tap, so iOS opens the keyboard
+    } else {
+      errors++; flash(code, 'bad'); toast(`${BY[code].n} doesn’t border ${p.n}`);
+      update();
     }
   };
 }
