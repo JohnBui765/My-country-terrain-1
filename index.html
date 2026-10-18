@@ -437,6 +437,15 @@ function matchName(text) {
 }
 const fmt1 = n => n.toLocaleString('en-GB', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const regionCodes = r => PROV.filter(p => p.r === r).map(p => p.c);
+// A practice area is 'all' or region indices in order, joined by '+' ('2+3+5'); one region stays '3',
+// so bests saved before regions could be combined keep their keys. All six together count as 'all'.
+function normScope(v) {
+  if (v == null || v === 'all') return 'all';
+  const ids = [...new Set(String(v).split('+').filter(x => /^\d+$/.test(x)).map(Number).filter(i => i < REGIONS.length))].sort((a, b) => a - b);
+  return !ids.length || ids.length === REGIONS.length ? 'all' : ids.join('+');
+}
+const scopeIds = s => (s === 'all' ? REGIONS.map((r, i) => i) : s.split('+').map(Number));
+const scopeHas = (s, v) => (v === 'all' ? s === 'all' : s !== 'all' && s.split('+').includes(v));
 
 /* ---------- 2. Storage (this device only; wrapped so the app still runs without it) ---------- */
 const KEY = 'vn63.v1';
@@ -451,6 +460,7 @@ function migrate(s) {
     if (s.set && s.set.scope != null) s.set.scope = swap(String(s.set.scope));
     s.v = 2;
   }
+  if (s.set && typeof s.set === 'object') s.set.scope = normScope(s.set.scope);
   return s;
 }
 try {
@@ -1384,8 +1394,15 @@ scrim.addEventListener('click', () => dismissSheet());
   sheet.addEventListener('pointercancel', end);
 }
 const fmtTime = ms => { const s = Math.round(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
-const scopeCodes = s => (s === 'all' ? ALL.slice() : regionCodes(+s));
+const scopeCodes = s => { s = normScope(s); return s === 'all' ? ALL.slice() : scopeIds(s).flatMap(i => regionCodes(i)); };
 const regionLine = i => `${REGIONS[i].num}. ${REGIONS[i].en}`;
+const scopeTitle = s => (s === 'all' ? 'All 63 provinces' : s.includes('+') ? `Regions ${scopeIds(s).map(i => REGIONS[i].num).join(' + ')}` : regionLine(+s));
+const scopeShort = s => (s.includes('+') ? scopeIds(s).map(i => REGIONS[i].num).join(' + ') : `${REGIONS[+s].num} ${REGIONS[+s].short}`);
+function scopeSummary(s) {
+  if (s === 'all') return 'All 63 provinces. Tap a region to practise just that one, or several to combine them.';
+  const n = scopeIds(s).length, c = scopeCodes(s).length;
+  return n === 1 ? `1 region, ${c} provinces. Tap another region to combine them.` : `${n} regions combined, ${c} provinces.`;
+}
 function regionChipHTML(v) {
   if (v === 'all') return '<span>All 63</span>';
   const r = REGIONS[+v];
@@ -1393,7 +1410,7 @@ function regionChipHTML(v) {
 }
 function scopeButtons(active, attr) {
   return [['all'], ...REGIONS.map((r, i) => [String(i)])].map(([v]) =>
-    `<button type="button" class="chip rc${v === 'all' ? ' all' : ''}" ${attr}="${v}" aria-pressed="${v === active}" aria-label="${v === 'all' ? 'All 63' : esc(regionLine(+v) + ', ' + REGIONS[+v].vi)}">${regionChipHTML(v)}</button>`).join('');
+    `<button type="button" class="chip rc${v === 'all' ? ' all' : ''}" ${attr}="${v}" aria-pressed="${scopeHas(active, v)}" aria-label="${v === 'all' ? 'All 63' : esc(regionLine(+v) + ', ' + REGIONS[+v].vi)}">${regionChipHTML(v)}</button>`).join('');
 }
 function regionChips(active, onPick) {
   chipsEl.innerHTML = scopeButtons(active, 'data-v');
@@ -1527,13 +1544,17 @@ function progressDetails() {
     const cs = regionCodes(i), m = cs.filter(c => mastery(c) >= 4).length;
     return `<div class="stat"><span class="grow">${esc(regionLine(i))}<div class="sub" lang="vi">${esc(r.vi)}</div><div class="bar"><i style="width:${(100 * m / cs.length).toFixed(0)}%"></i></div></span><span class="meta">${m} of ${cs.length}</span></div>`;
   }).join('');
-  const bestR = store.best['rebuild:all'], bestS = store.best['sprint:all'];
+  const rank = k => (k === 'all' ? -1 : k.split('+').length * 10 + +k.split('+')[0]);
+  const bestRows = [['rebuild', 'Rebuild', b => `${fmtTime(+b.ms || 0)}, ${+b.err || 0} wrong`], ['sprint', 'Sprint', b => `${+b.score || 0} in 60 s`]].map(([m, name, fmt]) => {
+    const keys = new Set(['all']);
+    Object.keys(store.best).forEach(k => { if (k.startsWith(m + ':')) { const sc = k.slice(m.length + 1); if (normScope(sc) === sc) keys.add(sc); } });
+    return [...keys].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b)).map(sc => { const b = store.best[m + ':' + sc];
+      return `<div class="stat"><span>${name}, ${esc(sc === 'all' ? 'all 63' : scopeShort(sc))}</span><span class="meta">${b ? fmt(b) : 'Not yet'}</span></div>`; }).join('');
+  }).join('');
   openSheet(`<div class="row drag-row"><div class="grow"><h2>Your progress</h2></div>${closeBtn('data-close')}</div>
     <p class="small">A province fills with its atlas colour as your Find it and Name it scores rise, and its name is printed once it's mastered.</p>
     <h3>By region</h3>${regionRows}
-    <h3>Personal bests</h3>
-    <div class="stat"><span>Rebuild, all 63</span><span class="meta">${bestR ? `${fmtTime(bestR.ms)}, ${bestR.err} wrong` : 'Not yet'}</span></div>
-    <div class="stat"><span>Sprint, all 63</span><span class="meta">${bestS ? `${bestS.score} in 60 s` : 'Not yet'}</span></div>
+    <h3>Personal bests</h3>${bestRows}
     <div class="btnrow"><button type="button" class="btn" id="bkp">Back up progress</button><button type="button" class="btn" id="rst">Restore</button><button type="button" class="btn" id="src">Sources</button><button type="button" class="btn" id="wipe">Reset</button></div>
     <p class="small">Progress is saved on this device only. To move it to another device, back it up here and restore it there.</p>
     ${canStore ? '' : '<p class="small">This browser is blocking storage, so progress lasts only until you close the app.</p>'}`, true);
@@ -1591,6 +1612,7 @@ function showPracticePicker() {
       <span class="grow"><b>${m.id === 'review' ? `<span>${m.name}</span>` : m.name}</b><small>${m.id === 'review' ? (due ? `${due} due now. ` : store.intro.length ? 'Nothing due — new provinces only. ' : 'Start here. ') : ''}${m.desc}</small></span><span class="go">Start</span></button>`).join('');
   openSheet(`<div class="row drag-row"><div class="grow"><h2>Practice</h2></div></div>
     <h3>Area</h3><div class="scope">${scopeButtons(store.set.scope, 'data-scope')}</div>
+    <p class="small" id="scopeSum">${esc(scopeSummary(store.set.scope))}</p>
     <div class="modes">${modeBtns}</div>
     <p class="small">Daily review always covers all 63.</p>
     <h3>Options</h3>
@@ -1599,10 +1621,19 @@ function showPracticePicker() {
       <label class="sw"><input type="checkbox" switch id="optNoB" ${store.set.noBorders ? 'checked' : ''}> Hide borders in Find it and Rebuild</label>
     </div>
     <p class="small">Typing applies to Name it, Rebuild and Neighbours (tap each neighbour, then type its name).</p>`, true);
+  // All 63 stands alone; regions switch on and off, and the last one left stays on.
   sheetBody.querySelectorAll('[data-scope]').forEach(b => b.onclick = () => {
-    store.set.scope = b.dataset.scope; save();
-    sheetBody.querySelectorAll('[data-scope]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-    fitScope(scopeCodes(store.set.scope));
+    const v = b.dataset.scope, cur = normScope(store.set.scope);
+    let next = 'all';
+    if (v !== 'all') {
+      const ids = new Set(cur === 'all' ? [] : cur.split('+'));
+      if (ids.has(v)) { if (ids.size === 1) return; ids.delete(v); } else ids.add(v);
+      next = normScope([...ids].join('+'));
+    }
+    store.set.scope = next; save();
+    sheetBody.querySelectorAll('[data-scope]').forEach(x => x.setAttribute('aria-pressed', String(scopeHas(next, x.dataset.scope))));
+    $('scopeSum').textContent = scopeSummary(next);
+    fitScope(scopeCodes(next));
   });
   $('optType').onchange = e => { store.set.typing = e.target.checked; save(); };
   $('optNoB').onchange = e => { store.set.noBorders = e.target.checked; save(); };
@@ -1610,7 +1641,7 @@ function showPracticePicker() {
 }
 function startMode(id) {
   closeSheet();
-  const scopeKey = id === 'review' ? 'all' : store.set.scope;
+  const scopeKey = id === 'review' ? 'all' : normScope(store.set.scope);
   const scope = scopeCodes(scopeKey);
   if (id === 'rebuild') return startRebuild(scope, scopeKey);
   if (id === 'sprint') return startSprint(scope, scopeKey);
@@ -1911,7 +1942,7 @@ function finishSession(aborted) {
     if (n === all && !s.gaveUp) {
       const k = 'rebuild:' + s.scopeKey, b = store.best[k];
       if (!b || secs < b.ms || (secs === b.ms && s.errors < b.err)) { store.best[k] = { ms: secs, err: s.errors }; save(); best = 'New personal best.'; }
-      else best = `Best: ${fmtTime(b.ms)}.`;
+      else best = `Best: ${fmtTime(+b.ms || 0)}.`;
     }
     lines = `<p class="big" style="margin-top:6px">${fmtTime(secs)}</p><p>${s.errors} wrong ${s.errors === 1 ? 'guess' : 'guesses'}${s.gaveUp ? ', some revealed' : ''}. ${best}</p>`;
   } else if (s.mode === 'sprint') {
@@ -1919,7 +1950,7 @@ function finishSession(aborted) {
     const k = 'sprint:' + s.scopeKey, b = store.best[k];
     let best = '';
     if (!b || s.points > b.score) { store.best[k] = { score: s.points }; save(); best = s.points ? 'New personal best.' : ''; }
-    else best = `Best: ${b.score}.`;
+    else best = `Best: ${+b.score || 0}.`;
     lines = `<p class="big" style="margin-top:6px">${s.points} right</p><p>${s.wrong} wrong in 60 seconds. ${best}</p>`;
   } else {
     title = aborted ? 'Round ended' : 'Round complete';
@@ -1930,7 +1961,7 @@ function finishSession(aborted) {
   resetItemMarks(); setSlip(null);
   s.misses.forEach(c => { mark.miss.add(c); forcedLabel.add(c); });
   paintAll();
-  openSheet(`<div class="drag-row"><h2>${title}</h2></div>${lines}
+  openSheet(`<div class="drag-row"><h2>${title}</h2></div><p class="small" style="margin-top:2px">${esc(scopeTitle(s.scopeKey || 'all'))}</p>${lines}
     ${missChips ? `<h3>To work on</h3><div class="misses">${missChips}</div>` : ''}
     <div class="btnrow"><button type="button" class="btn primary" id="again">Practise again</button><button type="button" class="btn" id="done">Done</button></div>`, true);
   sheetBody.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { closeSheet(); ensureVisible(b.dataset.go); toast(BY[b.dataset.go].n); });
