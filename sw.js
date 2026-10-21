@@ -1,5 +1,5 @@
 // Vietnam 63 offline cache. Change VERSION after editing any file so phones pick up the new copy.
-const VERSION = 'vn63-v8';
+const VERSION = 'vn63-v9';
 const ASSETS = [
   "./",
   "./index.html",
@@ -30,7 +30,7 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k))))
+      .then(keys => Promise.all(keys.filter(k => k.startsWith('vn63-') && k !== VERSION).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
